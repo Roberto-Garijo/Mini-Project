@@ -33,14 +33,14 @@ public class UserSettingsDialog extends javax.swing.JDialog {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         lblEmail.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblEmail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/icons/32px/389-mail2.png"))); // NOI18N
+        lblEmail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/32px/389-mail2.png"))); // NOI18N
 
         txtEmail.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         txtEmail.setText("alejo@gmail.com");
         txtEmail.setEnabled(false);
 
         lblDelete.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/icons/16px/174-bin2.png"))); // NOI18N
+        lblDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/174-bin2.png"))); // NOI18N
         lblDelete.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblDeleteMouseClicked(evt);
@@ -48,14 +48,14 @@ public class UserSettingsDialog extends javax.swing.JDialog {
         });
 
         lblUsername.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblUsername.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/icons/32px/114-user.png"))); // NOI18N
+        lblUsername.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/32px/114-user.png"))); // NOI18N
 
         txtUsername.setEditable(false);
         txtUsername.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         txtUsername.setText("Username");
 
         lblEditDone.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblEditDone.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/icons/16px/006-pencil.png"))); // NOI18N
+        lblEditDone.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/006-pencil.png"))); // NOI18N
         lblEditDone.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblEditDoneMouseClicked(evt);
@@ -63,7 +63,7 @@ public class UserSettingsDialog extends javax.swing.JDialog {
         });
 
         lblCancel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/icons/16px/272-cross.png"))); // NOI18N
+        lblCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/272-cross.png"))); // NOI18N
         lblCancel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblCancelMouseClicked(evt);
@@ -71,13 +71,13 @@ public class UserSettingsDialog extends javax.swing.JDialog {
         });
 
         lblPassword.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblPassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/icons/32px/142-key.png"))); // NOI18N
+        lblPassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/32px/142-key.png"))); // NOI18N
 
         txtPassword.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         txtPassword.setText("**********");
 
         lblResetPassword.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblResetPassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/icons/16px/006-pencil.png"))); // NOI18N
+        lblResetPassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/006-pencil.png"))); // NOI18N
         lblResetPassword.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblResetPasswordMouseClicked(evt);
@@ -111,7 +111,7 @@ public class UserSettingsDialog extends javax.swing.JDialog {
                         .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblDelete)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -228,12 +228,12 @@ public class UserSettingsDialog extends javax.swing.JDialog {
             txtUsername.setEditable(true);
             txtUsername.selectAll();
             lblCancel.setVisible(true);
-            lblEditDone.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/icons/16px/273-checkmark.png")));
+            lblEditDone.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/273-checkmark.png")));
             confirmUserEdit();
         } else {
             txtUsername.setEditable(false);
             lblCancel.setVisible(false);
-            lblEditDone.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/icons/16px/006-pencil.png")));
+            lblEditDone.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/006-pencil.png")));
         }
         editing = !editing;
     }
@@ -242,7 +242,7 @@ public class UserSettingsDialog extends javax.swing.JDialog {
         txtUsername.setText(username);
         txtUsername.setEditable(false);
         lblCancel.setVisible(false);
-        lblEditDone.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/icons/16px/006-pencil.png")));
+        lblEditDone.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/006-pencil.png")));
         editing = !editing;
     }
 

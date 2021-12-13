@@ -19,6 +19,7 @@ public class Main extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         pnlMain = new javax.swing.JPanel();
         pnlMenu = new javax.swing.JPanel();
@@ -59,7 +60,6 @@ public class Main extends javax.swing.JFrame {
         pnlMain.setBackground(new java.awt.Color(255, 255, 255));
 
         pnlMenu.setBackground(new java.awt.Color(0, 204, 255));
-        pnlMenu.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlUser.setBackground(new java.awt.Color(0, 204, 255));
         pnlUser.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -75,7 +75,7 @@ public class Main extends javax.swing.JFrame {
         });
 
         lblUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/icons/32px/114-user.png"))); // NOI18N
+        lblUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/32px/114-user.png"))); // NOI18N
 
         javax.swing.GroupLayout pnlUserLayout = new javax.swing.GroupLayout(pnlUser);
         pnlUser.setLayout(pnlUserLayout);
@@ -87,8 +87,6 @@ public class Main extends javax.swing.JFrame {
             pnlUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblUser, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
         );
-
-        pnlMenu.add(pnlUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 60, 60));
 
         pnlInfo.setBackground(new java.awt.Color(0, 204, 255));
         pnlInfo.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -104,7 +102,7 @@ public class Main extends javax.swing.JFrame {
         });
 
         lblInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/icons/32px/269-info.png"))); // NOI18N
+        lblInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/32px/269-info.png"))); // NOI18N
 
         javax.swing.GroupLayout pnlInfoLayout = new javax.swing.GroupLayout(pnlInfo);
         pnlInfo.setLayout(pnlInfoLayout);
@@ -116,8 +114,6 @@ public class Main extends javax.swing.JFrame {
             pnlInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblInfo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
         );
-
-        pnlMenu.add(pnlInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 60, 60));
 
         pnlAdmin.setBackground(new java.awt.Color(0, 204, 255));
         pnlAdmin.setToolTipText("");
@@ -134,7 +130,7 @@ public class Main extends javax.swing.JFrame {
         });
 
         lblAdmin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblAdmin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/icons/32px/119-user-tie.png"))); // NOI18N
+        lblAdmin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/32px/119-user-tie.png"))); // NOI18N
 
         javax.swing.GroupLayout pnlAdminLayout = new javax.swing.GroupLayout(pnlAdmin);
         pnlAdmin.setLayout(pnlAdminLayout);
@@ -146,8 +142,6 @@ public class Main extends javax.swing.JFrame {
             pnlAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
         );
-
-        pnlMenu.add(pnlAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 60, 60));
 
         pnlLogOut.setBackground(new java.awt.Color(0, 204, 255));
         pnlLogOut.setToolTipText("Log out");
@@ -164,7 +158,7 @@ public class Main extends javax.swing.JFrame {
         });
 
         lblLogOut.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblLogOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/icons/32px/277-exit.png"))); // NOI18N
+        lblLogOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/32px/277-exit.png"))); // NOI18N
 
         javax.swing.GroupLayout pnlLogOutLayout = new javax.swing.GroupLayout(pnlLogOut);
         pnlLogOut.setLayout(pnlLogOutLayout);
@@ -178,8 +172,6 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(lblLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
-
-        pnlMenu.add(pnlLogOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 510, 60, 60));
 
         pnlOption.setBackground(new java.awt.Color(0, 204, 255));
         pnlOption.setToolTipText("");
@@ -197,7 +189,29 @@ public class Main extends javax.swing.JFrame {
             .addComponent(lblOption, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
         );
 
-        pnlMenu.add(pnlOption, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 60, 60));
+        javax.swing.GroupLayout pnlMenuLayout = new javax.swing.GroupLayout(pnlMenu);
+        pnlMenu.setLayout(pnlMenuLayout);
+        pnlMenuLayout.setHorizontalGroup(
+            pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pnlUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(pnlInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(pnlAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(pnlOption, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(pnlLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        pnlMenuLayout.setVerticalGroup(
+            pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlMenuLayout.createSequentialGroup()
+                .addComponent(pnlUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(pnlInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(pnlAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(pnlOption, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(270, 270, 270)
+                .addComponent(pnlLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         lblTitle.setFont(new java.awt.Font("Montserrat", 1, 36)); // NOI18N
         lblTitle.setForeground(new java.awt.Color(0, 0, 0));
@@ -207,14 +221,14 @@ public class Main extends javax.swing.JFrame {
         txtSearch.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
 
         lblSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/icons/16px/135-search.png"))); // NOI18N
+        lblSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/135-search.png"))); // NOI18N
         lblSearch.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblSearchMouseClicked(evt);
             }
         });
 
-        lblPlaceImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/330x210.png"))); // NOI18N
+        lblPlaceImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/330x210.png"))); // NOI18N
 
         lblPlaceName.setFont(new java.awt.Font("Montserrat SemiBold", 0, 24)); // NOI18N
         lblPlaceName.setForeground(new java.awt.Color(51, 51, 51));
@@ -223,38 +237,38 @@ public class Main extends javax.swing.JFrame {
         pnlRating.setBackground(new java.awt.Color(255, 255, 255));
 
         lblStar1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblStar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/icons/16px/216-star-empty.png"))); // NOI18N
+        lblStar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/216-star-empty.png"))); // NOI18N
         pnlRating.add(lblStar1);
 
         lblStar2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblStar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/icons/16px/216-star-empty.png"))); // NOI18N
+        lblStar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/216-star-empty.png"))); // NOI18N
         pnlRating.add(lblStar2);
 
         lblStar3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblStar3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/icons/16px/216-star-empty.png"))); // NOI18N
+        lblStar3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/216-star-empty.png"))); // NOI18N
         pnlRating.add(lblStar3);
 
         lblStar4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblStar4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/icons/16px/216-star-empty.png"))); // NOI18N
+        lblStar4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/216-star-empty.png"))); // NOI18N
         pnlRating.add(lblStar4);
 
         lblStar5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblStar5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/icons/16px/216-star-empty.png"))); // NOI18N
+        lblStar5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/216-star-empty.png"))); // NOI18N
         pnlRating.add(lblStar5);
 
-        lblLocationIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/icons/32px/072-location.png"))); // NOI18N
+        lblLocationIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/32px/072-location.png"))); // NOI18N
 
         lblLocation.setFont(new java.awt.Font("Montserrat SemiBold", 0, 18)); // NOI18N
         lblLocation.setForeground(new java.awt.Color(51, 51, 51));
         lblLocation.setText("Location");
 
-        lblTypeIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/icons/32px/034-library.png"))); // NOI18N
+        lblTypeIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/32px/034-library.png"))); // NOI18N
 
         lblType.setFont(new java.awt.Font("Montserrat SemiBold", 0, 18)); // NOI18N
         lblType.setForeground(new java.awt.Color(51, 51, 51));
         lblType.setText("Type");
 
-        lblCommentsIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/icons/32px/109-bubbles.png"))); // NOI18N
+        lblCommentsIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/32px/109-bubbles.png"))); // NOI18N
 
         lblComments.setFont(new java.awt.Font("Montserrat SemiBold", 0, 18)); // NOI18N
         lblComments.setForeground(new java.awt.Color(51, 51, 51));
@@ -271,7 +285,7 @@ public class Main extends javax.swing.JFrame {
         });
 
         lblFilter.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblFilter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/icons/16px/348-filter.png"))); // NOI18N
+        lblFilter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/348-filter.png"))); // NOI18N
         lblFilter.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblFilterMouseClicked(evt);

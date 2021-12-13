@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.8" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="resizable" type="boolean" value="false"/>
@@ -150,8 +150,31 @@
             </Property>
           </Properties>
 
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
-            <Property name="useNullLayout" type="boolean" value="false"/>
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="pnlUser" min="-2" max="-2" attributes="0"/>
+                  <Component id="pnlInfo" min="-2" max="-2" attributes="0"/>
+                  <Component id="pnlAdmin" min="-2" max="-2" attributes="0"/>
+                  <Component id="pnlOption" min="-2" max="-2" attributes="0"/>
+                  <Component id="pnlLogOut" min="-2" max="-2" attributes="0"/>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="pnlUser" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="pnlInfo" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="pnlAdmin" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="pnlOption" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="270" pref="270" max="-2" attributes="0"/>
+                      <Component id="pnlLogOut" min="-2" pref="60" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
           </Layout>
           <SubComponents>
             <Container class="javax.swing.JPanel" name="pnlUser">
@@ -165,11 +188,6 @@
                 <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="pnlUserMouseEntered"/>
                 <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="pnlUserMouseExited"/>
               </Events>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="0" y="0" width="60" height="60"/>
-                </Constraint>
-              </Constraints>
 
               <Layout>
                 <DimensionLayout dim="0">
@@ -188,7 +206,7 @@
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="0"/>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/spdvi/resources/icons/32px/114-user.png"/>
+                      <Image iconType="3" name="/icons/32px/114-user.png"/>
                     </Property>
                   </Properties>
                 </Component>
@@ -205,11 +223,6 @@
                 <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="pnlInfoMouseEntered"/>
                 <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="pnlInfoMouseExited"/>
               </Events>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="0" y="60" width="60" height="60"/>
-                </Constraint>
-              </Constraints>
 
               <Layout>
                 <DimensionLayout dim="0">
@@ -228,7 +241,7 @@
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="0"/>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/spdvi/resources/icons/32px/269-info.png"/>
+                      <Image iconType="3" name="/icons/32px/269-info.png"/>
                     </Property>
                   </Properties>
                 </Component>
@@ -246,11 +259,6 @@
                 <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="pnlAdminMouseEntered"/>
                 <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="pnlAdminMouseExited"/>
               </Events>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="0" y="120" width="60" height="60"/>
-                </Constraint>
-              </Constraints>
 
               <Layout>
                 <DimensionLayout dim="0">
@@ -269,7 +277,7 @@
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="0"/>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/spdvi/resources/icons/32px/119-user-tie.png"/>
+                      <Image iconType="3" name="/icons/32px/119-user-tie.png"/>
                     </Property>
                   </Properties>
                 </Component>
@@ -287,11 +295,6 @@
                 <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="pnlLogOutMouseEntered"/>
                 <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="pnlLogOutMouseExited"/>
               </Events>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="0" y="510" width="60" height="60"/>
-                </Constraint>
-              </Constraints>
 
               <Layout>
                 <DimensionLayout dim="0">
@@ -313,7 +316,7 @@
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="0"/>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/spdvi/resources/icons/32px/277-exit.png"/>
+                      <Image iconType="3" name="/icons/32px/277-exit.png"/>
                     </Property>
                   </Properties>
                 </Component>
@@ -326,11 +329,6 @@
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="0" y="180" width="60" height="60"/>
-                </Constraint>
-              </Constraints>
 
               <Layout>
                 <DimensionLayout dim="0">
@@ -377,7 +375,7 @@
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/spdvi/resources/icons/16px/135-search.png"/>
+              <Image iconType="3" name="/icons/16px/135-search.png"/>
             </Property>
           </Properties>
           <Events>
@@ -391,7 +389,7 @@
         <Component class="javax.swing.JLabel" name="lblPlaceImage">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/spdvi/resources/330x210.png"/>
+              <Image iconType="3" name="/330x210.png"/>
             </Property>
           </Properties>
         </Component>
@@ -419,7 +417,7 @@
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/spdvi/resources/icons/16px/216-star-empty.png"/>
+                  <Image iconType="3" name="/icons/16px/216-star-empty.png"/>
                 </Property>
               </Properties>
             </Component>
@@ -427,7 +425,7 @@
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/spdvi/resources/icons/16px/216-star-empty.png"/>
+                  <Image iconType="3" name="/icons/16px/216-star-empty.png"/>
                 </Property>
               </Properties>
             </Component>
@@ -435,7 +433,7 @@
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/spdvi/resources/icons/16px/216-star-empty.png"/>
+                  <Image iconType="3" name="/icons/16px/216-star-empty.png"/>
                 </Property>
               </Properties>
             </Component>
@@ -443,7 +441,7 @@
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/spdvi/resources/icons/16px/216-star-empty.png"/>
+                  <Image iconType="3" name="/icons/16px/216-star-empty.png"/>
                 </Property>
               </Properties>
             </Component>
@@ -451,7 +449,7 @@
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/spdvi/resources/icons/16px/216-star-empty.png"/>
+                  <Image iconType="3" name="/icons/16px/216-star-empty.png"/>
                 </Property>
               </Properties>
             </Component>
@@ -460,7 +458,7 @@
         <Component class="javax.swing.JLabel" name="lblLocationIcon">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/spdvi/resources/icons/32px/072-location.png"/>
+              <Image iconType="3" name="/icons/32px/072-location.png"/>
             </Property>
           </Properties>
         </Component>
@@ -478,7 +476,7 @@
         <Component class="javax.swing.JLabel" name="lblTypeIcon">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/spdvi/resources/icons/32px/034-library.png"/>
+              <Image iconType="3" name="/icons/32px/034-library.png"/>
             </Property>
           </Properties>
         </Component>
@@ -496,7 +494,7 @@
         <Component class="javax.swing.JLabel" name="lblCommentsIcon">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/spdvi/resources/icons/32px/109-bubbles.png"/>
+              <Image iconType="3" name="/icons/32px/109-bubbles.png"/>
             </Property>
           </Properties>
         </Component>
@@ -528,7 +526,7 @@
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/spdvi/resources/icons/16px/348-filter.png"/>
+              <Image iconType="3" name="/icons/16px/348-filter.png"/>
             </Property>
           </Properties>
           <Events>
