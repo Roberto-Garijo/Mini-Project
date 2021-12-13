@@ -1,6 +1,10 @@
 package spdvi;
 
 import java.awt.Color;
+import spdvi.dialogs.AdminDialog;
+import spdvi.dialogs.FilterDialog;
+import spdvi.dialogs.InfoDialog;
+import spdvi.dialogs.UserSettingsDialog;
 
 public class Main extends javax.swing.JFrame {
 
@@ -88,6 +92,9 @@ public class Main extends javax.swing.JFrame {
 
         pnlInfo.setBackground(new java.awt.Color(0, 204, 255));
         pnlInfo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlInfoMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 pnlInfoMouseEntered(evt);
             }
@@ -115,6 +122,9 @@ public class Main extends javax.swing.JFrame {
         pnlAdmin.setBackground(new java.awt.Color(0, 204, 255));
         pnlAdmin.setToolTipText("");
         pnlAdmin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlAdminMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 pnlAdminMouseEntered(evt);
             }
@@ -142,6 +152,9 @@ public class Main extends javax.swing.JFrame {
         pnlLogOut.setBackground(new java.awt.Color(0, 204, 255));
         pnlLogOut.setToolTipText("Log out");
         pnlLogOut.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlLogOutMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 pnlLogOutMouseEntered(evt);
             }
@@ -170,14 +183,6 @@ public class Main extends javax.swing.JFrame {
 
         pnlOption.setBackground(new java.awt.Color(0, 204, 255));
         pnlOption.setToolTipText("");
-        pnlOption.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                pnlOptionMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                pnlOptionMouseExited(evt);
-            }
-        });
 
         lblOption.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -203,6 +208,11 @@ public class Main extends javax.swing.JFrame {
 
         lblSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/icons/16px/135-search.png"))); // NOI18N
+        lblSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblSearchMouseClicked(evt);
+            }
+        });
 
         lblPlaceImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/330x210.png"))); // NOI18N
 
@@ -254,6 +264,11 @@ public class Main extends javax.swing.JFrame {
         jButton1.setText("Check it out!");
         jButton1.setEnabled(false);
         jButton1.setFocusable(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         lblFilter.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblFilter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/resources/icons/16px/348-filter.png"))); // NOI18N
@@ -312,10 +327,8 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlMainLayout.createSequentialGroup()
                         .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(scrPlaceList, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -393,19 +406,32 @@ public class Main extends javax.swing.JFrame {
 
     private void pnlUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlUserMouseClicked
         System.out.println("user");
+        openUserDialog();
     }//GEN-LAST:event_pnlUserMouseClicked
 
     private void lblFilterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFilterMouseClicked
-        // TODO add your handling code here:
+        openFilterDialog();
     }//GEN-LAST:event_lblFilterMouseClicked
 
-    private void pnlOptionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlOptionMouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pnlOptionMouseEntered
+    private void pnlInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlInfoMouseClicked
+        openInfoDialog();
+    }//GEN-LAST:event_pnlInfoMouseClicked
 
-    private void pnlOptionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlOptionMouseExited
+    private void pnlAdminMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlAdminMouseClicked
+        openAdminDialog();
+    }//GEN-LAST:event_pnlAdminMouseClicked
+
+    private void pnlLogOutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlLogOutMouseClicked
+        logout();
+    }//GEN-LAST:event_pnlLogOutMouseClicked
+
+    private void lblSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSearchMouseClicked
+        searchPlace();
+    }//GEN-LAST:event_lblSearchMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_pnlOptionMouseExited
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -473,5 +499,33 @@ public class Main extends javax.swing.JFrame {
     private void initApp() {
         //metodos que se ejecutarán al iniciar el programa
         setLocationRelativeTo(null);
+    }
+
+    private void openUserDialog() {
+        UserSettingsDialog usd = new UserSettingsDialog(this, false);
+        usd.setVisible(true);
+    }
+
+    private void openFilterDialog() {
+        FilterDialog fd = new FilterDialog(this, true);
+        fd.setVisible(true);
+    }
+
+    private void openInfoDialog() {
+        InfoDialog id = new InfoDialog(this, true);
+        id.setVisible(true);
+    }
+
+    private void openAdminDialog() {
+        AdminDialog ad = new AdminDialog(this, false);
+        ad.setVisible(true);
+    }
+
+    private void logout() {
+        
+    }
+
+    private void searchPlace() {
+        
     }
 }
