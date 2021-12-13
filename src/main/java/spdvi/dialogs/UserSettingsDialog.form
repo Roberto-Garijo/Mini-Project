@@ -70,7 +70,7 @@
                           <Component id="lblDelete" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="19" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -106,7 +106,7 @@
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/spdvi/resources/icons/32px/389-mail2.png"/>
+              <Image iconType="3" name="/icons/32px/389-mail2.png"/>
             </Property>
           </Properties>
         </Component>
@@ -123,7 +123,7 @@
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/spdvi/resources/icons/16px/174-bin2.png"/>
+              <Image iconType="3" name="/icons/16px/174-bin2.png"/>
             </Property>
           </Properties>
           <Events>
@@ -134,7 +134,7 @@
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/spdvi/resources/icons/32px/114-user.png"/>
+              <Image iconType="3" name="/icons/32px/114-user.png"/>
             </Property>
           </Properties>
         </Component>
@@ -151,7 +151,7 @@
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/spdvi/resources/icons/16px/006-pencil.png"/>
+              <Image iconType="3" name="/icons/16px/006-pencil.png"/>
             </Property>
           </Properties>
           <Events>
@@ -162,7 +162,7 @@
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/spdvi/resources/icons/16px/272-cross.png"/>
+              <Image iconType="3" name="/icons/16px/272-cross.png"/>
             </Property>
           </Properties>
           <Events>
@@ -173,7 +173,7 @@
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/spdvi/resources/icons/32px/142-key.png"/>
+              <Image iconType="3" name="/icons/32px/142-key.png"/>
             </Property>
           </Properties>
         </Component>
@@ -189,7 +189,7 @@
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/spdvi/resources/icons/16px/006-pencil.png"/>
+              <Image iconType="3" name="/icons/16px/006-pencil.png"/>
             </Property>
           </Properties>
           <Events>
