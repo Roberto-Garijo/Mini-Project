@@ -1,7 +1,7 @@
-package spdvi;
+package spdvi.POJOs;
 
 public class Place {
-    String registre;
+    int registre;
     String name;
     String description;
     String municipality;
@@ -14,7 +14,7 @@ public class Place {
     public Place() {
     }
 
-    public Place(String registre, String name, String description, String municipality, String address, String email, String web, String phoneNumber, String type) {
+    public Place(int registre, String name, String description, String municipality, String address, String email, String web, String phoneNumber, String type) {
         this.registre = registre;
         this.name = name;
         this.description = description;
@@ -26,11 +26,11 @@ public class Place {
         this.type = type;
     }
 
-    public String getRegistre() {
+    public int getRegistre() {
         return registre;
     }
 
-    public void setRegistre(String registre) {
+    public void setRegistre(int registre) {
         this.registre = registre;
     }
 
