@@ -1,15 +1,25 @@
 package spdvi;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import spdvi.POJOs.Place;
+import spdvi.dataaccess.DataAccess;
 import spdvi.dialogs.AdminDialog;
 import spdvi.dialogs.FilterDialog;
 import spdvi.dialogs.InfoDialog;
 import spdvi.dialogs.UserSettingsDialog;
 
 public class Main extends javax.swing.JFrame {
+    
+    ArrayList<Place> places;
 
     Color defaultColor = new Color(0, 204, 255);
     Color hoverColor = new Color(0, 128, 160);
+    JList lstPlaces;
+    DataAccess dataAccess = new DataAccess();
 
     public Main() {
         initComponents();
@@ -19,7 +29,6 @@ public class Main extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         pnlMain = new javax.swing.JPanel();
         pnlMenu = new javax.swing.JPanel();
@@ -219,6 +228,11 @@ public class Main extends javax.swing.JFrame {
         lblTitle.setText("BALEARIC ART PLACES");
 
         txtSearch.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSearchKeyPressed(evt);
+            }
+        });
 
         lblSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/135-search.png"))); // NOI18N
@@ -447,6 +461,12 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            searchPlace();
+        }
+    }//GEN-LAST:event_txtSearchKeyPressed
+
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         try {
@@ -513,6 +533,14 @@ public class Main extends javax.swing.JFrame {
     private void initApp() {
         //metodos que se ejecutarán al iniciar el programa
         setLocationRelativeTo(null);
+        lstPlaces = new JList<Place>();
+        scrPlaceList.setViewportView(lstPlaces);
+        lstPlaces.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstPlacesValueChanged(evt);
+            }
+        });
+        loadPlaces();
     }
 
     private void openUserDialog() {
@@ -536,10 +564,63 @@ public class Main extends javax.swing.JFrame {
     }
 
     private void logout() {
-        
+
     }
 
     private void searchPlace() {
-        
+        String search = txtSearch.getText().toLowerCase();
+        if (!search.isBlank()||!search.isEmpty()) {
+            DefaultListModel dlm = new DefaultListModel();
+            for (Place place : places) {
+                if (place.getName().toLowerCase().contains(search)) {
+                    dlm.addElement(place);
+                }
+            }
+            lstPlaces.setModel(dlm);
+        } else {
+            listAllPlaces();
+        }
+    }
+
+    private void loadPlaces() {
+        places = new ArrayList<Place>();
+        //places = dataAccess.getPlaces();
+        Place p = new Place();
+        p.setRegistre(1);
+        p.setName("Capulla");
+        p.setType("Museo");
+        p.setDescription("Description");
+        p.setMunicipality("Palma");
+        places.add(p);
+        Place a = new Place();
+        a.setRegistre(1);
+        a.setName("Pepe");
+        a.setType("Arte");
+        a.setDescription("Description");
+        a.setMunicipality("Inca");
+        places.add(a);
+        listAllPlaces();
+    }
+    
+    private void lstPlacesValueChanged(javax.swing.event.ListSelectionEvent evt) {                                    
+        System.out.println(lstPlaces.getSelectedValue());
+        updatePlacePreview();
+    }
+
+    private void updatePlacePreview() {
+        Place p = (Place) lstPlaces.getSelectedValue();
+        if (p!=null) {
+            lblPlaceName.setText(p.getName());
+            lblType.setText(p.getType());
+            lblLocation.setText(p.getMunicipality());
+        }
+    }
+
+    private void listAllPlaces() {
+        DefaultListModel dlm = new DefaultListModel();
+        for (Place place : places) {
+            dlm.addElement(place);
+        }
+        lstPlaces.setModel(dlm);
     }
 }
