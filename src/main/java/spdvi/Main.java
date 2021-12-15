@@ -4,6 +4,7 @@ import java.awt.Color;
 import spdvi.dialogs.AdminDialog;
 import spdvi.dialogs.FilterDialog;
 import spdvi.dialogs.InfoDialog;
+import spdvi.dialogs.SignUpDialog;
 import spdvi.dialogs.UserSettingsDialog;
 
 public class Main extends javax.swing.JFrame {
@@ -14,6 +15,8 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         initApp();
+        SignUpDialog sup = new SignUpDialog(this, true);
+        sup.setVisible(true);
     }
 
     @SuppressWarnings("unchecked")

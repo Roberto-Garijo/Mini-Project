@@ -15,7 +15,6 @@ public class User {
     int id;
     String username;
     String password;
-    URL profilePicture;
     String email;
     boolean isAdmin;
 
@@ -43,14 +42,6 @@ public class User {
         this.password = password;
     }
 
-    public URL getProfilePicture() {
-        return profilePicture;
-    }
-
-    public void setProfilePicture(URL profilePicture) {
-        this.profilePicture = profilePicture;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -67,11 +58,10 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
-    public User(int id, String username, String password, URL profilePicture, String email, boolean isAdmin) {
+    public User(int id, String username, String password, String email, boolean isAdmin) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.profilePicture = profilePicture;
         this.email = email;
         this.isAdmin = isAdmin;
     }
