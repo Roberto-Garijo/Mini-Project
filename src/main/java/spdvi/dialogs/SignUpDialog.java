@@ -1,5 +1,10 @@
 package spdvi.dialogs;
 
+import java.awt.Frame;
+import java.util.ArrayList;
+import spdvi.POJOs.User;
+import spdvi.dataaccess.DataAccess;
+
 public class SignUpDialog extends javax.swing.JDialog {
 
     public SignUpDialog(java.awt.Frame parent, boolean modal) {
@@ -127,7 +132,7 @@ public class SignUpDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        applyFilter();
+        signUp();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void main(String args[]) {
@@ -181,7 +186,30 @@ public class SignUpDialog extends javax.swing.JDialog {
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 
-    private void applyFilter() {
+    private void signUp() {
+        DataAccess da = new DataAccess();
+        ConfirmEmailDialog ced = new ConfirmEmailDialog((Frame) this.getParent(), true);
+        if(checkAvaliable(da.getUsers()) == true) {
+            System.out.println("Todo ha ido bien");
+            ced.setVisible(true);
+        }
+        this.dispose();
+    }
+    
+    private boolean checkAvaliable(ArrayList<User> users) {
+        String email = txtEmail.getText();
+        String userName = txtUsername.getText();
         
+        for(User u : users) {
+            if(email.equals(u.getEmail()) || userName.equals(u.getUsername())) {
+                System.out.println("Estas credenciales a ya están en uso");
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private boolean checkEmail() {
+        return false;
     }
 }

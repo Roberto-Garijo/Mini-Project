@@ -1,5 +1,4 @@
 package spdvi.dataaccess;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -37,8 +36,7 @@ public class DataAccess {
                         rs.getInt("ID_User"),
                         rs.getString("Username"),
                         rs.getString("Password"),
-                        rs.getURL("ProfilePicture"),
-                        rs.getString("Email"),
+                        rs.getString("UserEmail"),
                         rs.getBoolean("isAdmin")
                 );
                 users.add(user);
