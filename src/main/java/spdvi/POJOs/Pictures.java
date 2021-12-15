@@ -14,7 +14,7 @@ import java.net.URL;
 public class Pictures {
     int id;
     URL url;
-    String registre;
+    int fk_registre;
 
     public int getId() {
         return id;
@@ -32,19 +32,19 @@ public class Pictures {
         this.url = url;
     }
 
-    public String getRegistre() {
-        return registre;
+    public int getRegistre() {
+        return fk_registre;
     }
 
-    public void setRegistre(String registre) {
-        this.registre = registre;
+    public void setRegistre(int fk_registre) {
+        this.fk_registre = fk_registre;
     }
 
     
-    public Pictures(int id, URL url, String registre) {
+    public Pictures(int id, URL url, int fk_registre) {
         this.id = id;
         this.url = url;
-        this.registre = registre;
+        this.fk_registre = fk_registre;
     }
 
     @Override
