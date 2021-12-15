@@ -9,12 +9,13 @@ public class Place {
     String email;
     String web;
     String phoneNumber;
+    boolean isVisible;
     String type;
 
     public Place() {
     }
 
-    public Place(int registre, String name, String description, String municipality, String address, String email, String web, String phoneNumber, String type) {
+    public Place(int registre, String name, String description, String municipality, String address, String email, String web, String phoneNumber, boolean isVisible, String type) {
         this.registre = registre;
         this.name = name;
         this.description = description;
@@ -23,6 +24,7 @@ public class Place {
         this.email = email;
         this.web = web;
         this.phoneNumber = phoneNumber;
+        this.isVisible = isVisible;
         this.type = type;
     }
 
@@ -92,6 +94,14 @@ public class Place {
 
     public String getType() {
         return type;
+    }
+
+    public boolean isIsVisible() {
+        return isVisible;
+    }
+
+    public void setIsVisible(boolean isVisible) {
+        this.isVisible = isVisible;
     }
 
     public void setType(String type) {

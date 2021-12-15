@@ -7,6 +7,7 @@ public class Comment {
     String text;
     Date dateTime;
     int rating;
+    int idUser;
     int registre;
 
     public int getId() {
@@ -49,13 +50,23 @@ public class Comment {
         this.registre = registre;
     }
 
-    public Comment(int id, String text, Date dateTime, int rating, int registre) {
+    public int getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
+
+    public Comment(int id, String text, Date dateTime, int rating, int idUser, int registre) {
         this.id = id;
         this.text = text;
         this.dateTime = dateTime;
         this.rating = rating;
+        this.idUser = idUser;
         this.registre = registre;
     }
+
 
     @Override
     public String toString() {
