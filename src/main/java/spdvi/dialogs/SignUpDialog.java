@@ -193,6 +193,7 @@ public class SignUpDialog extends javax.swing.JDialog {
             System.out.println("Todo ha ido bien");
             ced.setVisible(true);
         }
+        this.dispose();
     }
     
     private boolean checkAvaliable(ArrayList<User> users) {
@@ -209,6 +210,6 @@ public class SignUpDialog extends javax.swing.JDialog {
     }
     
     private boolean checkEmail() {
-        
+        return false;
     }
 }
