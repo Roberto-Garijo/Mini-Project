@@ -6,11 +6,13 @@ import spdvi.POJOs.User;
 import spdvi.dataaccess.DataAccess;
 
 public class SignUpDialog extends javax.swing.JDialog {
-
+    static String email = "";
+    
     public SignUpDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
+        this.setSize(356, 280);
     }
 
     @SuppressWarnings("unchecked")
@@ -36,7 +38,7 @@ public class SignUpDialog extends javax.swing.JDialog {
         lblEmail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/32px/389-mail2.png"))); // NOI18N
 
         txtEmail.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        txtEmail.setText("alejo@gmail.com");
+        txtEmail.setText("rgarijo2002@gmail.com");
         txtEmail.setToolTipText("Valid e-mail address");
 
         lblUsername.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -121,7 +123,7 @@ public class SignUpDialog extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,12 +199,12 @@ public class SignUpDialog extends javax.swing.JDialog {
     }
     
     private boolean checkAvaliable(ArrayList<User> users) {
-        String email = txtEmail.getText();
+        email = txtEmail.getText();
         String userName = txtUsername.getText();
         
         for(User u : users) {
             if(email.equals(u.getEmail()) || userName.equals(u.getUsername())) {
-                System.out.println("Estas credenciales a ya están en uso");
+                System.out.println("Estas credenciales ya están en uso");
                 return false;
             }
         }

@@ -1,7 +1,19 @@
 package spdvi.dialogs;
 
+import java.util.Properties;
+import java.util.Random;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 public class ConfirmEmailDialog extends javax.swing.JDialog {
-    private String emailCode = "AAAA";
+    private String artMail = "artbalearempresa@gmail.com";
+    private String contrasena = "root2002";
+    private String emailCode = String.valueOf(getCode());
+    
 
     public ConfirmEmailDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -95,7 +107,30 @@ public class ConfirmEmailDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        
+       Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props);
+
+        try {
+              // Define message
+              MimeMessage message = new MimeMessage(session);
+              message.setFrom(new InternetAddress(artMail));
+              message.addRecipient(Message.RecipientType.TO ,new InternetAddress(SignUpDialog.email));
+              message.setSubject("Confirmación de cuenta");
+              message.setText("Introduce el siguiente codigo de verificación: " + emailCode);
+              // Envia el mensaje
+              Transport transport = session.getTransport("smtp");
+              transport.connect(artMail, contrasena);
+              transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
+              transport.close();
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_formWindowOpened
 
     public static void main(String args[]) {
@@ -136,6 +171,11 @@ public class ConfirmEmailDialog extends javax.swing.JDialog {
             }
         });
     }
+    
+    public int getCode() {
+    double fiveDigits = 10000 + Math.random() * 90000;
+    return (int) fiveDigits;
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
