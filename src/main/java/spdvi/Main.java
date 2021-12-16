@@ -10,11 +10,12 @@ import spdvi.dataaccess.DataAccess;
 import spdvi.dialogs.AdminDialog;
 import spdvi.dialogs.FilterDialog;
 import spdvi.dialogs.InfoDialog;
+import spdvi.dialogs.LoginDialog;
 import spdvi.dialogs.SignUpDialog;
 import spdvi.dialogs.UserSettingsDialog;
 
 public class Main extends javax.swing.JFrame {
-    
+
     ArrayList<Place> places;
 
     Color defaultColor = new Color(0, 204, 255);
@@ -25,8 +26,10 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         initApp();
-        SignUpDialog sup = new SignUpDialog(this, true);
-        sup.setVisible(true);
+//        SignUpDialog sup = new SignUpDialog(this, true);
+//        sup.setVisible(true);
+        LoginDialog ld = new LoginDialog(this, true);
+        ld.setVisible(true);
     }
 
     @SuppressWarnings("unchecked")
@@ -572,7 +575,7 @@ public class Main extends javax.swing.JFrame {
 
     private void searchPlace() {
         String search = txtSearch.getText().toLowerCase();
-        if (!search.isBlank()||!search.isEmpty()) {
+        if (!search.isBlank() || !search.isEmpty()) {
             DefaultListModel dlm = new DefaultListModel();
             for (Place place : places) {
                 if (place.getName().toLowerCase().contains(search)) {
@@ -587,32 +590,32 @@ public class Main extends javax.swing.JFrame {
 
     private void loadPlaces() {
         places = new ArrayList<Place>();
-        //places = dataAccess.getPlaces();
-        Place p = new Place();
-        p.setRegistre(1);
-        p.setName("Capulla");
-        p.setType("Museo");
-        p.setDescription("Description");
-        p.setMunicipality("Palma");
-        places.add(p);
-        Place a = new Place();
-        a.setRegistre(1);
-        a.setName("Pepe");
-        a.setType("Arte");
-        a.setDescription("Description");
-        a.setMunicipality("Inca");
-        places.add(a);
+        places = dataAccess.getPlaces();
+//        Place p = new Place();
+//        p.setRegistre(1);
+//        p.setName("Capulla");
+//        p.setType("Museo");
+//        p.setDescription("Description");
+//        p.setMunicipality("Palma");
+//        places.add(p);
+//        Place a = new Place();
+//        a.setRegistre(1);
+//        a.setName("Pepe");
+//        a.setType("Arte");
+//        a.setDescription("Description");
+//        a.setMunicipality("Inca");
+//        places.add(a);
         listAllPlaces();
     }
-    
-    private void lstPlacesValueChanged(javax.swing.event.ListSelectionEvent evt) {                                    
+
+    private void lstPlacesValueChanged(javax.swing.event.ListSelectionEvent evt) {
         System.out.println(lstPlaces.getSelectedValue());
         updatePlacePreview();
     }
 
     private void updatePlacePreview() {
         Place p = (Place) lstPlaces.getSelectedValue();
-        if (p!=null) {
+        if (p != null) {
             lblPlaceName.setText(p.getName());
             lblType.setText(p.getType());
             lblLocation.setText(p.getMunicipality());
