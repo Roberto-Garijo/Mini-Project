@@ -64,7 +64,7 @@ public class DataAccess {
                         rs.getString("PlaceEmail"),
                         rs.getString("Web"),
                         rs.getString("PhoneNumber"),
-                        rs.getBoolean("isVisible"),
+                        //rs.getBoolean("isVisible"),
                         rs.getString("Type")
                 );
                 places.add(place);

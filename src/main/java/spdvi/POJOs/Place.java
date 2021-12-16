@@ -28,6 +28,19 @@ public class Place {
         this.type = type;
     }
 
+    public Place(int registre, String name, String description, String municipality, String address, String email, String web, String phoneNumber, String type) {
+        this.registre = registre;
+        this.name = name;
+        this.description = description;
+        this.municipality = municipality;
+        this.address = address;
+        this.email = email;
+        this.web = web;
+        this.phoneNumber = phoneNumber;
+        this.type = type;
+    }
+    
+
     public int getRegistre() {
         return registre;
     }
@@ -110,6 +123,6 @@ public class Place {
 
     @Override
     public String toString() {
-        return "Place{" + "name=" + name + '}';
+        return name + " - " + type;
     }
 }
