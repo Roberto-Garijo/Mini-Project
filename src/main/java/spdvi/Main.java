@@ -252,7 +252,7 @@ public class Main extends javax.swing.JFrame {
 
         lblPlaceImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/330x210.png"))); // NOI18N
 
-        lblPlaceName.setFont(new java.awt.Font("Montserrat SemiBold", 0, 24)); // NOI18N
+        lblPlaceName.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         lblPlaceName.setForeground(new java.awt.Color(51, 51, 51));
         lblPlaceName.setText("Place name");
 
@@ -552,6 +552,9 @@ public class Main extends javax.swing.JFrame {
                 lstPlacesValueChanged(evt);
             }
         });
+        lstPlaces.setSelectionBackground(new java.awt.Color(0, 204, 255));
+        lstPlaces.setSelectionForeground(Color.BLACK);
+        lstPlaces.setFont(new java.awt.Font("Segoe UI", 0, 15));
     }
 
     private void openUserDialog() {
@@ -597,6 +600,7 @@ public class Main extends javax.swing.JFrame {
     private void loadPlaces() {
         places = new ArrayList<Place>();
         places = dataAccess.getPlaces();
+        //places.add(new Place(5, "asdf", "asdf", "asdf", "asdf", "asdf", "asdf", "asdf", "asdf"));
         listAllPlaces();
     }
 
