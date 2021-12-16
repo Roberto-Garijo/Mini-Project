@@ -18,7 +18,6 @@ public class SignUpDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
-        this.setSize(356, 280);
     }
 
     @SuppressWarnings("unchecked")
@@ -61,7 +60,6 @@ public class SignUpDialog extends javax.swing.JDialog {
         lblUsername.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/114-user.png"))); // NOI18N
         lblUsername.setText("Username");
 
-        txtUsername.setEditable(false);
         txtUsername.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtUsername.setText("Username");
         txtUsername.setToolTipText("Unique username");
@@ -273,7 +271,7 @@ public class SignUpDialog extends javax.swing.JDialog {
 
     private void signUp() {
         if (checkAvaliable(da.getUsers())) {
-            System.out.println("Todo ha ido bien");
+            System.out.println("procede a confirmar dialog");
             ConfirmEmailDialog ced = new ConfirmEmailDialog((Frame) this.getParent(), true);
             ced.setVisible(true);
         } else {

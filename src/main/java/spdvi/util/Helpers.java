@@ -10,7 +10,7 @@ public class Helpers {
             pwsField.setEchoChar((char)0);
             icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/207-eye.png")));
         } else {
-            pwsField.setEchoChar((char)'•');
+            pwsField.setEchoChar((char)'●');
             icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/210-eye-blocked.png")));
         }
     }

@@ -1,6 +1,13 @@
 package spdvi.dialogs;
 
+import java.awt.Frame;
+import spdvi.Main;
+import spdvi.util.Helpers;
+
 public class LoginDialog extends javax.swing.JDialog {
+    private boolean showPassword = false;
+    private Helpers helper = new Helpers();
+    private Main main = (Main) this.getParent();
 
     public LoginDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -59,6 +66,11 @@ public class LoginDialog extends javax.swing.JDialog {
         lblRegister.setText("Register now");
 
         btnSignUp.setText("Sign up");
+        btnSignUp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSignUpActionPerformed(evt);
+            }
+        });
 
         pswPassword.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -145,8 +157,13 @@ public class LoginDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnLogInActionPerformed
 
     private void lblHideShowPasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHideShowPasswordMouseClicked
-        // TODO add your handling code here:
+        showPassword = !showPassword;
+        helper.showHidePassword(pswPassword, lblHideShowPassword, showPassword);
     }//GEN-LAST:event_lblHideShowPasswordMouseClicked
+
+    private void btnSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignUpActionPerformed
+        signUp();
+    }//GEN-LAST:event_btnSignUpActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -202,6 +219,20 @@ public class LoginDialog extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void logIn() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //login
+        if (checkUser()) {
+            main.setLoggedIn(true);
+            this.dispose();
+        }
+    }
+
+    private void signUp() {
+        SignUpDialog sud = new SignUpDialog((Frame) this.getParent(), true);
+        this.dispose();
+        sud.setVisible(true);
+    }
+
+    private boolean checkUser() {
+        return true;
     }
 }

@@ -22,14 +22,12 @@ public class Main extends javax.swing.JFrame {
     Color hoverColor = new Color(0, 128, 160);
     JList lstPlaces;
     DataAccess dataAccess = new DataAccess();
+    
+    private boolean loggedIn = false;
 
     public Main() {
         initComponents();
         initApp();
-//        SignUpDialog sup = new SignUpDialog(this, true);
-//        sup.setVisible(true);
-        LoginDialog ld = new LoginDialog(this, true);
-        ld.setVisible(true);
     }
 
     @SuppressWarnings("unchecked")
@@ -71,6 +69,11 @@ public class Main extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         pnlMain.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -229,7 +232,6 @@ public class Main extends javax.swing.JFrame {
         );
 
         lblTitle.setFont(new java.awt.Font("Montserrat", 1, 36)); // NOI18N
-        lblTitle.setForeground(new java.awt.Color(0, 0, 0));
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitle.setText("BALEARIC ART PLACES");
 
@@ -439,7 +441,6 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_pnlLogOutMouseEntered
 
     private void pnlUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlUserMouseClicked
-        System.out.println("user");
         openUserDialog();
     }//GEN-LAST:event_pnlUserMouseClicked
 
@@ -472,6 +473,11 @@ public class Main extends javax.swing.JFrame {
             searchPlace();
         }
     }//GEN-LAST:event_txtSearchKeyPressed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        askLoginLoop();
+        loadPlaces();
+    }//GEN-LAST:event_formWindowOpened
 
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -546,7 +552,6 @@ public class Main extends javax.swing.JFrame {
                 lstPlacesValueChanged(evt);
             }
         });
-        loadPlaces();
     }
 
     private void openUserDialog() {
@@ -570,7 +575,8 @@ public class Main extends javax.swing.JFrame {
     }
 
     private void logout() {
-
+        loggedIn = false;
+        askLoginLoop();
     }
 
     private void searchPlace() {
@@ -591,20 +597,6 @@ public class Main extends javax.swing.JFrame {
     private void loadPlaces() {
         places = new ArrayList<Place>();
         places = dataAccess.getPlaces();
-//        Place p = new Place();
-//        p.setRegistre(1);
-//        p.setName("Capulla");
-//        p.setType("Museo");
-//        p.setDescription("Description");
-//        p.setMunicipality("Palma");
-//        places.add(p);
-//        Place a = new Place();
-//        a.setRegistre(1);
-//        a.setName("Pepe");
-//        a.setType("Arte");
-//        a.setDescription("Description");
-//        a.setMunicipality("Inca");
-//        places.add(a);
         listAllPlaces();
     }
 
@@ -629,4 +621,20 @@ public class Main extends javax.swing.JFrame {
         }
         lstPlaces.setModel(dlm);
     }
+
+    private void askLoginLoop() {
+        while (!loggedIn) {            
+            LoginDialog ld = new LoginDialog(this, true);
+            ld.setVisible(true);
+        }
+    }
+
+    public boolean isLoggedIn() {
+        return loggedIn;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
+    }
+    
 }
