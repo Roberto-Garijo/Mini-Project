@@ -103,6 +103,7 @@
               <Image iconType="3" name="/icons/16px/267-plus.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="New place"/>
+            <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNewPlaceActionPerformed"/>
@@ -114,6 +115,7 @@
               <Image iconType="3" name="/icons/16px/268-minus.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Disable place"/>
+            <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDisablePlacedActionPerformed"/>
@@ -125,6 +127,7 @@
               <Image iconType="3" name="/icons/16px/006-pencil.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Edit place"/>
+            <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditPlaceActionPerformed"/>
@@ -136,6 +139,7 @@
               <Image iconType="3" name="/icons/16px/118-user-check.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Grant admin"/>
+            <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGrantAdminActionPerformed"/>

@@ -17,7 +17,7 @@ public class DataAccess {
         Connection connection = null;
         Properties properties = new Properties();
         try {
-            properties.load(DataAccess.class.getClassLoader().getResourceAsStream("application.properties"));
+            properties.load(DataAccess.class.getClassLoader().getResourceAsStream("database.properties"));
             connection = DriverManager.getConnection(properties.getProperty("url"), properties);
         } catch (Exception e) {
             e.printStackTrace();
@@ -195,8 +195,9 @@ public class DataAccess {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT count(*) count FROM COMMENT where Registre like ?");
             preparedStatement.setInt(1, place.getRegistre());
             ResultSet rs = preparedStatement.executeQuery();
-            rs.next();
-            commentCount = rs.getInt("count");
+            if (rs.next()) {
+                commentCount = rs.getInt("count");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -209,11 +210,27 @@ public class DataAccess {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT avg(Rating) average FROM COMMENT where Registre like ?");
             preparedStatement.setInt(1, place.getRegistre());
             ResultSet rs = preparedStatement.executeQuery();
-            rs.next();
-            avg = rs.getInt("average");
+            if (rs.next()) {
+                avg = rs.getInt("average");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return avg;
+    }
+
+    public String getFirstImage(Place place) {
+        String image = "";
+        try ( Connection connection = getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("select PICTURES.URL from PICTURES where PlaceRegistre = ?");
+            preparedStatement.setInt(1, place.getRegistre());
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                image = rs.getString("URL");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return image;
     }
 }

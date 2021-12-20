@@ -32,6 +32,7 @@ public class AdminDialog extends javax.swing.JDialog {
 
         btnNewPlace.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/267-plus.png"))); // NOI18N
         btnNewPlace.setText("New place");
+        btnNewPlace.setFocusable(false);
         btnNewPlace.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNewPlaceActionPerformed(evt);
@@ -40,6 +41,7 @@ public class AdminDialog extends javax.swing.JDialog {
 
         btnDisablePlaced.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/268-minus.png"))); // NOI18N
         btnDisablePlaced.setText("Disable place");
+        btnDisablePlaced.setFocusable(false);
         btnDisablePlaced.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDisablePlacedActionPerformed(evt);
@@ -48,6 +50,7 @@ public class AdminDialog extends javax.swing.JDialog {
 
         btnEditPlace.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/006-pencil.png"))); // NOI18N
         btnEditPlace.setText("Edit place");
+        btnEditPlace.setFocusable(false);
         btnEditPlace.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditPlaceActionPerformed(evt);
@@ -56,6 +59,7 @@ public class AdminDialog extends javax.swing.JDialog {
 
         btnGrantAdmin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/118-user-check.png"))); // NOI18N
         btnGrantAdmin.setText("Grant admin");
+        btnGrantAdmin.setFocusable(false);
         btnGrantAdmin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGrantAdminActionPerformed(evt);

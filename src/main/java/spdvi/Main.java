@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import spdvi.POJOs.Place;
+import spdvi.dataaccess.AzureBlobs;
 import spdvi.dataaccess.DataAccess;
 import spdvi.dialogs.AdminDialog;
 import spdvi.dialogs.FilterDialog;
@@ -26,6 +27,7 @@ public class Main extends javax.swing.JFrame {
     private DataAccess dataAccess = new DataAccess();
     private ImageUtils imageUtils = new ImageUtils();
     private Helpers helpers = new Helpers();
+    AzureBlobs azureBlobs = new AzureBlobs();
 
     private boolean loggedIn = false;
 
@@ -255,6 +257,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        lblPlaceImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPlaceImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/330x210.png"))); // NOI18N
 
         lblPlaceName.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -621,6 +624,7 @@ public class Main extends javax.swing.JFrame {
             lblLocation.setText(p.getMunicipality());
             updateRating();
             updateComments();
+            updateImage();
         }
     }
 
@@ -667,5 +671,9 @@ public class Main extends javax.swing.JFrame {
 
     private void updateComments() {
         lblComments.setText(String.format("%d comments", dataAccess.getCommentCount((Place) lstPlaces.getSelectedValue())));
+    }
+
+    private void updateImage() {
+        azureBlobs.setFirstImage(lblPlaceImage, (Place) lstPlaces.getSelectedValue());
     }
 }

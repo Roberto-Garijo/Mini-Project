@@ -12,7 +12,7 @@ public class ImageUtils {
     public ImageUtils() {
     }
 
-    private ImageIcon resizeImageIcon(BufferedImage originalImage, int desiredWidth, int desiredHeight) {
+    public ImageIcon resizeImageIcon(BufferedImage originalImage, int desiredWidth, int desiredHeight) {
         int newHeight = 0;
         int newWidth = 0;
         float aspectRatio = (float) originalImage.getWidth() / originalImage.getHeight();

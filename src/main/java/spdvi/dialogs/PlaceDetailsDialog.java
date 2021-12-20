@@ -1,5 +1,6 @@
 package spdvi.dialogs;
 
+import java.awt.Frame;
 import java.util.ArrayList;
 import spdvi.Main;
 import spdvi.POJOs.Comment;
@@ -236,7 +237,7 @@ public class PlaceDetailsDialog extends javax.swing.JDialog {
 
         lblUsername.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblUsername.setForeground(new java.awt.Color(0, 0, 0));
-        lblUsername.setText("Username");
+        lblUsername.setText("-");
         lblUsername.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         lblStar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/218-star-full.png"))); // NOI18N
@@ -282,7 +283,7 @@ public class PlaceDetailsDialog extends javax.swing.JDialog {
         lblCommentIndex.setText("1");
 
         lblTotalComments.setForeground(new java.awt.Color(0, 0, 0));
-        lblTotalComments.setText("5");
+        lblTotalComments.setText("1");
 
         lblSlash.setForeground(new java.awt.Color(0, 0, 0));
         lblSlash.setText("/");
@@ -358,6 +359,7 @@ public class PlaceDetailsDialog extends javax.swing.JDialog {
 
         btnComment.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnComment.setText("Comment");
+        btnComment.setFocusable(false);
         btnComment.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCommentActionPerformed(evt);
@@ -426,7 +428,7 @@ public class PlaceDetailsDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_lblNextCommentMouseClicked
 
     private void btnCommentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCommentActionPerformed
-        // TODO add your handling code here:
+        newComment();
     }//GEN-LAST:event_btnCommentActionPerformed
 
     private void lblPreviousImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPreviousImageMouseClicked
@@ -527,11 +529,18 @@ public class PlaceDetailsDialog extends javax.swing.JDialog {
     }
 
     private void loadComment() {
-        lblTotalComments.setText(String.format("%d", comments.size()));
-        lblCommentIndex.setText(String.format("%d", commentIndex + 1));
-        txaComment.setText(comments.get(commentIndex).getText());
-        lblUsername.setText(String.format("%d", comments.get(commentIndex).getIdUser()));
-        lblDate.setText(comments.get(commentIndex).getDateTime().toString());
-        helpers.setRatingSmall(lblStar1, lblStar2, lblStar3, lblStar4, lblStar5, comments.get(commentIndex).getRating());
+        if (comments.size() > 0) {
+            lblTotalComments.setText(String.format("%d", comments.size()));
+            lblCommentIndex.setText(String.format("%d", commentIndex + 1));
+            txaComment.setText(comments.get(commentIndex).getText());
+            lblUsername.setText(String.format("%d", comments.get(commentIndex).getIdUser()));
+            lblDate.setText(comments.get(commentIndex).getDateTime().toString());
+            helpers.setRatingSmall(lblStar1, lblStar2, lblStar3, lblStar4, lblStar5, comments.get(commentIndex).getRating());
+        }
+    }
+
+    private void newComment() {
+        NewCommentDialog ncd = new NewCommentDialog((Frame) this.getParent(), true);
+        ncd.setVisible(true);
     }
 }
