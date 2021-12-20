@@ -7,8 +7,6 @@ import spdvi.dataaccess.DataAccess;
 import spdvi.util.Helpers;
 
 public class SignUpDialog extends javax.swing.JDialog {
-
-    static String email = "";
     DataAccess da = new DataAccess();
     Helpers helper = new Helpers();
     private boolean showPassword1 = false;
@@ -281,6 +279,14 @@ public class SignUpDialog extends javax.swing.JDialog {
             System.out.println("procede a confirmar dialog");
             ConfirmEmailDialog ced = new ConfirmEmailDialog((Frame) this.getParent(), true);
             ced.setVisible(true);
+            User user = new User(
+                    1,
+                    txtUsername.getText(),
+                    helper.encryptPassword(jPasswordField1.getText()),
+                    txtEmail.getText(),
+                    false
+            );
+            da.createUser(user);
         } else {
             System.err.println("ya existe el usuario");
         }
@@ -288,16 +294,20 @@ public class SignUpDialog extends javax.swing.JDialog {
     }
 
     private boolean checkAvaliable(ArrayList<User> users) {
-        email = txtEmail.getText();
+        String email = txtEmail.getText();
         String userName = txtUsername.getText();
 
-        for (User u : users) {
+        for (User u : da.getUsers()) {
             if (email.equals(u.getEmail()) || userName.equals(u.getUsername())) {
-                System.out.println("Estas credenciales ya están en uso");
                 return false;
             }
         }
         return true;
+    }
+    
+    public String getEmail() {
+            String email = txtEmail.getText();
+            return email;
     }
 
     private void login() {
