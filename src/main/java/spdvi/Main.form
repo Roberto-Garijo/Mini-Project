@@ -513,7 +513,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="33" green="33" red="33" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="1234 comments"/>
+            <Property name="text" type="java.lang.String" value="0 comments"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="jButton1">

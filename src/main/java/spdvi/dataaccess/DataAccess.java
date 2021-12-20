@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 import spdvi.POJOs.Comment;
@@ -233,5 +234,17 @@ public class DataAccess {
             e.printStackTrace();
         }
         return image;
+    }
+    
+    public void newComment(Comment comment) {
+        try ( Connection connection = getConnection()) {
+            Statement st = connection.createStatement();
+            st.executeUpdate("select PICTURES.URL from PICTURES where PlaceRegistre = ?");
+//            if (rs.next()) {
+//                image = rs.getString("URL");
+//            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
