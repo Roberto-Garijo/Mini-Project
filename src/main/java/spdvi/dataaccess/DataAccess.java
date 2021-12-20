@@ -126,7 +126,7 @@ public class DataAccess {
         ArrayList<Comment> comments = new ArrayList<>();
         try ( Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM COMMENT where Registre = ?"
+                    "select * from COMMENT join [USER] on COMMENT.ID_User = [USER].ID_User where Registre = ?"
             );
             preparedStatement.setInt(1, place.getRegistre());
             ResultSet rs = preparedStatement.executeQuery();
@@ -137,7 +137,8 @@ public class DataAccess {
                         rs.getDate("DateTime"),
                         rs.getInt("Rating"),
                         rs.getInt("ID_User"),
-                        rs.getInt("Registre")
+                        rs.getInt("Registre"),
+                        rs.getString("Username")
                 );
                 comments.add(comment);
             }
