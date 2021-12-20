@@ -201,7 +201,7 @@ public class PlaceDetailsDialog extends javax.swing.JDialog {
         txaDescription.setEditable(false);
         txaDescription.setBackground(new java.awt.Color(255, 255, 255));
         txaDescription.setColumns(20);
-        txaDescription.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txaDescription.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         txaDescription.setForeground(new java.awt.Color(0, 0, 0));
         txaDescription.setLineWrap(true);
         txaDescription.setRows(5);
@@ -254,7 +254,7 @@ public class PlaceDetailsDialog extends javax.swing.JDialog {
 
         txaComment.setEditable(false);
         txaComment.setColumns(20);
-        txaComment.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txaComment.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         txaComment.setLineWrap(true);
         txaComment.setRows(5);
         txaComment.setWrapStyleWord(true);

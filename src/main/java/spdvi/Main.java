@@ -612,7 +612,7 @@ public class Main extends javax.swing.JFrame {
 
     private void lstPlacesValueChanged(javax.swing.event.ListSelectionEvent evt) {
         System.out.println(lstPlaces.getSelectedValue());
-        imageUtils.setLabelIconImage(lblPlaceImage, "C:\\Users\\Alejo\\Pictures\\IMG_20211027_222424.jpg");
+        //imageUtils.setLabelIconImage(lblPlaceImage, "C:\\Users\\Alejo\\Pictures\\IMG_20211027_222424.jpg");
         updatePlacePreview();
     }
 

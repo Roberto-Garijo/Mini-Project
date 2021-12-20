@@ -81,7 +81,7 @@ public class NewCommentDialog extends javax.swing.JDialog {
         lblRating.setText("1");
 
         txaComment.setColumns(20);
-        txaComment.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txaComment.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         txaComment.setLineWrap(true);
         txaComment.setRows(5);
         txaComment.setWrapStyleWord(true);
@@ -95,9 +95,11 @@ public class NewCommentDialog extends javax.swing.JDialog {
         lblChars.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblChars.setText("0/255");
 
+        btnDiscard.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnDiscard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/173-bin.png"))); // NOI18N
         btnDiscard.setText("Discard");
 
+        btnPublish.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnPublish.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/108-bubble.png"))); // NOI18N
         btnPublish.setText("Publish");
 
@@ -127,9 +129,9 @@ public class NewCommentDialog extends javax.swing.JDialog {
                             .addComponent(lblChars, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(104, 104, 104)
+                .addGap(77, 77, 77)
                 .addComponent(btnDiscard)
-                .addGap(18, 18, 18)
+                .addGap(38, 38, 38)
                 .addComponent(btnPublish)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -150,8 +152,8 @@ public class NewCommentDialog extends javax.swing.JDialog {
                 .addComponent(lblChars)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnDiscard)
-                    .addComponent(btnPublish))
+                    .addComponent(btnPublish)
+                    .addComponent(btnDiscard))
                 .addGap(34, 34, 34))
         );
 
