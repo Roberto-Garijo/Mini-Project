@@ -1,5 +1,6 @@
 package spdvi.dialogs;
 
+import java.awt.Frame;
 import java.awt.event.KeyEvent;
 import java.util.Properties;
 import javax.mail.Message;
@@ -9,6 +10,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import spdvi.dataaccess.DataAccess;
+import spdvi.dialogs.SignUpDialog;
 
 public class ConfirmEmailDialog extends javax.swing.JDialog {
 
@@ -202,6 +204,7 @@ public class ConfirmEmailDialog extends javax.swing.JDialog {
 
     private void sendConfirmationCode() {
         emailCode = String.valueOf(generateCode());
+        SignUpDialog sud = new SignUpDialog((Frame) this.getParent(), true);
         System.out.println(emailCode);
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -218,7 +221,7 @@ public class ConfirmEmailDialog extends javax.swing.JDialog {
             // Define message
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(artMail));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(SignUpDialog.email));//esto es una puta aberracion, hay que pasar el email por parámetro de alguna forma
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(sud.getEmail()));//esto es una puta aberracion, hay que pasar el email por parámetro de alguna forma
             message.setSubject("Confirmación de cuenta");
             message.setText("Introduce el siguiente codigo de verificación: " + emailCode);
             // Envia el mensaje

@@ -100,7 +100,7 @@ public class Helpers {
         }
     }
     
-        private String EncryptPassword(String md5) {
+        public String encryptPassword(String md5) {
         StringBuffer  sb = new StringBuffer();
         
         try {
@@ -108,11 +108,13 @@ public class Helpers {
            
            byte[] array = md.digest(md5.getBytes());
            
-           for(int i = 0; i < array.length; i++) {
+           for(int i = 0; i < 5; i++) {
                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
            }
-        }catch(java.security.NoSuchAlgorithmException e) {  
+        } catch(java.security.NoSuchAlgorithmException e) {
+            e.printStackTrace();
         }
+        System.out.print(sb.toString());
         return sb.toString();
-    }
+        }
 }
