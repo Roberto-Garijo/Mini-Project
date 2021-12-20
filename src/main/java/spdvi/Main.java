@@ -6,27 +6,34 @@ import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import spdvi.POJOs.Place;
+import spdvi.dataaccess.AzureBlobs;
 import spdvi.dataaccess.DataAccess;
 import spdvi.dialogs.AdminDialog;
 import spdvi.dialogs.FilterDialog;
 import spdvi.dialogs.InfoDialog;
-import spdvi.dialogs.SignUpDialog;
+import spdvi.dialogs.LoginDialog;
+import spdvi.dialogs.PlaceDetailsDialog;
 import spdvi.dialogs.UserSettingsDialog;
+import spdvi.util.Helpers;
+import spdvi.util.ImageUtils;
 
 public class Main extends javax.swing.JFrame {
-    
-    ArrayList<Place> places;
 
-    Color defaultColor = new Color(0, 204, 255);
-    Color hoverColor = new Color(0, 128, 160);
-    JList lstPlaces;
-    DataAccess dataAccess = new DataAccess();
+    private ArrayList<Place> places;
+
+    private Color defaultColor = new Color(0, 204, 255);
+    private Color hoverColor = new Color(0, 128, 160);
+    private JList lstPlaces;
+    private DataAccess dataAccess = new DataAccess();
+    private ImageUtils imageUtils = new ImageUtils();
+    private Helpers helpers = new Helpers();
+    AzureBlobs azureBlobs = new AzureBlobs();
+
+    private boolean loggedIn = false;
 
     public Main() {
         initComponents();
         initApp();
-        SignUpDialog sup = new SignUpDialog(this, true);
-        sup.setVisible(true);
     }
 
     @SuppressWarnings("unchecked")
@@ -68,6 +75,11 @@ public class Main extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         pnlMain.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -225,7 +237,7 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(pnlLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        lblTitle.setFont(new java.awt.Font("Montserrat", 1, 36)); // NOI18N
+        lblTitle.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         lblTitle.setForeground(new java.awt.Color(0, 0, 0));
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitle.setText("BALEARIC ART PLACES");
@@ -245,9 +257,10 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        lblPlaceImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPlaceImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/330x210.png"))); // NOI18N
 
-        lblPlaceName.setFont(new java.awt.Font("Montserrat SemiBold", 0, 24)); // NOI18N
+        lblPlaceName.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         lblPlaceName.setForeground(new java.awt.Color(51, 51, 51));
         lblPlaceName.setText("Place name");
 
@@ -293,7 +306,6 @@ public class Main extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jButton1.setText("Check it out!");
-        jButton1.setEnabled(false);
         jButton1.setFocusable(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -436,7 +448,6 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_pnlLogOutMouseEntered
 
     private void pnlUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlUserMouseClicked
-        System.out.println("user");
         openUserDialog();
     }//GEN-LAST:event_pnlUserMouseClicked
 
@@ -461,7 +472,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_lblSearchMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        openPlace();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
@@ -469,6 +480,11 @@ public class Main extends javax.swing.JFrame {
             searchPlace();
         }
     }//GEN-LAST:event_txtSearchKeyPressed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        askLoginLoop();
+        loadPlaces();
+    }//GEN-LAST:event_formWindowOpened
 
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -543,7 +559,9 @@ public class Main extends javax.swing.JFrame {
                 lstPlacesValueChanged(evt);
             }
         });
-        loadPlaces();
+        lstPlaces.setSelectionBackground(new java.awt.Color(0, 204, 255));
+        lstPlaces.setSelectionForeground(Color.BLACK);
+        lstPlaces.setFont(new java.awt.Font("Segoe UI", 0, 15));
     }
 
     private void openUserDialog() {
@@ -567,12 +585,13 @@ public class Main extends javax.swing.JFrame {
     }
 
     private void logout() {
-
+        loggedIn = false;
+        askLoginLoop();
     }
 
     private void searchPlace() {
         String search = txtSearch.getText().toLowerCase();
-        if (!search.isBlank()||!search.isEmpty()) {
+        if (!search.isBlank() || !search.isEmpty()) {
             DefaultListModel dlm = new DefaultListModel();
             for (Place place : places) {
                 if (place.getName().toLowerCase().contains(search)) {
@@ -587,35 +606,25 @@ public class Main extends javax.swing.JFrame {
 
     private void loadPlaces() {
         places = new ArrayList<Place>();
-        //places = dataAccess.getPlaces();
-        Place p = new Place();
-        p.setRegistre(1);
-        p.setName("Capulla");
-        p.setType("Museo");
-        p.setDescription("Description");
-        p.setMunicipality("Palma");
-        places.add(p);
-        Place a = new Place();
-        a.setRegistre(1);
-        a.setName("Pepe");
-        a.setType("Arte");
-        a.setDescription("Description");
-        a.setMunicipality("Inca");
-        places.add(a);
+        places = dataAccess.getPlaces();
         listAllPlaces();
     }
-    
-    private void lstPlacesValueChanged(javax.swing.event.ListSelectionEvent evt) {                                    
+
+    private void lstPlacesValueChanged(javax.swing.event.ListSelectionEvent evt) {
         System.out.println(lstPlaces.getSelectedValue());
+        //imageUtils.setLabelIconImage(lblPlaceImage, "C:\\Users\\Alejo\\Pictures\\IMG_20211027_222424.jpg");
         updatePlacePreview();
     }
 
     private void updatePlacePreview() {
         Place p = (Place) lstPlaces.getSelectedValue();
-        if (p!=null) {
+        if (p != null) {
             lblPlaceName.setText(p.getName());
             lblType.setText(p.getType());
             lblLocation.setText(p.getMunicipality());
+            updateRating();
+            updateComments();
+            updateImage();
         }
     }
 
@@ -625,5 +634,46 @@ public class Main extends javax.swing.JFrame {
             dlm.addElement(place);
         }
         lstPlaces.setModel(dlm);
+    }
+
+    private void askLoginLoop() {
+        while (!loggedIn) {
+            LoginDialog ld = new LoginDialog(this, true);
+            ld.setVisible(true);
+        }
+    }
+
+    //getters and setters
+    public boolean isLoggedIn() {
+        return loggedIn;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
+    }
+
+    public JList getLstPlaces() {
+        return lstPlaces;
+    }
+
+    public void setLstPlaces(JList lstPlaces) {
+        this.lstPlaces = lstPlaces;
+    }
+
+    private void openPlace() {
+        PlaceDetailsDialog pdd = new PlaceDetailsDialog(this, true);
+        pdd.setVisible(true);
+    }
+
+    private void updateRating() {
+        helpers.setRatingSmall(lblStar1, lblStar2, lblStar3, lblStar4, lblStar5, dataAccess.getAverageRating((Place) lstPlaces.getSelectedValue()));
+    }
+
+    private void updateComments() {
+        lblComments.setText(String.format("%d comments", dataAccess.getCommentCount((Place) lstPlaces.getSelectedValue())));
+    }
+
+    private void updateImage() {
+        azureBlobs.setFirstImage(lblPlaceImage, (Place) lstPlaces.getSelectedValue());
     }
 }
