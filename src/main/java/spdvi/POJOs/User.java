@@ -57,7 +57,7 @@ public class User {
     public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
-
+    
     public User(int id, String username, String password, String email, boolean isAdmin) {
         this.id = id;
         this.username = username;
@@ -65,7 +65,7 @@ public class User {
         this.email = email;
         this.isAdmin = isAdmin;
     }
-
+    
     @Override
     public String toString() {
         return username;

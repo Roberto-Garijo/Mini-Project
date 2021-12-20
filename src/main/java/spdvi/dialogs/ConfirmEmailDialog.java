@@ -2,7 +2,6 @@ package spdvi.dialogs;
 
 import java.awt.event.KeyEvent;
 import java.util.Properties;
-import java.util.Random;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
