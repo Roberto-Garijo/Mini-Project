@@ -2,6 +2,9 @@ package spdvi.util;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 public class ImageUtils {
@@ -9,7 +12,7 @@ public class ImageUtils {
     public ImageUtils() {
     }
 
-    public ImageIcon resizeImageIcon(BufferedImage originalImage, int desiredWidth, int desiredHeight) {
+    private ImageIcon resizeImageIcon(BufferedImage originalImage, int desiredWidth, int desiredHeight) {
         int newHeight = 0;
         int newWidth = 0;
         float aspectRatio = (float) originalImage.getWidth() / originalImage.getHeight();
@@ -25,5 +28,16 @@ public class ImageUtils {
         outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
         ImageIcon imageIcon = new ImageIcon(outputImage);
         return imageIcon;
+    }
+
+    public void setLabelIconImage(javax.swing.JLabel label, String imageURL) {
+        BufferedImage originalImage = null;
+        try {
+            originalImage = ImageIO.read(new File(imageURL));
+            ImageIcon icon = resizeImageIcon(originalImage, label.getWidth(), label.getHeight());
+            label.setIcon(icon);
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 }
