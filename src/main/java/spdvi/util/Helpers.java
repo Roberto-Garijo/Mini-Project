@@ -59,7 +59,7 @@ public class Helpers {
                 break;
         }
     }
-    
+
     public void setRatingSmall(javax.swing.JLabel star1, javax.swing.JLabel star2, javax.swing.JLabel star3, javax.swing.JLabel star4, javax.swing.JLabel star5, int rating) {
         switch (rating) {
             case 1:
@@ -98,5 +98,27 @@ public class Helpers {
                 star5.setIcon(starFullSmall);
                 break;
         }
+    }
+
+    public String encryptPassword(String md5) {
+        StringBuffer sb = new StringBuffer();
+
+        try {
+            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+
+            byte[] array = md.digest(md5.getBytes());
+
+            for (int i = 0; i < 5; i++) {
+                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
+            }
+        } catch (java.security.NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        System.out.print(sb.toString());
+        return sb.toString();
+    }
+    
+    public void showErrorMessage(String message) {
+        System.out.println(message);
     }
 }

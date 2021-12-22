@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -149,8 +150,23 @@ public class DataAccess {
         return comments;
     }
 
-    public void createUser() {
-
+    public void createUser(User user) {
+        try(Connection con = getConnection();) {
+            PreparedStatement insertStatement = con.prepareStatement(
+                    "INSERT INTO dbo.[User] (Username, Password, ProfilePicture, UserEmail, isAdmin) "
+                            + "VALUES (?,?,?,?, ?)");
+           
+            insertStatement.setString(1, user.getUsername());
+            insertStatement.setString(2, user.getPassword());
+            insertStatement.setString(3, "Foto");
+            insertStatement.setString(4, user.getEmail());
+            insertStatement.setBoolean(5, user.isIsAdmin());
+            
+            int result = insertStatement.executeUpdate();
+            System.out.println(result + " rows affected");
+        } catch(SQLException sqle) {
+            sqle.printStackTrace();
+        }
     }
 
     public ArrayList<String> getDistinctTypes() {

@@ -2,11 +2,15 @@ package spdvi.dialogs;
 
 import java.awt.Frame;
 import spdvi.Main;
+import spdvi.POJOs.User;
+import spdvi.dataaccess.DataAccess;
 import spdvi.util.Helpers;
 
 public class LoginDialog extends javax.swing.JDialog {
     private boolean showPassword = false;
     private Helpers helper = new Helpers();
+    private DataAccess da = new DataAccess();
+    
     private Main main = (Main) this.getParent();
 
     public LoginDialog(java.awt.Frame parent, boolean modal) {
@@ -220,10 +224,10 @@ public class LoginDialog extends javax.swing.JDialog {
 
     private void logIn() {
         //login
-        if (checkUser()) {
+        if (checkUser() == true) {
             main.setLoggedIn(true);
             this.dispose();
-        }
+        } else System.out.print("Usuario no registrado");
     }
 
     private void signUp() {
@@ -233,6 +237,15 @@ public class LoginDialog extends javax.swing.JDialog {
     }
 
     private boolean checkUser() {
-        return true;
+        String password = helper.encryptPassword(pswPassword.getText());
+        String userName = txtUser.getText();
+        
+        for(User u : da.getUsers()) {
+            if (password.equals(u.getPassword()) && userName.equals(u.getUsername())) {
+                System.out.println("Usuario logeado");
+                return true;
+            }
+        }
+        return false;
     }
 }
