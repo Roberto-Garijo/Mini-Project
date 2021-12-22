@@ -11,6 +11,8 @@ public class Place {
     String phoneNumber;
     boolean isVisible;
     String type;
+    int comments;
+    int avgRating;
 
     public Place() {
     }
@@ -38,6 +40,21 @@ public class Place {
         this.web = web;
         this.phoneNumber = phoneNumber;
         this.type = type;
+    }
+
+    public Place(int registre, String name, String description, String municipality, String address, String email, String web, String phoneNumber, boolean isVisible, String type, int comments, int avgRating) {
+        this.registre = registre;
+        this.name = name;
+        this.description = description;
+        this.municipality = municipality;
+        this.address = address;
+        this.email = email;
+        this.web = web;
+        this.phoneNumber = phoneNumber;
+        this.isVisible = isVisible;
+        this.type = type;
+        this.comments = comments;
+        this.avgRating = avgRating;
     }
     
 
@@ -121,6 +138,22 @@ public class Place {
         this.type = type;
     }
 
+    public int getComments() {
+        return comments;
+    }
+
+    public void setComments(int comments) {
+        this.comments = comments;
+    }
+
+    public int getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(int avgRating) {
+        this.avgRating = avgRating;
+    }
+    
     @Override
     public String toString() {
         return name + " - " + type;

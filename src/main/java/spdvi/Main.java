@@ -302,7 +302,7 @@ public class Main extends javax.swing.JFrame {
 
         lblComments.setFont(new java.awt.Font("Montserrat SemiBold", 0, 18)); // NOI18N
         lblComments.setForeground(new java.awt.Color(51, 51, 51));
-        lblComments.setText("1234 comments");
+        lblComments.setText("0 comments");
 
         jButton1.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jButton1.setText("Check it out!");
