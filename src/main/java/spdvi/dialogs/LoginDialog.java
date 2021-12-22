@@ -7,16 +7,18 @@ import spdvi.dataaccess.DataAccess;
 import spdvi.util.Helpers;
 
 public class LoginDialog extends javax.swing.JDialog {
+
     private boolean showPassword = false;
     private Helpers helper = new Helpers();
-    private DataAccess da = new DataAccess();
-    
-    private Main main = (Main) this.getParent();
+    private DataAccess dataAccess = new DataAccess();
+
+    private Main main;
 
     public LoginDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
+        main = (Main) this.getParent();
     }
 
     @SuppressWarnings("unchecked")
@@ -227,7 +229,9 @@ public class LoginDialog extends javax.swing.JDialog {
         if (checkUser() == true) {
             main.setLoggedIn(true);
             this.dispose();
-        } else System.out.print("Usuario no registrado");
+        } else {
+            System.out.print("Usuario no registrado");
+        }
     }
 
     private void signUp() {
@@ -239,8 +243,8 @@ public class LoginDialog extends javax.swing.JDialog {
     private boolean checkUser() {
         String password = helper.encryptPassword(pswPassword.getText());
         String userName = txtUser.getText();
-        
-        for(User u : da.getUsers()) {
+
+        for (User u : dataAccess.getUsers()) {
             if (password.equals(u.getPassword()) && userName.equals(u.getUsername())) {
                 System.out.println("Usuario logeado");
                 return true;

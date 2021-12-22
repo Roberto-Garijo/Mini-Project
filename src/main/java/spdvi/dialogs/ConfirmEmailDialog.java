@@ -9,20 +9,26 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import spdvi.POJOs.User;
 import spdvi.dataaccess.DataAccess;
 import spdvi.dialogs.SignUpDialog;
+import spdvi.util.Helpers;
 
 public class ConfirmEmailDialog extends javax.swing.JDialog {
 
     private String artMail = "artbalearempresa@gmail.com";
     private String contrasena = "root2002";//esto tambien es una aberracion >:(
     private String emailCode;
+    SignUpDialog sud;
+    private boolean verefiedCode = false;
 
-    DataAccess dataAccess = new DataAccess();
+    private Helpers helpers = new Helpers();
+    private DataAccess dataAccess = new DataAccess();
 
     public ConfirmEmailDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        sud = new SignUpDialog((Frame) this.getParent(), true);
         setLocationRelativeTo(null);
     }
 
@@ -194,17 +200,17 @@ public class ConfirmEmailDialog extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void checkCode() {
-        if (txtConfirmationCode.getText().length() == 5 && txtConfirmationCode.getText().equals(emailCode)) {
-            //dataAccess.createUser();
+        if (txtConfirmationCode.getText().equals(emailCode)) {
+            verefiedCode = true;
             this.dispose();
         } else {
-            System.err.println("not valid");
+            verefiedCode = false;
+            helpers.showErrorMessage("Incorrect verification code.", this);
         }
     }
 
     private void sendConfirmationCode() {
         emailCode = String.valueOf(generateCode());
-        SignUpDialog sud = new SignUpDialog((Frame) this.getParent(), true);
         System.out.println(emailCode);
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -222,16 +228,24 @@ public class ConfirmEmailDialog extends javax.swing.JDialog {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(artMail));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(sud.getEmail()));//esto es una puta aberracion, hay que pasar el email por parámetro de alguna forma
-            message.setSubject("Confirmación de cuenta");
-            message.setText("Introduce el siguiente codigo de verificación: " + emailCode);
+            message.setSubject("Art Balear account confirmation code");
+            message.setText("Introduce the following code: " + emailCode);
             // Envia el mensaje
             Transport transport = session.getTransport("smtp");
             transport.connect(artMail, contrasena);
             transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
             transport.close();
-
         } catch (MessagingException e) {
             e.printStackTrace();
         }
     }
+
+    public boolean isVerefiedCode() {
+        return verefiedCode;
+    }
+
+    public void setVerefiedCode(boolean verefiedCode) {
+        this.verefiedCode = verefiedCode;
+    }
+
 }

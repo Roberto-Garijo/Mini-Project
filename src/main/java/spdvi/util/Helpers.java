@@ -1,5 +1,8 @@
 package spdvi.util;
 
+import java.awt.Component;
+import javax.swing.JOptionPane;
+
 public class Helpers {
 
     javax.swing.ImageIcon starFullBig = new javax.swing.ImageIcon(getClass().getResource("/icons/32px/218-star-full.png"));
@@ -117,8 +120,12 @@ public class Helpers {
         System.out.print(sb.toString());
         return sb.toString();
     }
-    
-    public void showErrorMessage(String message) {
+
+    public void showErrorMessage(String message, Component parent) {
+        JOptionPane.showMessageDialog(parent,
+                message,
+                "Something went wrong...",
+                JOptionPane.ERROR_MESSAGE);
         System.out.println(message);
     }
 }

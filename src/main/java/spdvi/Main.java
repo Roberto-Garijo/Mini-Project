@@ -18,7 +18,7 @@ import spdvi.util.Helpers;
 import spdvi.util.ImageUtils;
 
 public class Main extends javax.swing.JFrame {
-
+    
     private ArrayList<Place> places;
 
     private Color defaultColor = new Color(0, 204, 255);
@@ -27,7 +27,7 @@ public class Main extends javax.swing.JFrame {
     private DataAccess dataAccess = new DataAccess();
     private ImageUtils imageUtils = new ImageUtils();
     private Helpers helpers = new Helpers();
-    AzureBlobs azureBlobs = new AzureBlobs();
+    private AzureBlobs azureBlobs = new AzureBlobs();
 
     private boolean loggedIn = false;
 
@@ -612,7 +612,6 @@ public class Main extends javax.swing.JFrame {
 
     private void lstPlacesValueChanged(javax.swing.event.ListSelectionEvent evt) {
         System.out.println(lstPlaces.getSelectedValue());
-        //imageUtils.setLabelIconImage(lblPlaceImage, "C:\\Users\\Alejo\\Pictures\\IMG_20211027_222424.jpg");
         updatePlacePreview();
     }
 
