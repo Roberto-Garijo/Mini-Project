@@ -221,7 +221,7 @@ public class ConfirmEmailDialog extends javax.swing.JDialog {
             // Define message
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(artMail));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(sud.getEmail()));//esto es una puta aberracion, hay que pasar el email por parámetro de alguna forma
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(sud.getEmail()));//esto es una aberracion, hay que pasar el email por parámetro de alguna forma
             message.setSubject("Confirmación de cuenta");
             message.setText("Introduce el siguiente codigo de verificación: " + emailCode);
             // Envia el mensaje

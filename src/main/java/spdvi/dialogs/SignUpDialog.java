@@ -7,6 +7,7 @@ import spdvi.dataaccess.DataAccess;
 import spdvi.util.Helpers;
 
 public class SignUpDialog extends javax.swing.JDialog {
+
     DataAccess da = new DataAccess();
     Helpers helper = new Helpers();
     private boolean showPassword1 = false;
@@ -291,12 +292,12 @@ public class SignUpDialog extends javax.swing.JDialog {
     }
 
     private boolean checkAvaliable() {
-        if(checkUsedCredentials(da.getUsers()) && chekEmail() && checkPassword() && checkUsername()) {
+        if (checkUsedCredentials(da.getUsers()) && chekEmail() && checkPassword() && checkUsername()) {
             return true;
         }
         return false;
     }
-    
+
     private boolean checkUsedCredentials(ArrayList<User> users) {
         String email = txtEmail.getText();
         String userName = txtUsername.getText();
@@ -309,48 +310,48 @@ public class SignUpDialog extends javax.swing.JDialog {
         }
         return true;
     }
-    
+
     private boolean checkUsername() {
         String userName = txtUsername.getText();
-        if(userName.isBlank() || userName.isEmpty()) {
+        if (userName.isBlank() || userName.isEmpty()) {
             helper.showErrorMessage("El campo de nombre de usuario no puede estar vacío");
             return false;
         }
         return true;
     }
-    
+
     private boolean chekEmail() {
         String email = txtEmail.getText();
-        if(email.isBlank() || email.isEmpty()) {
+        if (email.isBlank() || email.isEmpty()) {
             helper.showErrorMessage("Complete el campo de correo electrónico correctamente");
             return false;
         }
-        if(!email.matches("[^@]+@[^@]+\\.[a-zA-Z]{2,}")) {
+        if (!email.matches("[^@]+@[^@]+\\.[a-zA-Z]{2,}")) {
             helper.showErrorMessage("El email no es valido");
             return false;
         }
         return true;
     }
-    
+
     private boolean checkPassword() {
         String pass1 = jPasswordField1.getText();
         String pass2 = jPasswordField2.getText();
-        
-        if(pass1.isBlank() || pass1.isEmpty() || pass2.isBlank() || pass2.isEmpty()) {
+
+        if (pass1.isBlank() || pass1.isEmpty() || pass2.isBlank() || pass2.isEmpty()) {
             helper.showErrorMessage("El campo de contraseñas no puede estar vacío");
             return false;
         }
-        if(!pass1.equals(pass2)) {
+        if (!pass1.equals(pass2)) {
             helper.showErrorMessage("Las contraseñas no coinciden");
             return false;
         }
-        
+
         return true;
     }
-    
+
     public String getEmail() {
-            String email = txtEmail.getText();
-            return email;
+        String email = txtEmail.getText();
+        return email;
     }
 
     private void login() {

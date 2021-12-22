@@ -30,7 +30,6 @@ spdvi\dialogs\FilterDialog.class
 spdvi\dialogs\NewCommentDialog.class
 spdvi\dialogs\ConfirmEmailDialog.class
 spdvi\dialogs\NewPlaceDialog$2.class
-spdvi\dialogs\LoginDialog$4$1.class
 spdvi\dialogs\UserSettingsDialog$2.class
 spdvi\POJOs\User.class
 spdvi\util\ImageUtils.class
@@ -39,7 +38,9 @@ spdvi\dialogs\SignUpDialog$4.class
 spdvi\dialogs\NewPlaceDialog.class
 spdvi\dialogs\FilterDialog$8$1.class
 spdvi\util\Helpers.class
+spdvi\dialogs\LoginDialog$6.class
 spdvi\dialogs\UserSettingsDialog$1.class
+spdvi\dialogs\LoginDialog$5.class
 spdvi\dialogs\SignUpDialog$3.class
 spdvi\dialogs\NewCommentDialog$7$1.class
 spdvi\dialogs\FilterDialog$8.class
@@ -51,12 +52,14 @@ spdvi\dialogs\FilterDialog$5.class
 spdvi\POJOs\Comment.class
 spdvi\dialogs\FilterDialog$4.class
 spdvi\dialogs\FilterDialog$1.class
+spdvi\dialogs\LoginDialog$6$1.class
 spdvi\dialogs\UserSettingsDialog$4.class
 spdvi\dialogs\ConfirmEmailDialog$5$1.class
 spdvi\Main$2.class
 spdvi\dialogs\ConfirmEmailDialog$4.class
 spdvi\dialogs\NewCommentDialog$3.class
 spdvi\dialogs\AdminDialog.class
+spdvi\dialogs\LoginDialog$7.class
 spdvi\dialogs\PlaceDetailsDialog$1.class
 spdvi\dialogs\AdminDialog$2.class
 spdvi\dialogs\InfoDialog$1$1.class

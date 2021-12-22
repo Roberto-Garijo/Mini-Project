@@ -204,7 +204,7 @@ public class DataAccess {
     }
 
     public void newPlace(Place place) {
-
+        
     }
 
     public int getCommentCount(Place place) {
@@ -262,5 +262,27 @@ public class DataAccess {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public ArrayList<Place> getPreviewData() throws SQLException {
+        ArrayList<Place> places = new ArrayList<>();
+           try ( Connection connection = getConnection()) {
+               Statement st = connection.createStatement();
+               st.executeQuery("SELECT DISTINCT p.[Name], \n" +
+"p.[Municipality], \n" +
+"p.[Address],\n" +
+"cast(p.[Description] as nvarchar(1000)) as 'Description',\n" +
+"p.[PlaceEmail], \n" +
+"p.[Web], \n" +
+"p.[PhoneNumber], \n" +
+"p.[isVisible], \n" +
+"p.[Type],\n" +
+"COUNT(ID_Comment) as 'Num of comments per place', \n" +
+"avg(rating) as 'Rating Average of a place' \n" +
+"FROM dbo.PLACE p left join dbo.COMMENT c on c.Registre = p.Registre\n" +
+"where p.[isVisible] = 1\n" +
+"group by p.[Name], p.[Municipality], cast(p.[Description] as nvarchar(1000)), p.[Address], p.[PlaceEmail], p.[Web], p.[PhoneNumber], p.[isVisible], p.[Type];")
+           }     
+        return null;
     }
 }
