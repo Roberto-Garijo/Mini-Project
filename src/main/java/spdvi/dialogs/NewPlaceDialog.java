@@ -83,10 +83,8 @@ public class NewPlaceDialog extends javax.swing.JDialog {
         lblDescription.setText("Description");
 
         cmbType.setEditable(true);
-        cmbType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         cmbMunicipality.setEditable(true);
-        cmbMunicipality.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         lblType.setForeground(new java.awt.Color(0, 0, 0));
         lblType.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/034-library.png"))); // NOI18N
