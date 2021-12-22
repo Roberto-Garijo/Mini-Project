@@ -29,7 +29,7 @@ public class DataAccess {
 
     public ArrayList<User> getUsers() {
         ArrayList<User> users = new ArrayList<>();
-        try ( Connection connection = getConnection()) {
+        try (Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT * FROM [USER]"
             );
@@ -51,9 +51,69 @@ public class DataAccess {
         return users;
     }
 
+    public User getUser(String username) {
+        User user = null;
+        try (Connection connection = getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM [USER] WHERE Username = '?'"
+            );
+            preparedStatement.setString(1, username);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                user = new User(
+                        rs.getInt("ID_User"),
+                        rs.getString("Username"),
+                        rs.getString("Password"),
+                        rs.getString("UserEmail"),
+                        rs.getBoolean("isAdmin")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+    
+    public boolean isAdmin(String username) {
+        try (Connection connection = getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT isAdmin FROM [USER] WHERE Username like ?"
+            );
+            preparedStatement.setString(1, username);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                if (rs.getBoolean("isAdmin") == false) {
+                    return false;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    public boolean userExists(String username, String email) {
+        try (Connection connection = getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT COUNT(*) AS 'result' FROM [USER] WHERE Username like ?  or UserEmail like ?"
+            );
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, email);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                if (rs.getInt(1) == 0) {
+                    return false;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+    
     public ArrayList<Place> getPlaces() {
         ArrayList<Place> places = new ArrayList<>();
-        try ( Connection connection = getConnection()) {
+        try (Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT * FROM PLACE"
             );
@@ -81,7 +141,7 @@ public class DataAccess {
 
     public ArrayList<Pictures> getPictures() {
         ArrayList<Pictures> pictures = new ArrayList<>();
-        try ( Connection connection = getConnection()) {
+        try (Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT * FROM PICTURES"
             );
@@ -102,7 +162,7 @@ public class DataAccess {
 
     public ArrayList<Comment> getComments() {
         ArrayList<Comment> comments = new ArrayList<>();
-        try ( Connection connection = getConnection()) {
+        try (Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT * FROM COMMENT"
             );
@@ -126,7 +186,7 @@ public class DataAccess {
 
     public ArrayList<Comment> getComments(Place place) {
         ArrayList<Comment> comments = new ArrayList<>();
-        try ( Connection connection = getConnection()) {
+        try (Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "select * from COMMENT join [USER] on COMMENT.ID_User = [USER].ID_User where Registre = ?"
             );
@@ -151,27 +211,27 @@ public class DataAccess {
     }
 
     public void createUser(User user) {
-        try(Connection con = getConnection();) {
+        try (Connection con = getConnection();) {
             PreparedStatement insertStatement = con.prepareStatement(
                     "INSERT INTO dbo.[User] (Username, Password, ProfilePicture, UserEmail, isAdmin) "
-                            + "VALUES (?,?,?,?, ?)");
-           
+                    + "VALUES (?,?,?,?, ?)");
+
             insertStatement.setString(1, user.getUsername());
             insertStatement.setString(2, user.getPassword());
             insertStatement.setString(3, "Foto");
             insertStatement.setString(4, user.getEmail());
             insertStatement.setBoolean(5, user.isIsAdmin());
-            
+
             int result = insertStatement.executeUpdate();
             System.out.println(result + " rows affected");
-        } catch(SQLException sqle) {
+        } catch (SQLException sqle) {
             sqle.printStackTrace();
         }
     }
 
     public ArrayList<String> getDistinctTypes() {
         ArrayList<String> types = new ArrayList<>();
-        try ( Connection connection = getConnection()) {
+        try (Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "select distinct PLACE.Type from PLACE"
             );
@@ -188,7 +248,7 @@ public class DataAccess {
 
     public ArrayList<String> getDistinctMunicipalyties() {
         ArrayList<String> municipalities = new ArrayList<>();
-        try ( Connection connection = getConnection()) {
+        try (Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "select distinct PLACE.Municipality from PLACE"
             );
@@ -209,7 +269,7 @@ public class DataAccess {
 
     public int getCommentCount(Place place) {
         int commentCount = 0;
-        try ( Connection connection = getConnection()) {
+        try (Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT count(*) count FROM COMMENT where Registre like ?");
             preparedStatement.setInt(1, place.getRegistre());
             ResultSet rs = preparedStatement.executeQuery();
@@ -224,7 +284,7 @@ public class DataAccess {
 
     public int getAverageRating(Place place) {
         int avg = 0;
-        try ( Connection connection = getConnection()) {
+        try (Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT avg(Rating) average FROM COMMENT where Registre like ?");
             preparedStatement.setInt(1, place.getRegistre());
             ResultSet rs = preparedStatement.executeQuery();
@@ -239,7 +299,7 @@ public class DataAccess {
 
     public String getFirstImage(Place place) {
         String image = "";
-        try ( Connection connection = getConnection()) {
+        try (Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement("select PICTURES.URL from PICTURES where PlaceRegistre = ?");
             preparedStatement.setInt(1, place.getRegistre());
             ResultSet rs = preparedStatement.executeQuery();
@@ -251,9 +311,9 @@ public class DataAccess {
         }
         return image;
     }
-    
+
     public void newComment(Comment comment) {
-        try ( Connection connection = getConnection()) {
+        try (Connection connection = getConnection()) {
             Statement st = connection.createStatement();
             st.executeUpdate("select PICTURES.URL from PICTURES where PlaceRegistre = ?");
 //            if (rs.next()) {

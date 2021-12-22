@@ -286,8 +286,9 @@ public class LoginDialog extends javax.swing.JDialog {
         for (User u : dataAccess.getUsers()) {
             if (password.equals(u.getPassword()) && userName.equals(u.getUsername())) {
                 System.out.println("Usuario logeado");
+                if(dataAccess.isAdmin(userName)) System.out.println("Este usuario es admin");
                 return true;
-            }
+            }         
         }
         return false;
     }

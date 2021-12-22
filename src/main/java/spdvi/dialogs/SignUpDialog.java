@@ -296,11 +296,9 @@ public class SignUpDialog extends javax.swing.JDialog {
     }
 
     private boolean checkUsedCredentials() {
-        for (User u : dataAccess.getUsers()) {
-            if (email.equals(u.getEmail()) || username.equals(u.getUsername())) {
-                helper.showErrorMessage("Estas credenciales ya están en uso", this);
-                return false;
-            }
+        if(dataAccess.userExists(username, email)) {
+            helper.showErrorMessage("Las credenciales ya están en uso", this);
+            return false;
         }
         return true;
     }
