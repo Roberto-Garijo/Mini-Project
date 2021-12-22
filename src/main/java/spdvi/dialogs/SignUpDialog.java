@@ -7,10 +7,16 @@ import spdvi.dataaccess.DataAccess;
 import spdvi.util.Helpers;
 
 public class SignUpDialog extends javax.swing.JDialog {
-    DataAccess da = new DataAccess();
-    Helpers helper = new Helpers();
+
+    private DataAccess dataAccess = new DataAccess();
+    private Helpers helper = new Helpers();
     private boolean showPassword1 = false;
     private boolean showPassword2 = false;
+
+    private String email = "";
+    private String password = "";
+    private String password2 = "";
+    private String username = "";
 
     public SignUpDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -30,8 +36,8 @@ public class SignUpDialog extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
         lblPassword = new javax.swing.JLabel();
         lblPassword1 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jPasswordField2 = new javax.swing.JPasswordField();
+        pswPassword1 = new javax.swing.JPasswordField();
+        pswPassword2 = new javax.swing.JPasswordField();
         lblHideShowPassword = new javax.swing.JLabel();
         lblHideShowPassword1 = new javax.swing.JLabel();
         lblLogin = new javax.swing.JLabel();
@@ -43,23 +49,21 @@ public class SignUpDialog extends javax.swing.JDialog {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         lblEmail.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblEmail.setForeground(new java.awt.Color(0, 0, 0));
         lblEmail.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblEmail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/389-mail2.png"))); // NOI18N
         lblEmail.setText("E-mail");
 
         txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtEmail.setText("rgarijo2002@gmail.com");
+        txtEmail.setText("alejobenjaminpinto@gmail.com");
         txtEmail.setToolTipText("Valid e-mail address");
 
         lblUsername.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblUsername.setForeground(new java.awt.Color(0, 0, 0));
         lblUsername.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblUsername.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/114-user.png"))); // NOI18N
         lblUsername.setText("Username");
 
         txtUsername.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtUsername.setText("Username");
+        txtUsername.setText("PinkAplier");
         txtUsername.setToolTipText("Unique username");
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -72,19 +76,17 @@ public class SignUpDialog extends javax.swing.JDialog {
         });
 
         lblPassword.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblPassword.setForeground(new java.awt.Color(0, 0, 0));
         lblPassword.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/142-key.png"))); // NOI18N
         lblPassword.setText("Password");
 
         lblPassword1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblPassword1.setForeground(new java.awt.Color(0, 0, 0));
         lblPassword1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPassword1.setText("Repeat password");
 
-        jPasswordField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        pswPassword1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        jPasswordField2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        pswPassword2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         lblHideShowPassword.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblHideShowPassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/210-eye-blocked.png"))); // NOI18N
@@ -102,7 +104,6 @@ public class SignUpDialog extends javax.swing.JDialog {
             }
         });
 
-        lblLogin.setForeground(new java.awt.Color(0, 0, 0));
         lblLogin.setText("Already have an account?");
 
         btnLogin.setText("Log in");
@@ -130,12 +131,12 @@ public class SignUpDialog extends javax.swing.JDialog {
                                 .addComponent(btnLogin))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                                    .addComponent(pswPassword1, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
                                     .addComponent(lblEmail)
                                     .addComponent(lblUsername)
                                     .addComponent(lblPassword)
                                     .addComponent(lblPassword1)
-                                    .addComponent(jPasswordField2))
+                                    .addComponent(pswPassword2))
                                 .addGap(9, 9, 9)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(lblHideShowPassword1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -163,7 +164,7 @@ public class SignUpDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pswPassword1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(8, 8, 8)
                         .addComponent(lblPassword1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
@@ -172,7 +173,7 @@ public class SignUpDialog extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pswPassword2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)
                         .addComponent(jButton1))
                     .addComponent(lblHideShowPassword1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -205,12 +206,12 @@ public class SignUpDialog extends javax.swing.JDialog {
 
     private void lblHideShowPasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHideShowPasswordMouseClicked
         showPassword1 = !showPassword1;
-        helper.showHidePassword(jPasswordField1, lblHideShowPassword, showPassword1);
+        helper.showHidePassword(pswPassword1, lblHideShowPassword, showPassword1);
     }//GEN-LAST:event_lblHideShowPasswordMouseClicked
 
     private void lblHideShowPassword1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHideShowPassword1MouseClicked
         showPassword2 = !showPassword2;
-        helper.showHidePassword(jPasswordField2, lblHideShowPassword1, showPassword2);
+        helper.showHidePassword(pswPassword2, lblHideShowPassword1, showPassword2);
     }//GEN-LAST:event_lblHideShowPassword1MouseClicked
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
@@ -260,8 +261,6 @@ public class SignUpDialog extends javax.swing.JDialog {
     private javax.swing.JButton btnLogin;
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JPasswordField jPasswordField2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblHideShowPassword;
@@ -270,92 +269,82 @@ public class SignUpDialog extends javax.swing.JDialog {
     private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblPassword1;
     private javax.swing.JLabel lblUsername;
+    private javax.swing.JPasswordField pswPassword1;
+    private javax.swing.JPasswordField pswPassword2;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 
     private void signUp() {
+        username = txtUsername.getText();
+        password = pswPassword1.getText();
+        password2 = pswPassword2.getText();
+        email = txtEmail.getText();
+        String encryptedPassword = helper.encryptPassword(password);
         if (checkAvaliable()) {
             ConfirmEmailDialog ced = new ConfirmEmailDialog((Frame) this.getParent(), true);
             ced.setVisible(true);
-            User user = new User(
-                    1,
-                    txtUsername.getText(),
-                    helper.encryptPassword(jPasswordField1.getText()),
-                    txtEmail.getText(),
-                    false
-            );
-            da.createUser(user);
+            if (ced.isVerefiedCode()) {
+                dataAccess.createUser(new User(1, username, encryptedPassword, email, false));
+            }
             this.dispose();
         }
     }
 
     private boolean checkAvaliable() {
-        if(checkUsedCredentials(da.getUsers()) && chekEmail() && checkPassword() && checkUsername()) {
-            return true;
-        }
-        return false;
+        return checkEmailFormat() && checkUsername() && checkPassword() && checkUsedCredentials();
     }
-    
-    private boolean checkUsedCredentials(ArrayList<User> users) {
-        String email = txtEmail.getText();
-        String userName = txtUsername.getText();
 
-        for (User u : da.getUsers()) {
-            if (email.equals(u.getEmail()) || userName.equals(u.getUsername())) {
-                helper.showErrorMessage("Estas credenciales ya están en uso");
+    private boolean checkUsedCredentials() {
+        for (User u : dataAccess.getUsers()) {
+            if (email.equals(u.getEmail()) || username.equals(u.getUsername())) {
+                helper.showErrorMessage("Estas credenciales ya están en uso", this);
                 return false;
             }
         }
         return true;
     }
-    
+
     private boolean checkUsername() {
-        String userName = txtUsername.getText();
-        if(userName.isBlank() || userName.isEmpty()) {
-            helper.showErrorMessage("El campo de nombre de usuario no puede estar vacío");
+        if (username.isBlank() || username.isEmpty()) {
+            helper.showErrorMessage("El campo de nombre de usuario no puede estar vacío", this);
             return false;
         }
         return true;
     }
-    
-    private boolean chekEmail() {
-        String email = txtEmail.getText();
-        if(email.isBlank() || email.isEmpty()) {
-            helper.showErrorMessage("Complete el campo de correo electrónico correctamente");
+
+    private boolean checkEmailFormat() {
+        if (email.isBlank() || email.isEmpty()) {
+            helper.showErrorMessage("Complete el campo de correo electrónico correctamente", this);
             return false;
         }
-        if(!email.matches("[^@]+@[^@]+\\.[a-zA-Z]{2,}")) {
-            helper.showErrorMessage("El email no es valido");
+        if (!email.matches("[^@]+@[^@]+\\.[a-zA-Z]{2,}")) {
+            helper.showErrorMessage("El email no es valido", this);
             return false;
         }
         return true;
     }
-    
+
     private boolean checkPassword() {
-        String pass1 = jPasswordField1.getText();
-        String pass2 = jPasswordField2.getText();
-        
-        if(pass1.isBlank() || pass1.isEmpty() || pass2.isBlank() || pass2.isEmpty()) {
-            helper.showErrorMessage("El campo de contraseñas no puede estar vacío");
+        if (password.isBlank() || password.isEmpty() || password2.isBlank() || password2.isEmpty()) {
+            helper.showErrorMessage("Password fields can't be empty", this);
             return false;
         }
-        if(!pass1.equals(pass2)) {
-            helper.showErrorMessage("Las contraseñas no coinciden");
+        if (!password.equals(password2)) {
+            helper.showErrorMessage("Passwords do not match", this);
             return false;
         }
-        
         return true;
-    }
-    
-    public String getEmail() {
-            String email = txtEmail.getText();
-            return email;
     }
 
     private void login() {
         LoginDialog loginDialog = new LoginDialog((Frame) this.getParent(), true);
         this.dispose();
         loginDialog.setVisible(true);
+    }
+
+    public String getEmail() {
+        email = txtEmail.getText();
+        return email;
     }
 }
