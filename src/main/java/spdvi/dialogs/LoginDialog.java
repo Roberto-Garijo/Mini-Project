@@ -1,6 +1,10 @@
 package spdvi.dialogs;
 
 import java.awt.Frame;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.JFrame;
 import spdvi.Main;
 import spdvi.POJOs.User;
 import spdvi.dataaccess.DataAccess;
@@ -16,6 +20,7 @@ public class LoginDialog extends javax.swing.JDialog {
     public LoginDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        close();
         setLocationRelativeTo(null);
     }
 
@@ -40,15 +45,18 @@ public class LoginDialog extends javax.swing.JDialog {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         lblUser.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblUser.setForeground(new java.awt.Color(0, 0, 0));
         lblUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblUser.setText("Username / E-mail");
 
         txtUser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtUser.setToolTipText("Valid e-mail address");
+        txtUser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtUserKeyPressed(evt);
+            }
+        });
 
         lblPassword.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblPassword.setForeground(new java.awt.Color(0, 0, 0));
         lblPassword.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPassword.setText("Password");
 
@@ -65,7 +73,6 @@ public class LoginDialog extends javax.swing.JDialog {
         lblForgotPassword.setText("Forgot password?");
 
         lblRegister.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblRegister.setForeground(new java.awt.Color(0, 0, 0));
         lblRegister.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblRegister.setText("Register now");
 
@@ -77,6 +84,11 @@ public class LoginDialog extends javax.swing.JDialog {
         });
 
         pswPassword.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        pswPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                pswPasswordKeyPressed(evt);
+            }
+        });
 
         lblHideShowPassword.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblHideShowPassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/210-eye-blocked.png"))); // NOI18N
@@ -169,6 +181,18 @@ public class LoginDialog extends javax.swing.JDialog {
         signUp();
     }//GEN-LAST:event_btnSignUpActionPerformed
 
+    private void pswPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pswPasswordKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            logIn();
+        }
+    }//GEN-LAST:event_pswPasswordKeyPressed
+
+    private void txtUserKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUserKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            pswPassword.requestFocus();
+        }
+    }//GEN-LAST:event_txtUserKeyPressed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -222,12 +246,29 @@ public class LoginDialog extends javax.swing.JDialog {
     private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
 
+    public void close() {
+        try {
+            this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            addWindowListener(new WindowAdapter() {
+                public void windowClosing(WindowEvent e) {
+                    System.exit(0);
+                }
+            });
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     private void logIn() {
         //login
-        if (checkUser() == true) {
-            main.setLoggedIn(true);
-            this.dispose();
-        } else System.out.print("Usuario no registrado");
+        if(txtUser.getText().isBlank() || txtUser.getText().isEmpty() || pswPassword.getText().isBlank() || pswPassword.getText().isEmpty()) {
+            System.out.println("Los campos no pueden estar vacios");
+        } else{
+            if (checkUser() == true) {
+                main.setLoggedIn(true);
+                this.dispose();
+            } else System.out.print("Usuario no registrado");
+        }
     }
 
     private void signUp() {
