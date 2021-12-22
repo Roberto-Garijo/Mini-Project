@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import spdvi.POJOs.Place;
+import spdvi.POJOs.User;
 import spdvi.dataaccess.AzureBlobs;
 import spdvi.dataaccess.DataAccess;
 import spdvi.dialogs.AdminDialog;
@@ -20,7 +21,7 @@ import spdvi.util.ImageUtils;
 public class Main extends javax.swing.JFrame {
     
     private ArrayList<Place> places;
-
+    
     private Color defaultColor = new Color(0, 204, 255);
     private Color hoverColor = new Color(0, 128, 160);
     private JList lstPlaces;
@@ -28,14 +29,16 @@ public class Main extends javax.swing.JFrame {
     private ImageUtils imageUtils = new ImageUtils();
     private Helpers helpers = new Helpers();
     private AzureBlobs azureBlobs = new AzureBlobs();
-
+    
     private boolean loggedIn = false;
-
+    private User loggedInUser;
+    private boolean admin = false;
+    
     public Main() {
         initComponents();
         initApp();
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -485,7 +488,7 @@ public class Main extends javax.swing.JFrame {
         askLoginLoop();
         loadPlaces();
     }//GEN-LAST:event_formWindowOpened
-
+    
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         try {
@@ -563,32 +566,34 @@ public class Main extends javax.swing.JFrame {
         lstPlaces.setSelectionForeground(Color.BLACK);
         lstPlaces.setFont(new java.awt.Font("Segoe UI", 0, 15));
     }
-
+    
     private void openUserDialog() {
         UserSettingsDialog usd = new UserSettingsDialog(this, false);
         usd.setVisible(true);
     }
-
+    
     private void openFilterDialog() {
         FilterDialog fd = new FilterDialog(this, true);
         fd.setVisible(true);
     }
-
+    
     private void openInfoDialog() {
         InfoDialog id = new InfoDialog(this, true);
         id.setVisible(true);
     }
-
+    
     private void openAdminDialog() {
-        AdminDialog ad = new AdminDialog(this, false);
-        ad.setVisible(true);
+        if (admin) {
+            AdminDialog ad = new AdminDialog(this, false);
+            ad.setVisible(true);
+        }
     }
-
+    
     private void logout() {
         loggedIn = false;
         askLoginLoop();
     }
-
+    
     private void searchPlace() {
         String search = txtSearch.getText().toLowerCase();
         if (!search.isBlank() || !search.isEmpty()) {
@@ -603,18 +608,18 @@ public class Main extends javax.swing.JFrame {
             listAllPlaces();
         }
     }
-
+    
     private void loadPlaces() {
         places = new ArrayList<Place>();
         places = dataAccess.getPlaces();
         listAllPlaces();
     }
-
+    
     private void lstPlacesValueChanged(javax.swing.event.ListSelectionEvent evt) {
         System.out.println(lstPlaces.getSelectedValue());
         updatePlacePreview();
     }
-
+    
     private void updatePlacePreview() {
         Place p = (Place) lstPlaces.getSelectedValue();
         if (p != null) {
@@ -626,7 +631,7 @@ public class Main extends javax.swing.JFrame {
             updateImage();
         }
     }
-
+    
     private void listAllPlaces() {
         DefaultListModel dlm = new DefaultListModel();
         for (Place place : places) {
@@ -634,44 +639,53 @@ public class Main extends javax.swing.JFrame {
         }
         lstPlaces.setModel(dlm);
     }
-
+    
     private void askLoginLoop() {
         while (!loggedIn) {
             LoginDialog ld = new LoginDialog(this, true);
             ld.setVisible(true);
         }
+        admin = loggedInUser.isIsAdmin();
     }
 
     //getters and setters
     public boolean isLoggedIn() {
         return loggedIn;
     }
-
+    
     public void setLoggedIn(boolean loggedIn) {
         this.loggedIn = loggedIn;
     }
-
+    
     public JList getLstPlaces() {
         return lstPlaces;
     }
-
+    
     public void setLstPlaces(JList lstPlaces) {
         this.lstPlaces = lstPlaces;
     }
-
+    
+    public User getLoggedInUser() {
+        return loggedInUser;
+    }
+    
+    public void setLoggedInUser(User loggedInUser) {
+        this.loggedInUser = loggedInUser;
+    }
+    
     private void openPlace() {
         PlaceDetailsDialog pdd = new PlaceDetailsDialog(this, true);
         pdd.setVisible(true);
     }
-
+    
     private void updateRating() {
         helpers.setRatingSmall(lblStar1, lblStar2, lblStar3, lblStar4, lblStar5, dataAccess.getAverageRating((Place) lstPlaces.getSelectedValue()));
     }
-
+    
     private void updateComments() {
         lblComments.setText(String.format("%d comments", dataAccess.getCommentCount((Place) lstPlaces.getSelectedValue())));
     }
-
+    
     private void updateImage() {
         azureBlobs.setFirstImage(lblPlaceImage, (Place) lstPlaces.getSelectedValue());
     }

@@ -1,6 +1,13 @@
 package spdvi.util;
 
 import java.awt.Component;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
 
 public class Helpers {
@@ -127,5 +134,37 @@ public class Helpers {
                 "Something went wrong...",
                 JOptionPane.ERROR_MESSAGE);
         System.out.println(message);
+    }
+
+    public void sendConfirmationCode(String email, String emailCode) {
+        String artMail = "artbalearempresa@gmail.com";
+        String contrasena = "root2002";
+        System.out.println(emailCode);
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+        props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+
+        Session session = Session.getInstance(props);
+        session.getProperties().put("mail.smtp.ssl.trust", "smtp.gmail.com");
+
+        try {
+            // Define message
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(artMail));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));//esto es una puta aberracion, hay que pasar el email por parámetro de alguna forma
+            message.setSubject("Art Balear account confirmation code");
+            message.setText("Introduce the following code: " + emailCode);
+            // Envia el mensaje
+            Transport transport = session.getTransport("smtp");
+            transport.connect(artMail, contrasena);
+            transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
+            transport.close();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 }

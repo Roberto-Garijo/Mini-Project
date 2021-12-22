@@ -156,6 +156,11 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Forgot password?"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblForgotPasswordMouseClicked"/>
+            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblForgotPasswordMouseEntered"/>
+            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblForgotPasswordMouseExited"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lblRegister">
           <Properties>

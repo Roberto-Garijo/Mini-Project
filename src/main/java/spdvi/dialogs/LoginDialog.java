@@ -73,6 +73,17 @@ public class LoginDialog extends javax.swing.JDialog {
 
         lblForgotPassword.setForeground(java.awt.SystemColor.textHighlight);
         lblForgotPassword.setText("Forgot password?");
+        lblForgotPassword.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblForgotPasswordMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblForgotPasswordMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblForgotPasswordMouseExited(evt);
+            }
+        });
 
         lblRegister.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblRegister.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -195,6 +206,18 @@ public class LoginDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_txtUserKeyPressed
 
+    private void lblForgotPasswordMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblForgotPasswordMouseEntered
+        lblForgotPassword.setForeground(new java.awt.Color(68, 172, 255));
+    }//GEN-LAST:event_lblForgotPasswordMouseEntered
+
+    private void lblForgotPasswordMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblForgotPasswordMouseExited
+        lblForgotPassword.setForeground(java.awt.SystemColor.textHighlight);
+    }//GEN-LAST:event_lblForgotPasswordMouseExited
+
+    private void lblForgotPasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblForgotPasswordMouseClicked
+        forgotPassword();
+    }//GEN-LAST:event_lblForgotPasswordMouseClicked
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -286,9 +309,15 @@ public class LoginDialog extends javax.swing.JDialog {
         for (User u : dataAccess.getUsers()) {
             if (password.equals(u.getPassword()) && userName.equals(u.getUsername())) {
                 System.out.println("Usuario logeado");
+                main.setLoggedInUser(u);
                 return true;
             }
         }
         return false;
+    }
+
+    private void forgotPassword() {
+        ForgotPasswordDialog fpd = new ForgotPasswordDialog((Frame) this.getParent(), true);
+        fpd.setVisible(true);
     }
 }
