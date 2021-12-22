@@ -533,7 +533,7 @@ public class PlaceDetailsDialog extends javax.swing.JDialog {
             lblTotalComments.setText(String.format("%d", comments.size()));
             lblCommentIndex.setText(String.format("%d", commentIndex + 1));
             txaComment.setText(comments.get(commentIndex).getText());
-            lblUsername.setText(String.format("%d", comments.get(commentIndex).getIdUser()));
+            lblUsername.setText(comments.get(commentIndex).getUsername());
             lblDate.setText(comments.get(commentIndex).getDateTime().toString());
             helpers.setRatingSmall(lblStar1, lblStar2, lblStar3, lblStar4, lblStar5, comments.get(commentIndex).getRating());
         }
