@@ -211,7 +211,11 @@
               <Image iconType="3" name="/icons/16px/173-bin.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Discard"/>
+            <Property name="focusable" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDiscardActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnPublish">
           <Properties>
@@ -222,7 +226,11 @@
               <Image iconType="3" name="/icons/16px/108-bubble.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Publish"/>
+            <Property name="focusable" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPublishActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

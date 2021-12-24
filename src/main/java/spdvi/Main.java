@@ -18,10 +18,10 @@ import spdvi.dialogs.UserSettingsDialog;
 import spdvi.util.Helpers;
 import spdvi.util.ImageUtils;
 
-public class Main extends javax.swing.JFrame {
-    
+public class Main extends javax.swing.JFrame implements Runnable {
+
     private ArrayList<Place> places;
-    
+
     private Color defaultColor = new Color(0, 204, 255);
     private Color hoverColor = new Color(0, 128, 160);
     private JList lstPlaces;
@@ -29,16 +29,16 @@ public class Main extends javax.swing.JFrame {
     private ImageUtils imageUtils = new ImageUtils();
     private Helpers helpers = new Helpers();
     private AzureBlobs azureBlobs = new AzureBlobs();
-    
+
     private boolean loggedIn = false;
     private User loggedInUser;
     private boolean admin = false;
-    
+
     public Main() {
         initComponents();
         initApp();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -488,7 +488,7 @@ public class Main extends javax.swing.JFrame {
         askLoginLoop();
         loadPlaces();
     }//GEN-LAST:event_formWindowOpened
-    
+
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         try {
@@ -566,34 +566,36 @@ public class Main extends javax.swing.JFrame {
         lstPlaces.setSelectionForeground(Color.BLACK);
         lstPlaces.setFont(new java.awt.Font("Segoe UI", 0, 15));
     }
-    
+
     private void openUserDialog() {
-        UserSettingsDialog usd = new UserSettingsDialog(this, false);
+        UserSettingsDialog usd = new UserSettingsDialog(this, true);
         usd.setVisible(true);
     }
-    
+
     private void openFilterDialog() {
         FilterDialog fd = new FilterDialog(this, true);
         fd.setVisible(true);
     }
-    
+
     private void openInfoDialog() {
         InfoDialog id = new InfoDialog(this, true);
         id.setVisible(true);
     }
-    
+
     private void openAdminDialog() {
         if (admin) {
-            AdminDialog ad = new AdminDialog(this, false);
+            AdminDialog ad = new AdminDialog(this, true);
             ad.setVisible(true);
+        } else {
+            helpers.showInfoMessage("This is for admins only", this);
         }
     }
-    
+
     private void logout() {
         loggedIn = false;
         askLoginLoop();
     }
-    
+
     private void searchPlace() {
         String search = txtSearch.getText().toLowerCase();
         if (!search.isBlank() || !search.isEmpty()) {
@@ -608,18 +610,20 @@ public class Main extends javax.swing.JFrame {
             listAllPlaces();
         }
     }
-    
+
     private void loadPlaces() {
-        places = new ArrayList<Place>();
-        places = dataAccess.getPlaces();
+        places = new ArrayList<>();
+        places = dataAccess.getPreviewData();
         listAllPlaces();
     }
-    
+
     private void lstPlacesValueChanged(javax.swing.event.ListSelectionEvent evt) {
-        System.out.println(lstPlaces.getSelectedValue());
-        updatePlacePreview();
+        if (!evt.getValueIsAdjusting()) {
+            System.out.println(lstPlaces.getSelectedValue());
+            updatePlacePreview();
+        }
     }
-    
+
     private void updatePlacePreview() {
         Place p = (Place) lstPlaces.getSelectedValue();
         if (p != null) {
@@ -628,10 +632,12 @@ public class Main extends javax.swing.JFrame {
             lblLocation.setText(p.getMunicipality());
             updateRating();
             updateComments();
-            updateImage();
+            //updateImage();
+            Thread imageUpdate = new Thread(this);
+            imageUpdate.start();
         }
     }
-    
+
     private void listAllPlaces() {
         DefaultListModel dlm = new DefaultListModel();
         for (Place place : places) {
@@ -639,7 +645,7 @@ public class Main extends javax.swing.JFrame {
         }
         lstPlaces.setModel(dlm);
     }
-    
+
     private void askLoginLoop() {
         while (!loggedIn) {
             LoginDialog ld = new LoginDialog(this, true);
@@ -652,41 +658,53 @@ public class Main extends javax.swing.JFrame {
     public boolean isLoggedIn() {
         return loggedIn;
     }
-    
+
     public void setLoggedIn(boolean loggedIn) {
         this.loggedIn = loggedIn;
     }
-    
+
     public JList getLstPlaces() {
         return lstPlaces;
     }
-    
+
     public void setLstPlaces(JList lstPlaces) {
         this.lstPlaces = lstPlaces;
     }
-    
+
     public User getLoggedInUser() {
         return loggedInUser;
     }
-    
+
     public void setLoggedInUser(User loggedInUser) {
         this.loggedInUser = loggedInUser;
     }
-    
+
     private void openPlace() {
-        PlaceDetailsDialog pdd = new PlaceDetailsDialog(this, true);
-        pdd.setVisible(true);
+        if (lstPlaces.getSelectedValue() != null) {
+            PlaceDetailsDialog pdd = new PlaceDetailsDialog(this, true);
+            pdd.setVisible(true);
+            loadPlaces();
+        }
     }
-    
+
     private void updateRating() {
-        helpers.setRatingSmall(lblStar1, lblStar2, lblStar3, lblStar4, lblStar5, dataAccess.getAverageRating((Place) lstPlaces.getSelectedValue()));
+        Place p = (Place) lstPlaces.getSelectedValue();
+        helpers.setRatingSmall(lblStar1, lblStar2, lblStar3, lblStar4, lblStar5, p.getAvgRating());
     }
-    
+
     private void updateComments() {
-        lblComments.setText(String.format("%d comments", dataAccess.getCommentCount((Place) lstPlaces.getSelectedValue())));
+        //lblComments.setText(String.format("%d comments", dataAccess.getCommentCount((Place) lstPlaces.getSelectedValue())));
+        Place p = (Place) lstPlaces.getSelectedValue();
+        lblComments.setText(String.format("%d comments", p.getComments()));
     }
-    
+
     private void updateImage() {
         azureBlobs.setFirstImage(lblPlaceImage, (Place) lstPlaces.getSelectedValue());
+    }
+
+    @Override
+    public void run() {
+        lblPlaceImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/loading.gif")));
+        updateImage();
     }
 }

@@ -1,7 +1,10 @@
 package spdvi.dialogs;
 
+import spdvi.Main;
+
 public class UserSettingsDialog extends javax.swing.JDialog {
 
+    Main main;
     boolean editing = false;
     String username;
 
@@ -10,6 +13,7 @@ public class UserSettingsDialog extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         lblCancel.setVisible(false);
+        main = (Main) this.getParent();
     }
 
     @SuppressWarnings("unchecked")
@@ -25,10 +29,15 @@ public class UserSettingsDialog extends javax.swing.JDialog {
         lblEditDone = new javax.swing.JLabel();
         lblCancel = new javax.swing.JLabel();
         lblPassword = new javax.swing.JLabel();
-        txtPassword = new javax.swing.JTextField();
         lblResetPassword = new javax.swing.JLabel();
+        jPasswordField1 = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -73,9 +82,6 @@ public class UserSettingsDialog extends javax.swing.JDialog {
         lblPassword.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/32px/142-key.png"))); // NOI18N
 
-        txtPassword.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        txtPassword.setText("**********");
-
         lblResetPassword.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblResetPassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/006-pencil.png"))); // NOI18N
         lblResetPassword.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -83,6 +89,10 @@ public class UserSettingsDialog extends javax.swing.JDialog {
                 lblResetPasswordMouseClicked(evt);
             }
         });
+
+        jPasswordField1.setEditable(false);
+        jPasswordField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jPasswordField1.setText("jPasswordField1");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -94,7 +104,7 @@ public class UserSettingsDialog extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lblPassword)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblResetPassword))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -129,9 +139,9 @@ public class UserSettingsDialog extends javax.swing.JDialog {
                     .addComponent(lblEditDone, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblPassword)
-                    .addComponent(lblResetPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblResetPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37))
         );
 
@@ -164,6 +174,11 @@ public class UserSettingsDialog extends javax.swing.JDialog {
     private void lblResetPasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResetPasswordMouseClicked
         resetPassword();
     }//GEN-LAST:event_lblResetPasswordMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        txtEmail.setText(main.getLoggedInUser().getEmail());
+        txtUsername.setText(main.getLoggedInUser().getUsername());
+    }//GEN-LAST:event_formWindowOpened
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -206,6 +221,7 @@ public class UserSettingsDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JLabel lblCancel;
     private javax.swing.JLabel lblDelete;
     private javax.swing.JLabel lblEditDone;
@@ -214,12 +230,11 @@ public class UserSettingsDialog extends javax.swing.JDialog {
     private javax.swing.JLabel lblResetPassword;
     private javax.swing.JLabel lblUsername;
     private javax.swing.JTextField txtEmail;
-    private javax.swing.JTextField txtPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 
     private void deleteAccount() {
-
+        
     }
 
     private void editUsername() {
@@ -247,7 +262,7 @@ public class UserSettingsDialog extends javax.swing.JDialog {
     }
 
     private void resetPassword() {
-
+        
     }
 
     private void confirmUserEdit() {

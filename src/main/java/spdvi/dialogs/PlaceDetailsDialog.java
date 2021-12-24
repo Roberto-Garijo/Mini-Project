@@ -1,22 +1,31 @@
 package spdvi.dialogs;
 
 import java.awt.Frame;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import spdvi.Main;
 import spdvi.POJOs.Comment;
+import spdvi.POJOs.Pictures;
 import spdvi.POJOs.Place;
+import spdvi.dataaccess.AzureBlobs;
 import spdvi.dataaccess.DataAccess;
 import spdvi.util.Helpers;
+import spdvi.util.ImageUtils;
 
-public class PlaceDetailsDialog extends javax.swing.JDialog {
-
+public class PlaceDetailsDialog extends javax.swing.JDialog implements Runnable {
+    
     Main main;
     DataAccess dataAccess = new DataAccess();
     Place place;
     ArrayList<Comment> comments;
+    ArrayList<BufferedImage> pictures;
     int commentIndex = 0;
+    int imageIndex = 0;
     Helpers helpers = new Helpers();
-
+    AzureBlobs azureBlobs = new AzureBlobs();
+    ImageUtils imageUtils = new ImageUtils();
+    
     public PlaceDetailsDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -25,7 +34,7 @@ public class PlaceDetailsDialog extends javax.swing.JDialog {
         place = (Place) main.getLstPlaces().getSelectedValue();
         comments = dataAccess.getComments(place);
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -89,7 +98,6 @@ public class PlaceDetailsDialog extends javax.swing.JDialog {
         });
 
         lblImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/330x210.png"))); // NOI18N
 
         lblNextImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/32px/323-circle-right.png"))); // NOI18N
         lblNextImage.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -105,8 +113,8 @@ public class PlaceDetailsDialog extends javax.swing.JDialog {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblPreviousImage)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblNextImage)
                 .addContainerGap())
@@ -115,11 +123,13 @@ public class PlaceDetailsDialog extends javax.swing.JDialog {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblImage, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
                     .addComponent(lblPreviousImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(lblNextImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(lblNextImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -382,7 +392,7 @@ public class PlaceDetailsDialog extends javax.swing.JDialog {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
+                .addContainerGap(23, Short.MAX_VALUE)
                 .addComponent(lblName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -401,7 +411,9 @@ public class PlaceDetailsDialog extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -432,13 +444,21 @@ public class PlaceDetailsDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCommentActionPerformed
 
     private void lblPreviousImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPreviousImageMouseClicked
-        // TODO add your handling code here:
+        imageIndex--;
+        if (imageIndex < 0) {
+            imageIndex = pictures.size() - 1;
+        }
+        changePicture();
     }//GEN-LAST:event_lblPreviousImageMouseClicked
 
     private void lblNextImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNextImageMouseClicked
-        // TODO add your handling code here:
+        imageIndex++;
+        if (imageIndex > pictures.size() - 1) {
+            imageIndex = 0;
+        }
+        changePicture();
     }//GEN-LAST:event_lblNextImageMouseClicked
-
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -516,7 +536,7 @@ public class PlaceDetailsDialog extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void loadData() {
-
+        
         lblName.setText(place.getName());
         lblType.setText(place.getType());
         lblMunicipality.setText(place.getMunicipality());
@@ -526,8 +546,11 @@ public class PlaceDetailsDialog extends javax.swing.JDialog {
         lblWeb.setText(place.getWeb());
         lblEmail.setText(place.getEmail());
         loadComment();
+        //loadImages();
+        Thread imagesThread = new Thread(this);
+        imagesThread.start();
     }
-
+    
     private void loadComment() {
         if (comments.size() > 0) {
             lblTotalComments.setText(String.format("%d", comments.size()));
@@ -538,9 +561,28 @@ public class PlaceDetailsDialog extends javax.swing.JDialog {
             helpers.setRatingSmall(lblStar1, lblStar2, lblStar3, lblStar4, lblStar5, comments.get(commentIndex).getRating());
         }
     }
-
+    
     private void newComment() {
         NewCommentDialog ncd = new NewCommentDialog((Frame) this.getParent(), true);
         ncd.setVisible(true);
+        comments = dataAccess.getComments(place);
+        loadComment();
+    }
+    
+    private void loadImages() {
+        lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/loading.gif")));
+        pictures = azureBlobs.downloadPlaceImages(place);
+        ImageIcon icon = imageUtils.resizeImageIcon(pictures.get(imageIndex), lblImage.getWidth(), lblImage.getHeight());
+        lblImage.setIcon(icon);
+    }
+    
+    private void changePicture() {
+        ImageIcon icon = imageUtils.resizeImageIcon(pictures.get(imageIndex), lblImage.getWidth(), lblImage.getHeight());
+        lblImage.setIcon(icon);
+    }
+    
+    @Override
+    public void run() {
+        loadImages();
     }
 }

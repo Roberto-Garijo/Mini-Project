@@ -1,5 +1,6 @@
 package spdvi.util;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.util.Properties;
 import javax.mail.Message;
@@ -67,6 +68,13 @@ public class Helpers {
                 star4.setIcon(starFullBig);
                 star5.setIcon(starFullBig);
                 break;
+            default:
+                star1.setIcon(starEmptyBig);
+                star2.setIcon(starEmptyBig);
+                star3.setIcon(starEmptyBig);
+                star4.setIcon(starEmptyBig);
+                star5.setIcon(starEmptyBig);
+                break;
         }
     }
 
@@ -107,6 +115,14 @@ public class Helpers {
                 star4.setIcon(starFullSmall);
                 star5.setIcon(starFullSmall);
                 break;
+            default:
+                star1.setIcon(starEmptySmall);
+                star2.setIcon(starEmptySmall);
+                star3.setIcon(starEmptySmall);
+                star4.setIcon(starEmptySmall);
+                star5.setIcon(starEmptySmall);
+                break;
+
         }
     }
 
@@ -135,6 +151,14 @@ public class Helpers {
                 JOptionPane.ERROR_MESSAGE);
         System.out.println(message);
     }
+    
+    public void showInfoMessage(String message, Component parent) {
+        JOptionPane.showMessageDialog(parent,
+                message,
+                "Information",
+                JOptionPane.INFORMATION_MESSAGE);
+        System.out.println(message);
+    }
 
     public void sendConfirmationCode(String email, String emailCode) {
         String artMail = "artbalearempresa@gmail.com";
@@ -155,7 +179,7 @@ public class Helpers {
             // Define message
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(artMail));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));//esto es una puta aberracion, hay que pasar el email por parámetro de alguna forma
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
             message.setSubject("Art Balear account confirmation code");
             message.setText("Introduce the following code: " + emailCode);
             // Envia el mensaje
@@ -166,5 +190,13 @@ public class Helpers {
         } catch (MessagingException e) {
             e.printStackTrace();
         }
+    }
+
+    public void wrongInput(javax.swing.JTextField txt) {
+        txt.setBackground(new java.awt.Color(255, 204, 204));
+    }
+
+    public void resetBackground(javax.swing.JTextField txt) {
+        txt.setBackground(Color.white);
     }
 }

@@ -15,8 +15,9 @@ import spdvi.dialogs.SignUpDialog;
 import spdvi.util.Helpers;
 
 public class ConfirmEmailDialog extends javax.swing.JDialog {
+
     private String emailCode;
-    SignUpDialog sud;
+    private String email;
     private boolean verefiedCode = false;
 
     private Helpers helpers = new Helpers();
@@ -25,7 +26,6 @@ public class ConfirmEmailDialog extends javax.swing.JDialog {
     public ConfirmEmailDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        sud = new SignUpDialog((Frame) this.getParent(), true);
         setLocationRelativeTo(null);
     }
 
@@ -129,7 +129,7 @@ public class ConfirmEmailDialog extends javax.swing.JDialog {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         emailCode = String.valueOf(generateCode());
-        helpers.sendConfirmationCode(sud.getEmail(), emailCode);
+        helpers.sendConfirmationCode(email, emailCode);
     }//GEN-LAST:event_formWindowOpened
 
     private void txtConfirmationCodeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtConfirmationCodeKeyPressed
@@ -140,7 +140,7 @@ public class ConfirmEmailDialog extends javax.swing.JDialog {
 
     private void btnResendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResendActionPerformed
         emailCode = String.valueOf(generateCode());
-        helpers.sendConfirmationCode(sud.getEmail(), emailCode);
+        helpers.sendConfirmationCode(email, emailCode);
     }//GEN-LAST:event_btnResendActionPerformed
 
     public static void main(String args[]) {
@@ -214,4 +214,11 @@ public class ConfirmEmailDialog extends javax.swing.JDialog {
         this.verefiedCode = verefiedCode;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

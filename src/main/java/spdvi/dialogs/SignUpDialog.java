@@ -49,21 +49,21 @@ public class SignUpDialog extends javax.swing.JDialog {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         lblEmail.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblEmail.setForeground(new java.awt.Color(0, 0, 0));
         lblEmail.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblEmail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/389-mail2.png"))); // NOI18N
         lblEmail.setText("E-mail");
 
         txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtEmail.setText("alejobenjaminpinto@gmail.com");
         txtEmail.setToolTipText("Valid e-mail address");
 
         lblUsername.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblUsername.setForeground(new java.awt.Color(0, 0, 0));
         lblUsername.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblUsername.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/114-user.png"))); // NOI18N
         lblUsername.setText("Username");
 
         txtUsername.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtUsername.setText("PinkAplier");
         txtUsername.setToolTipText("Unique username");
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -76,11 +76,13 @@ public class SignUpDialog extends javax.swing.JDialog {
         });
 
         lblPassword.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblPassword.setForeground(new java.awt.Color(0, 0, 0));
         lblPassword.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/142-key.png"))); // NOI18N
         lblPassword.setText("Password");
 
         lblPassword1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblPassword1.setForeground(new java.awt.Color(0, 0, 0));
         lblPassword1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPassword1.setText("Repeat password");
 
@@ -104,6 +106,7 @@ public class SignUpDialog extends javax.swing.JDialog {
             }
         });
 
+        lblLogin.setForeground(new java.awt.Color(0, 0, 0));
         lblLogin.setText("Already have an account?");
 
         btnLogin.setText("Log in");
@@ -283,6 +286,7 @@ public class SignUpDialog extends javax.swing.JDialog {
         String encryptedPassword = helper.encryptPassword(password);
         if (checkAvaliable()) {
             ConfirmEmailDialog ced = new ConfirmEmailDialog((Frame) this.getParent(), true);
+            ced.setEmail(email);
             ced.setVisible(true);
             if (ced.isVerefiedCode()) {
                 dataAccess.createUser(new User(1, username, encryptedPassword, email, false));
@@ -296,18 +300,16 @@ public class SignUpDialog extends javax.swing.JDialog {
     }
 
     private boolean checkUsedCredentials() {
-        for (User u : dataAccess.getUsers()) {
-            if (email.equals(u.getEmail()) || username.equals(u.getUsername())) {
-                helper.showErrorMessage("Estas credenciales ya están en uso", this);
-                return false;
-            }
+        if(dataAccess.userExists(username, email)) {
+            helper.showErrorMessage("An account with this username or E-mail already exists", this);
+            return false;
         }
         return true;
     }
 
     private boolean checkUsername() {
         if (username.isBlank() || username.isEmpty()) {
-            helper.showErrorMessage("El campo de nombre de usuario no puede estar vacío", this);
+            helper.showErrorMessage("Username is required", this);
             return false;
         }
         return true;
@@ -315,7 +317,7 @@ public class SignUpDialog extends javax.swing.JDialog {
 
     private boolean checkEmailFormat() {
         if (email.isBlank() || email.isEmpty()) {
-            helper.showErrorMessage("Complete el campo de correo electrónico correctamente", this);
+            helper.showErrorMessage("Invalid E-mail", this);
             return false;
         }
         if (!email.matches("[^@]+@[^@]+\\.[a-zA-Z]{2,}")) {
