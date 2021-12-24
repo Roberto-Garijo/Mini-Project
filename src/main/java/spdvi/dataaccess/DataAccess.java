@@ -1,20 +1,24 @@
 package spdvi.dataaccess;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import spdvi.POJOs.Comment;
 import spdvi.POJOs.Pictures;
 import spdvi.POJOs.Place;
 import spdvi.POJOs.User;
 
 public class DataAccess {
-
+    
     private Connection getConnection() {
         Connection connection = null;
         Properties properties = new Properties();
@@ -26,14 +30,14 @@ public class DataAccess {
         }
         return connection;
     }
-
+    
     public ArrayList<User> getUsers() {
         ArrayList<User> users = new ArrayList<>();
         try ( Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT * FROM [USER]"
             );
-
+            
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 User user = new User(
@@ -50,7 +54,66 @@ public class DataAccess {
         }
         return users;
     }
-
+    
+    public User getUser(String username) {
+        User user = null;
+        try ( Connection connection = getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM [USER] WHERE Username = ? or UserEmail = ?"
+            );
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, username);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                user = new User(
+                        rs.getInt("ID_User"),
+                        rs.getString("Username"),
+                        rs.getString("Password"),
+                        rs.getString("UserEmail"),
+                        rs.getBoolean("isAdmin")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+    
+    public boolean isAdmin(String username) {
+        try ( Connection connection = getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT isAdmin FROM [USER] WHERE Username like ?"
+            );
+            preparedStatement.setString(1, username);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                return rs.getBoolean("isAdmin");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+    
+    public boolean userExists(String username, String email) {
+        try ( Connection connection = getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT COUNT(*) AS 'result' FROM [USER] WHERE Username like ?  or UserEmail like ?"
+            );
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, email);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                if (rs.getInt("result") == 0) {
+                    return false;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+    
     public ArrayList<Place> getPlaces() {
         ArrayList<Place> places = new ArrayList<>();
         try ( Connection connection = getConnection()) {
@@ -78,7 +141,35 @@ public class DataAccess {
         }
         return places;
     }
-
+    
+    public ArrayList<Place> getPreviewData() {
+        ArrayList<Place> places = new ArrayList<>();
+        try ( Connection connection = getConnection()) {
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery("SELECT DISTINCT p.Registre, p.[Name], p.[Municipality], p.[Address], cast(p.[Description] as nvarchar(1000)) as 'Description', p.[PlaceEmail], p.[Web], p.[PhoneNumber], p.[isVisible], p.[Type],COUNT(ID_Comment) as 'placeComments', avg(rating) as 'avgRating' FROM dbo.PLACE p left join dbo.COMMENT c on c.Registre = p.Registre where p.[isVisible] = 1 group by p.Registre, p.[Name], p.[Municipality], cast(p.[Description] as nvarchar(1000)), p.[Address], p.[PlaceEmail], p.[Web], p.[PhoneNumber], p.[isVisible], p.[Type];");
+            while (rs.next()) {
+                Place place = new Place(
+                        rs.getInt("Registre"),
+                        rs.getString("Name"),
+                        rs.getString("Description"),
+                        rs.getString("Municipality"),
+                        rs.getString("Address"),
+                        rs.getString("PlaceEmail"),
+                        rs.getString("Web"),
+                        rs.getString("PhoneNumber"),
+                        rs.getBoolean("isVisible"),
+                        rs.getString("Type"),
+                        rs.getInt("placeComments"),
+                        rs.getInt("avgRating")
+                );
+                places.add(place);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return places;
+    }
+    
     public ArrayList<Pictures> getPictures() {
         ArrayList<Pictures> pictures = new ArrayList<>();
         try ( Connection connection = getConnection()) {
@@ -90,7 +181,7 @@ public class DataAccess {
                 Pictures picture = new Pictures(
                         rs.getInt("ID_Picture"),
                         rs.getURL("URL"),
-                        rs.getInt("Place")
+                        rs.getInt("PlaceRegistr")
                 );
                 pictures.add(picture);
             }
@@ -99,7 +190,24 @@ public class DataAccess {
         }
         return pictures;
     }
-
+    
+    public ArrayList<String> getPlacePictures(Place place) {
+        ArrayList<String> pictures = new ArrayList<>();
+        try ( Connection connection = getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM PICTURES where PlaceRegistre = ?"
+            );
+            preparedStatement.setInt(1, place.getRegistre());
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                pictures.add(rs.getString("URL"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return pictures;
+    }
+    
     public ArrayList<Comment> getComments() {
         ArrayList<Comment> comments = new ArrayList<>();
         try ( Connection connection = getConnection()) {
@@ -123,7 +231,7 @@ public class DataAccess {
         }
         return comments;
     }
-
+    
     public ArrayList<Comment> getComments(Place place) {
         ArrayList<Comment> comments = new ArrayList<>();
         try ( Connection connection = getConnection()) {
@@ -149,13 +257,13 @@ public class DataAccess {
         }
         return comments;
     }
-
+    
     public void createUser(User user) {
-        try(Connection con = getConnection();) {
+        try ( Connection con = getConnection();) {
             PreparedStatement insertStatement = con.prepareStatement(
                     "INSERT INTO dbo.[User] (Username, Password, ProfilePicture, UserEmail, isAdmin) "
-                            + "VALUES (?,?,?,?, ?)");
-           
+                    + "VALUES (?,?,?,?, ?)");
+            
             insertStatement.setString(1, user.getUsername());
             insertStatement.setString(2, user.getPassword());
             insertStatement.setString(3, "Foto");
@@ -164,11 +272,11 @@ public class DataAccess {
             
             int result = insertStatement.executeUpdate();
             System.out.println(result + " rows affected");
-        } catch(SQLException sqle) {
+        } catch (SQLException sqle) {
             sqle.printStackTrace();
         }
     }
-
+    
     public ArrayList<String> getDistinctTypes() {
         ArrayList<String> types = new ArrayList<>();
         try ( Connection connection = getConnection()) {
@@ -185,7 +293,7 @@ public class DataAccess {
         }
         return types;
     }
-
+    
     public ArrayList<String> getDistinctMunicipalyties() {
         ArrayList<String> municipalities = new ArrayList<>();
         try ( Connection connection = getConnection()) {
@@ -202,11 +310,11 @@ public class DataAccess {
         }
         return municipalities;
     }
-
+    
     public void newPlace(Place place) {
         
     }
-
+    
     public int getCommentCount(Place place) {
         int commentCount = 0;
         try ( Connection connection = getConnection()) {
@@ -221,7 +329,7 @@ public class DataAccess {
         }
         return commentCount;
     }
-
+    
     public int getAverageRating(Place place) {
         int avg = 0;
         try ( Connection connection = getConnection()) {
@@ -236,7 +344,7 @@ public class DataAccess {
         }
         return avg;
     }
-
+    
     public String getFirstImage(Place place) {
         String image = "";
         try ( Connection connection = getConnection()) {
@@ -254,8 +362,13 @@ public class DataAccess {
     
     public void newComment(Comment comment) {
         try ( Connection connection = getConnection()) {
-            Statement st = connection.createStatement();
-            st.executeUpdate("select PICTURES.URL from PICTURES where PlaceRegistre = ?");
+            PreparedStatement pst = connection.prepareStatement("Insert into COMMENT (Text, DateTime, Rating, ID_User, Registre) values (?,?,?,?,?);");
+            pst.setString(1, comment.getText());
+            pst.setString(2, comment.getDateTime().toString());
+            pst.setInt(3, comment.getRating());
+            pst.setInt(4, comment.getIdUser());
+            pst.setInt(5, comment.getRegistre());
+            pst.executeUpdate();
 //            if (rs.next()) {
 //                image = rs.getString("URL");
 //            }

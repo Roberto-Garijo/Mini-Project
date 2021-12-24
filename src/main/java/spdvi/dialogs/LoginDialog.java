@@ -11,17 +11,19 @@ import spdvi.dataaccess.DataAccess;
 import spdvi.util.Helpers;
 
 public class LoginDialog extends javax.swing.JDialog {
+
     private boolean showPassword = false;
     private Helpers helper = new Helpers();
-    private DataAccess da = new DataAccess();
-    
-    private Main main = (Main) this.getParent();
+    private DataAccess dataAccess = new DataAccess();
+
+    private Main main;
 
     public LoginDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         close();
         setLocationRelativeTo(null);
+        main = (Main) this.getParent();
     }
 
     @SuppressWarnings("unchecked")
@@ -45,6 +47,7 @@ public class LoginDialog extends javax.swing.JDialog {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         lblUser.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblUser.setForeground(new java.awt.Color(0, 0, 0));
         lblUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblUser.setText("Username / E-mail");
 
@@ -57,6 +60,7 @@ public class LoginDialog extends javax.swing.JDialog {
         });
 
         lblPassword.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblPassword.setForeground(new java.awt.Color(0, 0, 0));
         lblPassword.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPassword.setText("Password");
 
@@ -71,8 +75,20 @@ public class LoginDialog extends javax.swing.JDialog {
 
         lblForgotPassword.setForeground(java.awt.SystemColor.textHighlight);
         lblForgotPassword.setText("Forgot password?");
+        lblForgotPassword.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblForgotPasswordMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblForgotPasswordMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblForgotPasswordMouseExited(evt);
+            }
+        });
 
         lblRegister.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblRegister.setForeground(new java.awt.Color(0, 0, 0));
         lblRegister.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblRegister.setText("Register now");
 
@@ -193,6 +209,18 @@ public class LoginDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_txtUserKeyPressed
 
+    private void lblForgotPasswordMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblForgotPasswordMouseEntered
+        lblForgotPassword.setForeground(new java.awt.Color(68, 172, 255));
+    }//GEN-LAST:event_lblForgotPasswordMouseEntered
+
+    private void lblForgotPasswordMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblForgotPasswordMouseExited
+        lblForgotPassword.setForeground(java.awt.SystemColor.textHighlight);
+    }//GEN-LAST:event_lblForgotPasswordMouseExited
+
+    private void lblForgotPasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblForgotPasswordMouseClicked
+        forgotPassword();
+    }//GEN-LAST:event_lblForgotPasswordMouseClicked
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -254,20 +282,20 @@ public class LoginDialog extends javax.swing.JDialog {
                     System.exit(0);
                 }
             });
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     private void logIn() {
         //login
-        if(txtUser.getText().isBlank() || txtUser.getText().isEmpty() || pswPassword.getText().isBlank() || pswPassword.getText().isEmpty()) {
-            System.out.println("Los campos no pueden estar vacios");
-        } else{
-            if (checkUser() == true) {
+        if (txtUser.getText().isBlank() || txtUser.getText().isEmpty() || pswPassword.getText().isBlank() || pswPassword.getText().isEmpty()) {
+            helper.showErrorMessage("Can't leave empty fields", this);
+        } else {
+            if (checkUser()) {
                 main.setLoggedIn(true);
                 this.dispose();
-            } else System.out.print("Usuario no registrado");
+            }
         }
     }
 
@@ -279,14 +307,24 @@ public class LoginDialog extends javax.swing.JDialog {
 
     private boolean checkUser() {
         String password = helper.encryptPassword(pswPassword.getText());
-        String userName = txtUser.getText();
-        
-        for(User u : da.getUsers()) {
-            if (password.equals(u.getPassword()) && userName.equals(u.getUsername())) {
-                System.out.println("Usuario logeado");
+        String username = txtUser.getText();
+        if (dataAccess.userExists(username, username)) {
+            User u = dataAccess.getUser(username);
+            if (u.getPassword().equals(password)) {
+                main.setLoggedInUser(u);
                 return true;
+            } else {
+                helper.showErrorMessage("Wrong password", this);
+                return false;
             }
+        } else {
+            helper.showErrorMessage("Username or email not registered.", this);
+            return false;
         }
-        return false;
+    }
+
+    private void forgotPassword() {
+        ForgotPasswordDialog fpd = new ForgotPasswordDialog((Frame) this.getParent(), true);
+        fpd.setVisible(true);
     }
 }
