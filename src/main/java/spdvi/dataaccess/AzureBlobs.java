@@ -1,17 +1,21 @@
 package spdvi.dataaccess;
 
+import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
+import com.azure.storage.blob.models.BlobHttpHeaders;
 import com.azure.storage.blob.specialized.BlockBlobClient;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import spdvi.POJOs.Place;
 import spdvi.util.ImageUtils;
 
@@ -73,5 +77,23 @@ public class AzureBlobs extends Thread {
             images.add(downloadImage(url));
         }
         return images;
+    }
+
+    public void uploadImage(File imagePath) {
+        BlobClient blobClient = containerClient.getBlobClient(imagePath.getName());
+        try {
+            BufferedImage bufferedImage = ImageIO.read(imagePath.getAbsoluteFile());
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, "jpg", baos);
+            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+            blobClient.upload(bais, baos.size());  // Thread blocking
+            BlobHttpHeaders headers = new BlobHttpHeaders();
+            headers.setContentType("image/jpeg");
+            blobClient.setHttpHeaders(headers);
+            baos.close();
+            bais.close();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 }
