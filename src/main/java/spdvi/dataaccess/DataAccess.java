@@ -276,6 +276,21 @@ public class DataAccess {
             sqle.printStackTrace();
         }
     }
+    
+    public void updatePassword(String password, String email) {
+        try(Connection con = getConnection();) {
+            PreparedStatement updateStatement = con.prepareStatement(
+                    "UPDATE dbo.[User] SET Password = ? WHERE UserEmail = ?"
+            );
+            updateStatement.setString(1, password);
+            updateStatement.setString(2, email);
+            
+            int result = updateStatement.executeUpdate();
+            System.out.println(result + " rows affected");
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        }
+    }
 
     public ArrayList<String> getDistinctTypes() {
         ArrayList<String> types = new ArrayList<>();
