@@ -94,6 +94,20 @@ public class DataAccess {
         }
         return true;
     }
+    
+    public void grantAdmin(String username) {
+        try(Connection con = getConnection();) {
+            PreparedStatement updateStatement = con.prepareStatement(
+                    "UPDATE dbo.[User] SET isAdmin = 1 WHERE Username = ?"
+            );
+            updateStatement.setString(1, username);
+            
+            int result = updateStatement.executeUpdate();
+            System.out.println(result + " rows affected");
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        }
+    }
 
     public boolean userExists(String username, String email) {
         try ( Connection connection = getConnection()) {
