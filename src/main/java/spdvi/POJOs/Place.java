@@ -154,6 +154,7 @@ public class Place {
         this.avgRating = avgRating;
     }
     
+    
     @Override
     public String toString() {
         return name + " - " + type;

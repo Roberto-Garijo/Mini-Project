@@ -3,6 +3,7 @@ package spdvi.dialogs;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import spdvi.dataaccess.DataAccess;
+import spdvi.util.Helpers;
 import spdvi.util.ImageUtils;
 
 public class NewPlaceDialog extends javax.swing.JDialog {
@@ -14,6 +15,7 @@ public class NewPlaceDialog extends javax.swing.JDialog {
     ImageUtils imageUtils = new ImageUtils();
     javax.swing.JLabel[] imageLabels = new javax.swing.JLabel[5];
     DataAccess dataAccess = new DataAccess();
+    private Helpers helper = new Helpers();    
 
     public NewPlaceDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -69,8 +71,13 @@ public class NewPlaceDialog extends javax.swing.JDialog {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        lblName.setForeground(new java.awt.Color(0, 0, 0));
         lblName.setText("Name");
+
+        txtName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNameActionPerformed(evt);
+            }
+        });
 
         txaDescription.setColumns(20);
         txaDescription.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -79,34 +86,27 @@ public class NewPlaceDialog extends javax.swing.JDialog {
         txaDescription.setWrapStyleWord(true);
         jScrollPane1.setViewportView(txaDescription);
 
-        lblDescription.setForeground(new java.awt.Color(0, 0, 0));
         lblDescription.setText("Description");
 
         cmbType.setEditable(true);
 
         cmbMunicipality.setEditable(true);
 
-        lblType.setForeground(new java.awt.Color(0, 0, 0));
         lblType.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/034-library.png"))); // NOI18N
         lblType.setText("Type");
 
-        lblMunicipality.setForeground(new java.awt.Color(0, 0, 0));
         lblMunicipality.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/072-location.png"))); // NOI18N
         lblMunicipality.setText("Municipality");
 
-        lblAddress.setForeground(new java.awt.Color(0, 0, 0));
         lblAddress.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/071-pushpin.png"))); // NOI18N
         lblAddress.setText("Address");
 
-        lblEmail.setForeground(new java.awt.Color(0, 0, 0));
         lblEmail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/389-mail2.png"))); // NOI18N
         lblEmail.setText("E-mail");
 
-        lblWeb.setForeground(new java.awt.Color(0, 0, 0));
         lblWeb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/203-earth.png"))); // NOI18N
         lblWeb.setText("Web");
 
-        lblPhoneNumber.setForeground(new java.awt.Color(0, 0, 0));
         lblPhoneNumber.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/067-phone.png"))); // NOI18N
         lblPhoneNumber.setText("Phone number");
 
@@ -338,6 +338,10 @@ public class NewPlaceDialog extends javax.swing.JDialog {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         loadComboBoxes();
     }//GEN-LAST:event_formWindowOpened
+
+    private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNameActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

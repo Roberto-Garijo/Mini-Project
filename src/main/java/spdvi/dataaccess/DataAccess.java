@@ -146,7 +146,7 @@ public class DataAccess {
         ArrayList<Place> places = new ArrayList<>();
         try ( Connection connection = getConnection()) {
             Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT DISTINCT p.Registre, p.[Name], p.[Municipality], p.[Address], cast(p.[Description] as nvarchar(1000)) as 'Description', p.[PlaceEmail], p.[Web], p.[PhoneNumber], p.[isVisible], p.[Type],COUNT(ID_Comment) as 'placeComments', avg(rating) as 'avgRating' FROM dbo.PLACE p left join dbo.COMMENT c on c.Registre = p.Registre where p.[isVisible] = 1 group by p.Registre, p.[Name], p.[Municipality], cast(p.[Description] as nvarchar(1000)), p.[Address], p.[PlaceEmail], p.[Web], p.[PhoneNumber], p.[isVisible], p.[Type];");
+            ResultSet rs = st.executeQuery("SELECT DISTINCT p.Registre, p.[Name], p.[Municipality], p.[Address], cast(p.[Description] as nvarchar(1000)) as 'Description', p.[PlaceEmail], p.[Web], p.[PhoneNumber], p.[isVisible], p.[Type],COUNT(ID_Comment) as 'placeComments', avg(rating) as 'avgRating' FROM dbo.PLACE p left join dbo.COMMENT c on c.Registre = p.Registre group by p.Registre, p.[Name], p.[Municipality], cast(p.[Description] as nvarchar(1000)), p.[Address], p.[PlaceEmail], p.[Web], p.[PhoneNumber], p.[isVisible], p.[Type];");
             while (rs.next()) {
                 Place place = new Place(
                         rs.getInt("Registre"),
@@ -277,6 +277,16 @@ public class DataAccess {
         }
     }
     
+    
+    public void createPlace(Place place) {
+        try ( Connection con = getConnection();) {
+            PreparedStatement insertStatement = con.prepareStatement(
+                    "INSERT INTO dbo.[Place] ()"
+            );
+        }catch (SQLException ex) {
+            Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
     public ArrayList<String> getDistinctTypes() {
         ArrayList<String> types = new ArrayList<>();
         try ( Connection connection = getConnection()) {
@@ -377,25 +387,14 @@ public class DataAccess {
         }
     }
     
-    public ArrayList<Place> getPreviewData() throws SQLException {
-        ArrayList<Place> places = new ArrayList<>();
-           try ( Connection connection = getConnection()) {
-               Statement st = connection.createStatement();
-               st.executeQuery("SELECT DISTINCT p.[Name], \n" +
-"p.[Municipality], \n" +
-"p.[Address],\n" +
-"cast(p.[Description] as nvarchar(1000)) as 'Description',\n" +
-"p.[PlaceEmail], \n" +
-"p.[Web], \n" +
-"p.[PhoneNumber], \n" +
-"p.[isVisible], \n" +
-"p.[Type],\n" +
-"COUNT(ID_Comment) as 'Num of comments per place', \n" +
-"avg(rating) as 'Rating Average of a place' \n" +
-"FROM dbo.PLACE p left join dbo.COMMENT c on c.Registre = p.Registre\n" +
-"where p.[isVisible] = 1\n" +
-"group by p.[Name], p.[Municipality], cast(p.[Description] as nvarchar(1000)), p.[Address], p.[PlaceEmail], p.[Web], p.[PhoneNumber], p.[isVisible], p.[Type];")
-           }     
-        return null;
+    public void setVisible(int registre, boolean visibility) {
+        try ( Connection connection = getConnection()) {
+            PreparedStatement pst = connection.prepareStatement("UPDATE dbo.[Place] SET isVisible = ? WHERE Registre = ?");
+            pst.setBoolean(1, visibility);
+            pst.setInt(2, registre);
+            int result = pst.executeUpdate();
+    }   catch (SQLException ex) {
+            Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
