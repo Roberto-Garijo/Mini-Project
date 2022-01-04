@@ -1,13 +1,17 @@
 package spdvi.dataaccess;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import spdvi.POJOs.Comment;
 import spdvi.POJOs.Pictures;
 import spdvi.POJOs.Place;
@@ -51,6 +55,79 @@ public class DataAccess {
         return users;
     }
 
+    public User getUser(String username) {
+        User user = null;
+        try ( Connection connection = getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM [USER] WHERE Username = ? or UserEmail = ?"
+            );
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, username);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                user = new User(
+                        rs.getInt("ID_User"),
+                        rs.getString("Username"),
+                        rs.getString("Password"),
+                        rs.getString("UserEmail"),
+                        rs.getBoolean("isAdmin")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    public boolean isAdmin(String username) {
+        try ( Connection connection = getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT isAdmin FROM [USER] WHERE Username like ?"
+            );
+            preparedStatement.setString(1, username);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                return rs.getBoolean("isAdmin");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+    
+    public void grantAdmin(String username) {
+        try(Connection con = getConnection();) {
+            PreparedStatement updateStatement = con.prepareStatement(
+                    "UPDATE dbo.[User] SET isAdmin = 1 WHERE Username = ?"
+            );
+            updateStatement.setString(1, username);
+            
+            int result = updateStatement.executeUpdate();
+            System.out.println(result + " rows affected");
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        }
+    }
+
+    public boolean userExists(String username, String email) {
+        try ( Connection connection = getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT COUNT(*) AS 'result' FROM [USER] WHERE Username like ?  or UserEmail like ?"
+            );
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, email);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                if (rs.getInt("result") == 0) {
+                    return false;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
     public ArrayList<Place> getPlaces() {
         ArrayList<Place> places = new ArrayList<>();
         try ( Connection connection = getConnection()) {
@@ -79,6 +156,34 @@ public class DataAccess {
         return places;
     }
 
+    public ArrayList<Place> getPreviewData() {
+        ArrayList<Place> places = new ArrayList<>();
+        try ( Connection connection = getConnection()) {
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery("SELECT DISTINCT p.Registre, p.[Name], p.[Municipality], p.[Address], cast(p.[Description] as nvarchar(1000)) as 'Description', p.[PlaceEmail], p.[Web], p.[PhoneNumber], p.[isVisible], p.[Type],COUNT(ID_Comment) as 'placeComments', avg(rating) as 'avgRating' FROM dbo.PLACE p left join dbo.COMMENT c on c.Registre = p.Registre where p.[isVisible] = 1 group by p.Registre, p.[Name], p.[Municipality], cast(p.[Description] as nvarchar(1000)), p.[Address], p.[PlaceEmail], p.[Web], p.[PhoneNumber], p.[isVisible], p.[Type];");
+            while (rs.next()) {
+                Place place = new Place(
+                        rs.getInt("Registre"),
+                        rs.getString("Name"),
+                        rs.getString("Description"),
+                        rs.getString("Municipality"),
+                        rs.getString("Address"),
+                        rs.getString("PlaceEmail"),
+                        rs.getString("Web"),
+                        rs.getString("PhoneNumber"),
+                        rs.getBoolean("isVisible"),
+                        rs.getString("Type"),
+                        rs.getInt("placeComments"),
+                        rs.getInt("avgRating")
+                );
+                places.add(place);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return places;
+    }
+
     public ArrayList<Pictures> getPictures() {
         ArrayList<Pictures> pictures = new ArrayList<>();
         try ( Connection connection = getConnection()) {
@@ -90,9 +195,26 @@ public class DataAccess {
                 Pictures picture = new Pictures(
                         rs.getInt("ID_Picture"),
                         rs.getURL("URL"),
-                        rs.getInt("Place")
+                        rs.getInt("PlaceRegistr")
                 );
                 pictures.add(picture);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return pictures;
+    }
+
+    public ArrayList<String> getPlacePictures(Place place) {
+        ArrayList<String> pictures = new ArrayList<>();
+        try ( Connection connection = getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM PICTURES where PlaceRegistre = ?"
+            );
+            preparedStatement.setInt(1, place.getRegistre());
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                pictures.add(rs.getString("URL"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -151,20 +273,35 @@ public class DataAccess {
     }
 
     public void createUser(User user) {
-        try(Connection con = getConnection();) {
+        try ( Connection con = getConnection();) {
             PreparedStatement insertStatement = con.prepareStatement(
                     "INSERT INTO dbo.[User] (Username, Password, ProfilePicture, UserEmail, isAdmin) "
-                            + "VALUES (?,?,?,?, ?)");
-           
+                    + "VALUES (?,?,?,?, ?)");
+
             insertStatement.setString(1, user.getUsername());
             insertStatement.setString(2, user.getPassword());
             insertStatement.setString(3, "Foto");
             insertStatement.setString(4, user.getEmail());
             insertStatement.setBoolean(5, user.isIsAdmin());
-            
+
             int result = insertStatement.executeUpdate();
             System.out.println(result + " rows affected");
-        } catch(SQLException sqle) {
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        }
+    }
+    
+    public void updatePassword(String password, String email) {
+        try(Connection con = getConnection();) {
+            PreparedStatement updateStatement = con.prepareStatement(
+                    "UPDATE dbo.[User] SET Password = ? WHERE UserEmail = ?"
+            );
+            updateStatement.setString(1, password);
+            updateStatement.setString(2, email);
+            
+            int result = updateStatement.executeUpdate();
+            System.out.println(result + " rows affected");
+        } catch (SQLException sqle) {
             sqle.printStackTrace();
         }
     }
@@ -204,7 +341,60 @@ public class DataAccess {
     }
 
     public void newPlace(Place place) {
+        try ( Connection connection = getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into PLACE (Name,Description,Municipality,Address,PlaceEmail,Web,PhoneNumber,isVisible,Type,Registre) values (?,?,?,?,?,?,?,?,?,?);");
+            preparedStatement.setString(1, place.getName());
+            preparedStatement.setString(2, place.getDescription());
+            preparedStatement.setString(3, place.getMunicipality());
+            preparedStatement.setString(4, place.getAddress());
+            preparedStatement.setString(5, place.getEmail());
+            preparedStatement.setString(6, place.getWeb());
+            preparedStatement.setString(7, place.getPhoneNumber());
+            preparedStatement.setBoolean(8, place.isIsVisible());
+            preparedStatement.setString(9, place.getType());
+            preparedStatement.setInt(10, place.getRegistre());
+            preparedStatement.executeQuery();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    public int getPlaceRegistre() {
+        int placeRegistre = 0;
+        try ( Connection connection = getConnection()) {
+            Statement registreStatement = connection.createStatement();
+            ResultSet registreResultSet = registreStatement.executeQuery("select max(registre) + 1 as registre from place");
+            if (registreResultSet.next()) {
+                placeRegistre = registreResultSet.getInt("registre");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return placeRegistre;
+    }
+
+    public void insertImage(String image, int registre) {
+        try ( Connection connection = getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into PICTURES (URL, PlaceRegistre) values (?,?);");
+            preparedStatement.setString(1, image);
+            preparedStatement.setInt(2, registre);
+            preparedStatement.executeQuery();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertImages(String[] images, int registre) {
+        try ( Connection connection = getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into PICTURES (URL, PlaceRegistre) values (?,?);");
+            for (String image : images) {
+                preparedStatement.setString(1, image);
+                preparedStatement.setInt(2, registre);
+                preparedStatement.executeQuery();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public int getCommentCount(Place place) {
@@ -251,11 +441,16 @@ public class DataAccess {
         }
         return image;
     }
-    
+
     public void newComment(Comment comment) {
         try ( Connection connection = getConnection()) {
-            Statement st = connection.createStatement();
-            st.executeUpdate("select PICTURES.URL from PICTURES where PlaceRegistre = ?");
+            PreparedStatement pst = connection.prepareStatement("Insert into COMMENT (Text, DateTime, Rating, ID_User, Registre) values (?,?,?,?,?);");
+            pst.setString(1, comment.getText());
+            pst.setString(2, comment.getDateTime().toString());
+            pst.setInt(3, comment.getRating());
+            pst.setInt(4, comment.getIdUser());
+            pst.setInt(5, comment.getRegistre());
+            pst.executeUpdate();
 //            if (rs.next()) {
 //                image = rs.getString("URL");
 //            }

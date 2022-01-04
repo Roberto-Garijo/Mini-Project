@@ -1,16 +1,26 @@
 package spdvi.dialogs;
 
 import java.awt.Color;
+import java.sql.Date;
+import java.time.LocalDate;
+import spdvi.Main;
+import spdvi.POJOs.Comment;
+import spdvi.POJOs.Place;
+import spdvi.dataaccess.DataAccess;
 import spdvi.util.Helpers;
 
 public class NewCommentDialog extends javax.swing.JDialog {
+
     int rating = 1;
     Helpers helpers = new Helpers();
+    Main main;
+    DataAccess dataAccess = new DataAccess();
 
     public NewCommentDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
+        main = (Main) this.getParent();
     }
 
     @SuppressWarnings("unchecked")
@@ -98,10 +108,22 @@ public class NewCommentDialog extends javax.swing.JDialog {
         btnDiscard.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnDiscard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/173-bin.png"))); // NOI18N
         btnDiscard.setText("Discard");
+        btnDiscard.setFocusable(false);
+        btnDiscard.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDiscardActionPerformed(evt);
+            }
+        });
 
         btnPublish.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnPublish.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/108-bubble.png"))); // NOI18N
         btnPublish.setText("Publish");
+        btnPublish.setFocusable(false);
+        btnPublish.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPublishActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -192,9 +214,9 @@ public class NewCommentDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_lblStar5MouseClicked
 
     private void txaCommentKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txaCommentKeyTyped
-        int chars = txaComment.getText().length()+1;
+        int chars = txaComment.getText().length() + 1;
         lblChars.setText(String.format("%d/255", chars));
-        if (chars>255) {
+        if (chars > 255) {
             //txaComment.setBackground(Color.red);
             btnPublish.setEnabled(false);
         } else {
@@ -202,6 +224,21 @@ public class NewCommentDialog extends javax.swing.JDialog {
             btnPublish.setEnabled(true);
         }
     }//GEN-LAST:event_txaCommentKeyTyped
+
+    private void btnDiscardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiscardActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnDiscardActionPerformed
+
+    private void btnPublishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPublishActionPerformed
+        if (txaComment.getText().isBlank() || txaComment.getText().isEmpty()) {
+            helpers.showInfoMessage("Write some text to the comment", this);
+        } else {
+            Place place = (Place) main.getLstPlaces().getSelectedValue();
+            dataAccess.newComment(new Comment(1, txaComment.getText(), Date.valueOf(LocalDate.now()), rating, main.getLoggedInUser().getId(), place.getRegistre()));
+            helpers.showInfoMessage("Comment posted", this);
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnPublishActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

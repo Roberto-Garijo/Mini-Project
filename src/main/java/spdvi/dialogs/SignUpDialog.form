@@ -149,7 +149,6 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="alejobenjaminpinto@gmail.com"/>
             <Property name="toolTipText" type="java.lang.String" value="Valid e-mail address"/>
           </Properties>
         </Component>
@@ -170,7 +169,6 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="PinkAplier"/>
             <Property name="toolTipText" type="java.lang.String" value="Unique username"/>
           </Properties>
         </Component>

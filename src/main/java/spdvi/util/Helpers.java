@@ -1,6 +1,14 @@
 package spdvi.util;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
 
 public class Helpers {
@@ -60,6 +68,13 @@ public class Helpers {
                 star4.setIcon(starFullBig);
                 star5.setIcon(starFullBig);
                 break;
+            default:
+                star1.setIcon(starEmptyBig);
+                star2.setIcon(starEmptyBig);
+                star3.setIcon(starEmptyBig);
+                star4.setIcon(starEmptyBig);
+                star5.setIcon(starEmptyBig);
+                break;
         }
     }
 
@@ -100,6 +115,14 @@ public class Helpers {
                 star4.setIcon(starFullSmall);
                 star5.setIcon(starFullSmall);
                 break;
+            default:
+                star1.setIcon(starEmptySmall);
+                star2.setIcon(starEmptySmall);
+                star3.setIcon(starEmptySmall);
+                star4.setIcon(starEmptySmall);
+                star5.setIcon(starEmptySmall);
+                break;
+
         }
     }
 
@@ -127,5 +150,53 @@ public class Helpers {
                 "Something went wrong...",
                 JOptionPane.ERROR_MESSAGE);
         System.out.println(message);
+    }
+    
+    public void showInfoMessage(String message, Component parent) {
+        JOptionPane.showMessageDialog(parent,
+                message,
+                "Information",
+                JOptionPane.INFORMATION_MESSAGE);
+        System.out.println(message);
+    }
+
+    public void sendConfirmationCode(String email, String emailCode) {
+        String artMail = "artbalearempresa@gmail.com";
+        String contrasena = "root2002";
+        System.out.println(emailCode);
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+        props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+
+        Session session = Session.getInstance(props);
+        session.getProperties().put("mail.smtp.ssl.trust", "smtp.gmail.com");
+
+        try {
+            // Define message
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(artMail));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+            message.setSubject("Art Balear account confirmation code");
+            message.setText("Introduce the following code: " + emailCode);
+            // Envia el mensaje
+            Transport transport = session.getTransport("smtp");
+            transport.connect(artMail, contrasena);
+            transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
+            transport.close();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void wrongInput(javax.swing.JTextField txt) {
+        txt.setBackground(new java.awt.Color(255, 204, 204));
+    }
+
+    public void resetBackground(javax.swing.JTextField txt) {
+        txt.setBackground(Color.white);
     }
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import spdvi.POJOs.Place;
+import spdvi.POJOs.User;
 import spdvi.dataaccess.AzureBlobs;
 import spdvi.dataaccess.DataAccess;
 import spdvi.dialogs.AdminDialog;
@@ -17,8 +18,8 @@ import spdvi.dialogs.UserSettingsDialog;
 import spdvi.util.Helpers;
 import spdvi.util.ImageUtils;
 
-public class Main extends javax.swing.JFrame {
-    
+public class Main extends javax.swing.JFrame implements Runnable {
+
     private ArrayList<Place> places;
 
     private Color defaultColor = new Color(0, 204, 255);
@@ -30,6 +31,8 @@ public class Main extends javax.swing.JFrame {
     private AzureBlobs azureBlobs = new AzureBlobs();
 
     private boolean loggedIn = false;
+    private User loggedInUser;
+    private boolean admin = false;
 
     public Main() {
         initComponents();
@@ -565,7 +568,7 @@ public class Main extends javax.swing.JFrame {
     }
 
     private void openUserDialog() {
-        UserSettingsDialog usd = new UserSettingsDialog(this, false);
+        UserSettingsDialog usd = new UserSettingsDialog(this, true);
         usd.setVisible(true);
     }
 
@@ -580,8 +583,12 @@ public class Main extends javax.swing.JFrame {
     }
 
     private void openAdminDialog() {
-        AdminDialog ad = new AdminDialog(this, false);
-        ad.setVisible(true);
+        if (admin) {
+            AdminDialog ad = new AdminDialog(this, true);
+            ad.setVisible(true);
+        } else {
+            helpers.showInfoMessage("This is for admins only", this);
+        }
     }
 
     private void logout() {
@@ -605,14 +612,16 @@ public class Main extends javax.swing.JFrame {
     }
 
     private void loadPlaces() {
-        places = new ArrayList<Place>();
-        places = dataAccess.getPlaces();
+        places = new ArrayList<>();
+        places = dataAccess.getPreviewData();
         listAllPlaces();
     }
 
     private void lstPlacesValueChanged(javax.swing.event.ListSelectionEvent evt) {
-        System.out.println(lstPlaces.getSelectedValue());
-        updatePlacePreview();
+        if (!evt.getValueIsAdjusting()) {
+            System.out.println(lstPlaces.getSelectedValue());
+            updatePlacePreview();
+        }
     }
 
     private void updatePlacePreview() {
@@ -623,7 +632,9 @@ public class Main extends javax.swing.JFrame {
             lblLocation.setText(p.getMunicipality());
             updateRating();
             updateComments();
-            updateImage();
+            //updateImage();
+            Thread imageUpdate = new Thread(this);
+            imageUpdate.start();
         }
     }
 
@@ -640,6 +651,7 @@ public class Main extends javax.swing.JFrame {
             LoginDialog ld = new LoginDialog(this, true);
             ld.setVisible(true);
         }
+        admin = loggedInUser.isIsAdmin();
     }
 
     //getters and setters
@@ -659,20 +671,40 @@ public class Main extends javax.swing.JFrame {
         this.lstPlaces = lstPlaces;
     }
 
+    public User getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public void setLoggedInUser(User loggedInUser) {
+        this.loggedInUser = loggedInUser;
+    }
+
     private void openPlace() {
-        PlaceDetailsDialog pdd = new PlaceDetailsDialog(this, true);
-        pdd.setVisible(true);
+        if (lstPlaces.getSelectedValue() != null) {
+            PlaceDetailsDialog pdd = new PlaceDetailsDialog(this, true);
+            pdd.setVisible(true);
+            loadPlaces();
+        }
     }
 
     private void updateRating() {
-        helpers.setRatingSmall(lblStar1, lblStar2, lblStar3, lblStar4, lblStar5, dataAccess.getAverageRating((Place) lstPlaces.getSelectedValue()));
+        Place p = (Place) lstPlaces.getSelectedValue();
+        helpers.setRatingSmall(lblStar1, lblStar2, lblStar3, lblStar4, lblStar5, p.getAvgRating());
     }
 
     private void updateComments() {
-        lblComments.setText(String.format("%d comments", dataAccess.getCommentCount((Place) lstPlaces.getSelectedValue())));
+        //lblComments.setText(String.format("%d comments", dataAccess.getCommentCount((Place) lstPlaces.getSelectedValue())));
+        Place p = (Place) lstPlaces.getSelectedValue();
+        lblComments.setText(String.format("%d comments", p.getComments()));
     }
 
     private void updateImage() {
         azureBlobs.setFirstImage(lblPlaceImage, (Place) lstPlaces.getSelectedValue());
+    }
+
+    @Override
+    public void run() {
+        lblPlaceImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/loading.gif")));
+        updateImage();
     }
 }

@@ -128,7 +128,8 @@ public class AdminDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnEditPlaceActionPerformed
 
     private void btnGrantAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGrantAdminActionPerformed
-        // TODO add your handling code here:
+        GrantAdminDialog gad = new GrantAdminDialog((Frame) this.getParent(), true);
+        gad.setVisible(true);
     }//GEN-LAST:event_btnGrantAdminActionPerformed
 
     public static void main(String args[]) {
