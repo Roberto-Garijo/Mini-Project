@@ -321,7 +321,7 @@ public class SignUpDialog extends javax.swing.JDialog {
             return false;
         }
         if (!email.matches("[^@]+@[^@]+\\.[a-zA-Z]{2,}")) {
-            helper.showErrorMessage("El email no es valido", this);
+            helper.showErrorMessage("Invalid E-mail", this);
             return false;
         }
         return true;
