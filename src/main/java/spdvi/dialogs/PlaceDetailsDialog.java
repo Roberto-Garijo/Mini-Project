@@ -31,7 +31,7 @@ public class PlaceDetailsDialog extends javax.swing.JDialog implements Runnable 
         initComponents();
         setLocationRelativeTo(null);
         main = (Main) this.getParent();
-        place = (Place) main.getLstPlaces().getSelectedValue();
+        place = (Place) main.getSelectedPlace();
         comments = dataAccess.getComments(place);
     }
     
@@ -211,7 +211,7 @@ public class PlaceDetailsDialog extends javax.swing.JDialog implements Runnable 
         txaDescription.setEditable(false);
         txaDescription.setBackground(new java.awt.Color(255, 255, 255));
         txaDescription.setColumns(20);
-        txaDescription.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txaDescription.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         txaDescription.setForeground(new java.awt.Color(0, 0, 0));
         txaDescription.setLineWrap(true);
         txaDescription.setRows(5);
@@ -264,7 +264,7 @@ public class PlaceDetailsDialog extends javax.swing.JDialog implements Runnable 
 
         txaComment.setEditable(false);
         txaComment.setColumns(20);
-        txaComment.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txaComment.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         txaComment.setLineWrap(true);
         txaComment.setRows(5);
         txaComment.setWrapStyleWord(true);
@@ -536,7 +536,6 @@ public class PlaceDetailsDialog extends javax.swing.JDialog implements Runnable 
     // End of variables declaration//GEN-END:variables
 
     private void loadData() {
-        
         lblName.setText(place.getName());
         lblType.setText(place.getType());
         lblMunicipality.setText(place.getMunicipality());
@@ -546,7 +545,6 @@ public class PlaceDetailsDialog extends javax.swing.JDialog implements Runnable 
         lblWeb.setText(place.getWeb());
         lblEmail.setText(place.getEmail());
         loadComment();
-        //loadImages();
         Thread imagesThread = new Thread(this);
         imagesThread.start();
     }

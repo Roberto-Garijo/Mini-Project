@@ -78,22 +78,6 @@ public class DataAccess {
         }
         return user;
     }
-
-    public boolean isAdmin(String username) {
-        try ( Connection connection = getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT isAdmin FROM [USER] WHERE Username like ?"
-            );
-            preparedStatement.setString(1, username);
-            ResultSet rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                return rs.getBoolean("isAdmin");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return true;
-    }
     
     public void grantAdmin(String username) {
         try(Connection con = getConnection();) {
@@ -451,9 +435,6 @@ public class DataAccess {
             pst.setInt(4, comment.getIdUser());
             pst.setInt(5, comment.getRegistre());
             pst.executeUpdate();
-//            if (rs.next()) {
-//                image = rs.getString("URL");
-//            }
         } catch (Exception e) {
             e.printStackTrace();
         }

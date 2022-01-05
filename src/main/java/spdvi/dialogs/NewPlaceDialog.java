@@ -456,7 +456,6 @@ public class NewPlaceDialog extends javax.swing.JDialog {
                     dataAccess.insertImage(imageFile.getName(), place.getRegistre());
                 }
             }
-            //dataAccess.insertImages(images, place.getRegistre());
         }
     }
 
@@ -492,10 +491,6 @@ public class NewPlaceDialog extends javax.swing.JDialog {
         String description = txaDescription.getText();
         String municipality = cmbMunicipality.getSelectedItem().toString();
         String type = cmbType.getSelectedItem().toString();
-        if (images[0].isBlank() || images[0].isEmpty()) {
-            helpers.showErrorMessage("Must have at least one picture", this);
-            return false;
-        }
         if (name.isBlank() || name.isEmpty()) {
             helpers.showErrorMessage("Must have a name", this);
             return false;
@@ -510,6 +505,10 @@ public class NewPlaceDialog extends javax.swing.JDialog {
         }
         if (type.isBlank() || type.isEmpty()) {
             helpers.showErrorMessage("Introduce a place type", this);
+            return false;
+        }
+        if (images[0] == null || images[0].isBlank() || images[0].isEmpty()) {
+            helpers.showErrorMessage("Must have at least one picture", this);
             return false;
         }
         return true;

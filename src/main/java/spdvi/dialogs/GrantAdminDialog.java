@@ -1,20 +1,31 @@
 package spdvi.dialogs;
 
+import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import spdvi.POJOs.Place;
 import spdvi.POJOs.User;
 import spdvi.dataaccess.DataAccess;
+import spdvi.util.Helpers;
 
 public class GrantAdminDialog extends javax.swing.JDialog {
+
     private DataAccess dataAccess = new DataAccess();
     JList<User> lstUsers = new JList<>();
-    
+    ArrayList<User> users;
+    private Helpers helpers = new Helpers();
+
     public GrantAdminDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        jScrollPane1.setViewportView(lstUsers);
+        setLocationRelativeTo(null);
+        users = dataAccess.getUsers();
+        scrUsers.setViewportView(lstUsers);
+        lstUsers.setSelectionForeground(Color.BLACK);
+        lstUsers.setFont(new java.awt.Font("Segoe UI", 0, 15));
+        lstUsers.setSelectionBackground(new java.awt.Color(0, 204, 255));
     }
 
     @SuppressWarnings("unchecked")
@@ -22,7 +33,7 @@ public class GrantAdminDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         panUsers = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        scrUsers = new javax.swing.JScrollPane();
         btnAdmin = new javax.swing.JButton();
         txtSearch = new javax.swing.JTextField();
         lblSearch = new javax.swing.JLabel();
@@ -36,6 +47,7 @@ public class GrantAdminDialog extends javax.swing.JDialog {
 
         panUsers.setBackground(new java.awt.Color(255, 255, 255));
 
+        btnAdmin.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAdmin.setText("Grant Admin");
         btnAdmin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -63,35 +75,29 @@ public class GrantAdminDialog extends javax.swing.JDialog {
         panUsersLayout.setHorizontalGroup(
             panUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panUsersLayout.createSequentialGroup()
+                .addGap(27, 27, 27)
                 .addGroup(panUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                        .addComponent(btnAdmin)
+                        .addComponent(scrUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panUsersLayout.createSequentialGroup()
-                        .addGroup(panUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panUsersLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panUsersLayout.createSequentialGroup()
-                                .addGap(36, 36, 36)
-                                .addComponent(btnAdmin)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panUsersLayout.createSequentialGroup()
-                        .addGap(0, 10, Short.MAX_VALUE)
                         .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         panUsersLayout.setVerticalGroup(
             panUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panUsersLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(25, 25, 25)
                 .addGroup(panUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(scrUsers, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnAdmin)
-                .addGap(21, 21, 21))
+                .addGap(23, 23, 23))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -102,28 +108,18 @@ public class GrantAdminDialog extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(panUsers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(panUsers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminActionPerformed
-        User user = lstUsers.getSelectedValue();
-        dataAccess.grantAdmin(user.getUsername());
-        updateListView();
+        grantAdmin();
     }//GEN-LAST:event_btnAdminActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        DefaultListModel<User> userListModel = new DefaultListModel<>();
-        for(User user : dataAccess.getUsers()) {
-            if(!user.isIsAdmin()) {
-                userListModel.addElement(user);
-            }
-        }
-        lstUsers.setModel(userListModel);
+        loadUsers();
     }//GEN-LAST:event_formWindowOpened
 
     private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
@@ -136,31 +132,6 @@ public class GrantAdminDialog extends javax.swing.JDialog {
         searchUser();
     }//GEN-LAST:event_lblSearchMouseClicked
 
-    public void searchUser() {
-        String search = txtSearch.getText().toLowerCase();
-        DefaultListModel<User> userListModel = new DefaultListModel<>();
-        if (!search.isBlank() || !search.isEmpty()) {
-            for (User user : dataAccess.getUsers()) {
-                if (user.getUsername().toLowerCase().contains(search)) {
-                    userListModel.addElement(user);
-                }
-            }
-            lstUsers.setModel(userListModel);
-        } else {
-            updateListView();
-        }
-    }
-    
-    public void updateListView() {
-        DefaultListModel<User> userListModel = new DefaultListModel<>();
-        for(User u : dataAccess.getUsers()) {
-            if(!u.isIsAdmin()) {
-                userListModel.addElement(u);
-            }
-        }
-        lstUsers.setModel(userListModel);
-    }
-    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -202,9 +173,52 @@ public class GrantAdminDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdmin;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblSearch;
     private javax.swing.JPanel panUsers;
+    private javax.swing.JScrollPane scrUsers;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
+
+    private void getUsers() {
+        users = dataAccess.getUsers();
+    }
+
+    private void loadUsers() {
+        DefaultListModel<User> userListModel = new DefaultListModel<>();
+        for (User user : users) {
+            if (!user.isIsAdmin()) {
+                userListModel.addElement(user);
+            }
+        }
+        lstUsers.setModel(userListModel);
+    }
+
+    public void searchUser() {
+        String search = txtSearch.getText().toLowerCase();
+        DefaultListModel<User> userListModel = new DefaultListModel<>();
+        if (!search.isBlank() || !search.isEmpty()) {
+            for (User user : users) {
+                if (user.getUsername().toLowerCase().contains(search)) {
+                    if (!user.isIsAdmin()) {
+                        userListModel.addElement(user);
+                    }
+                }
+            }
+            lstUsers.setModel(userListModel);
+        } else {
+            loadUsers();
+        }
+    }
+
+    private void grantAdmin() {
+        User user = lstUsers.getSelectedValue();
+        if (user == null) {
+            helpers.showErrorMessage("Must select a user to grant admin.", this);
+        } else {
+            dataAccess.grantAdmin(user.getUsername());
+            helpers.showInfoMessage(String.format("User %s is now admin.", user.getUsername()), this);
+            getUsers();
+            loadUsers();
+        }
+    }
 }
