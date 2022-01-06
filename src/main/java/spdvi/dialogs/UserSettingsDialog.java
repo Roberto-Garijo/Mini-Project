@@ -1,12 +1,18 @@
 package spdvi.dialogs;
 
+import java.awt.Frame;
 import spdvi.Main;
+import spdvi.POJOs.User;
+import spdvi.dataaccess.DataAccess;
+import spdvi.util.Helpers;
 
 public class UserSettingsDialog extends javax.swing.JDialog {
 
     Main main;
     boolean editing = false;
     String username;
+    String password;
+    private DataAccess dataAccess = new DataAccess();
 
     public UserSettingsDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -234,7 +240,13 @@ public class UserSettingsDialog extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void deleteAccount() {
-        
+       Helpers helper = new Helpers();
+       if(helper.showConfirmationMessage("¿Desea eliminar toda información de este usuario?", main) == 1) {
+           dataAccess.deleteUser(txtEmail.getText());
+           LoginDialog loginDialog = new LoginDialog((Frame) this.getParent(), true);
+           loginDialog.setVisible(true);
+           this.dispose();
+       }
     }
 
     private void editUsername() {
@@ -243,12 +255,14 @@ public class UserSettingsDialog extends javax.swing.JDialog {
             txtUsername.setEditable(true);
             txtUsername.selectAll();
             lblCancel.setVisible(true);
-            lblEditDone.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/273-checkmark.png")));
-            confirmUserEdit();
+            lblEditDone.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/273-checkmark.png"))); 
         } else {
             txtUsername.setEditable(false);
             lblCancel.setVisible(false);
             lblEditDone.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/006-pencil.png")));
+            confirmUserEdit();
+            User u = new User(main.getLoggedInUser().getId(), username, main.getLoggedInUser().getPassword(), main.getLoggedInUser().getEmail(), main.getLoggedInUser().isIsAdmin());
+            main.setLoggedInUser(u);
         }
         editing = !editing;
     }
@@ -262,10 +276,10 @@ public class UserSettingsDialog extends javax.swing.JDialog {
     }
 
     private void resetPassword() {
-        
+        password = jPasswordField1.getText();
     }
 
     private void confirmUserEdit() {
-        
+        dataAccess.updateUsername(username, txtEmail.getText());
     }
 }

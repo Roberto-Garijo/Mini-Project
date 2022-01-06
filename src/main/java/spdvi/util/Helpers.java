@@ -152,12 +152,25 @@ public class Helpers {
         System.out.println(message);
     }
     
+    
+    
     public void showInfoMessage(String message, Component parent) {
         JOptionPane.showMessageDialog(parent,
                 message,
                 "Information",
                 JOptionPane.INFORMATION_MESSAGE);
         System.out.println(message);
+    }
+    
+    public int showConfirmationMessage(String message, Component parent) {
+        int dialogResult = JOptionPane.showConfirmDialog(parent, 
+                message, 
+                "Confirm action", 
+                JOptionPane.YES_NO_OPTION, 
+                JOptionPane.QUESTION_MESSAGE);
+        if(dialogResult == JOptionPane.YES_OPTION){
+            return 1;
+        } else return 0;
     }
 
     public void sendConfirmationCode(String email, String emailCode) {

@@ -305,6 +305,35 @@ public class DataAccess {
             sqle.printStackTrace();
         }
     }
+    
+    public void updateUsername(String username, String email) {
+        try(Connection con = getConnection();) {
+            PreparedStatement updateStatement = con.prepareStatement(
+                    "UPDATE dbo.[User] SET Username = ? WHERE UserEmail = ?"
+            );
+            updateStatement.setString(1, username);
+            updateStatement.setString(2, email);
+            
+            int result = updateStatement.executeUpdate();
+            System.out.println(result + " rows affected");
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        }
+    }
+    
+    public void deleteUser(String email) {
+        try(Connection con = getConnection();) {
+            PreparedStatement updateStatement = con.prepareStatement(
+                    "DELETE dbo.[User] WHERE UserEmail = ?"
+            );
+            updateStatement.setString(1, email);
+            
+            int result = updateStatement.executeUpdate();
+            System.out.println(result + " rows affected");
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        }
+    }
 
     public ArrayList<String> getDistinctTypes() {
         ArrayList<String> types = new ArrayList<>();
