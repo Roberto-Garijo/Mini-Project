@@ -152,8 +152,6 @@ public class Helpers {
         System.out.println(message);
     }
     
-    
-    
     public void showInfoMessage(String message, Component parent) {
         JOptionPane.showMessageDialog(parent,
                 message,

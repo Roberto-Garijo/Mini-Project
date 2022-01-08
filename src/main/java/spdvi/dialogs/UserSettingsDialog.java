@@ -12,6 +12,7 @@ public class UserSettingsDialog extends javax.swing.JDialog {
     boolean editing = false;
     String username;
     String password;
+    private Helpers helper = new Helpers();
     private DataAccess dataAccess = new DataAccess();
 
     public UserSettingsDialog(java.awt.Frame parent, boolean modal) {
@@ -240,7 +241,7 @@ public class UserSettingsDialog extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void deleteAccount() {
-       Helpers helper = new Helpers();
+       
        if(helper.showConfirmationMessage("¿Desea eliminar toda información de este usuario?", main) == 1) {
            dataAccess.deleteUser(txtEmail.getText());
            LoginDialog loginDialog = new LoginDialog((Frame) this.getParent(), true);
@@ -260,11 +261,23 @@ public class UserSettingsDialog extends javax.swing.JDialog {
             txtUsername.setEditable(false);
             lblCancel.setVisible(false);
             lblEditDone.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/006-pencil.png")));
-            confirmUserEdit();
             User u = new User(main.getLoggedInUser().getId(), username, main.getLoggedInUser().getPassword(), main.getLoggedInUser().getEmail(), main.getLoggedInUser().isIsAdmin());
-            main.setLoggedInUser(u);
+            if(checkUsername(u)){ 
+                confirmUserEdit();
+                main.setLoggedInUser(u); 
+            }
         }
         editing = !editing;
+    }
+    
+    private boolean checkUsername(User user) {
+        for(User u : dataAccess.getUsers()) {
+                if(user.getUsername().equals(u.getUsername())) {
+                    helper.showErrorMessage("This username is already in use", main);
+                    return false;
+                }
+            }
+        return true;
     }
 
     private void cancelEdit() {
@@ -276,7 +289,8 @@ public class UserSettingsDialog extends javax.swing.JDialog {
     }
 
     private void resetPassword() {
-        password = jPasswordField1.getText();
+        ResetPasswordDialog rpd = new ResetPasswordDialog((Frame) this.getParent(), true);
+        rpd.setVisible(true);
     }
 
     private void confirmUserEdit() {
