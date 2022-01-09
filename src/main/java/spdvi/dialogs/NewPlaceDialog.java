@@ -1,7 +1,9 @@
 package spdvi.dialogs;
 
+import java.io.File;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
+import spdvi.dataaccess.AzureBlobs;
 import spdvi.dataaccess.DataAccess;
 import spdvi.util.Helpers;
 import spdvi.util.ImageUtils;
@@ -15,7 +17,8 @@ public class NewPlaceDialog extends javax.swing.JDialog {
     ImageUtils imageUtils = new ImageUtils();
     javax.swing.JLabel[] imageLabels = new javax.swing.JLabel[5];
     DataAccess dataAccess = new DataAccess();
-    private Helpers helper = new Helpers();    
+    AzureBlobs azure = new AzureBlobs();
+    private Helpers helper = new Helpers();
 
     public NewPlaceDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -435,7 +438,7 @@ public class NewPlaceDialog extends javax.swing.JDialog {
     }
 
     private void uploadPlace() {
-        
+
     }
 
     private void addImage() {
@@ -443,12 +446,14 @@ public class NewPlaceDialog extends javax.swing.JDialog {
             fileChooser = new JFileChooser();
             int returnOption = fileChooser.showOpenDialog(this);
             if (returnOption == JFileChooser.APPROVE_OPTION) {
-                images[imageIndex] = fileChooser.getSelectedFile().getAbsolutePath();
-                imageUtils.setLabelIconImage(imageLabels[imageIndex], images[imageIndex]);
-                imageIndex++;
+                if (checkImageName()) {
+                    helper.showErrorMessage("This image name already exists", this);
+                } else {
+                    images[imageIndex] = fileChooser.getSelectedFile().getAbsolutePath();
+                    imageUtils.setLabelIconImage(imageLabels[imageIndex], images[imageIndex]);
+                }
             }
-        } else {
-            lblAddImage.setEnabled(false);
+            imageIndex++;
         }
     }
 
@@ -463,5 +468,13 @@ public class NewPlaceDialog extends javax.swing.JDialog {
             types.addElement(type);
         }
         cmbType.setModel(types);
+    }
+
+    private boolean checkImageName() {
+        if (azure.checkImages(fileChooser.getSelectedFile().getName())) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

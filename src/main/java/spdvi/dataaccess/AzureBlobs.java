@@ -74,4 +74,8 @@ public class AzureBlobs extends Thread {
         }
         return images;
     }
+
+    public boolean checkImages(String fileName) {
+        return containerClient.getBlobClient(fileName).exists();
+    }
 }
