@@ -1,18 +1,22 @@
 package spdvi.dialogs;
 
+import javax.swing.DefaultComboBoxModel;
+import spdvi.Main;
+import spdvi.dataaccess.DataAccess;
 import spdvi.util.Helpers;
 
 public class FilterDialog extends javax.swing.JDialog {
 
-    Helpers helpers = new Helpers();
-    javax.swing.ImageIcon starFull = new javax.swing.ImageIcon(getClass().getResource("/icons/32px/218-star-full.png"));
-    javax.swing.ImageIcon starEmpty = new javax.swing.ImageIcon(getClass().getResource("/icons/32px/216-star-empty.png"));
-    int rating;
+    Main main;
+    private Helpers helpers = new Helpers();
+    private DataAccess dataAccess = new DataAccess();
+    private int rating;
 
     public FilterDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
+        main = (Main) this.getParent();
     }
 
     @SuppressWarnings("unchecked")
@@ -20,10 +24,10 @@ public class FilterDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        cmbMunicipalities = new javax.swing.JComboBox<>();
+        cmbMunicipality = new javax.swing.JComboBox<>();
         lblMunicipalityIcon = new javax.swing.JLabel();
         lblTypeIcon = new javax.swing.JLabel();
-        cmbTypes = new javax.swing.JComboBox<>();
+        cmbType = new javax.swing.JComboBox<>();
         lblStar1 = new javax.swing.JLabel();
         lblStar2 = new javax.swing.JLabel();
         lblStar3 = new javax.swing.JLabel();
@@ -31,6 +35,7 @@ public class FilterDialog extends javax.swing.JDialog {
         lblStar5 = new javax.swing.JLabel();
         lblRating = new javax.swing.JLabel();
         btnApply = new javax.swing.JButton();
+        btnClear = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -41,8 +46,8 @@ public class FilterDialog extends javax.swing.JDialog {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        cmbMunicipalities.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cmbMunicipalities.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbMunicipality.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbMunicipality.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Any" }));
 
         lblMunicipalityIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMunicipalityIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/072-location.png"))); // NOI18N
@@ -50,8 +55,8 @@ public class FilterDialog extends javax.swing.JDialog {
         lblTypeIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTypeIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/034-library.png"))); // NOI18N
 
-        cmbTypes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cmbTypes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbType.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Any" }));
 
         lblStar1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblStar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/32px/218-star-full.png"))); // NOI18N
@@ -107,49 +112,61 @@ public class FilterDialog extends javax.swing.JDialog {
             }
         });
 
+        btnClear.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnClear.setText("Clear filter");
+        btnClear.setFocusable(false);
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblTypeIcon, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+                    .addComponent(lblMunicipalityIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblTypeIcon, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
-                            .addComponent(lblMunicipalityIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(cmbTypes, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(cmbType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addComponent(lblStar1)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(lblStar2)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(lblStar3)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(lblStar3))
+                                .addComponent(btnClear))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addComponent(lblStar4)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(lblStar5)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(lblRating, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)))
-                            .addComponent(cmbMunicipalities, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(17, 17, 17))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnApply)
-                        .addGap(88, 88, 88))))
+                                    .addComponent(lblRating, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGap(0, 0, Short.MAX_VALUE)
+                                    .addComponent(btnApply)))))
+                    .addComponent(cmbMunicipality, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(cmbMunicipalities, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbMunicipality, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblMunicipalityIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(cmbTypes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblTypeIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,7 +177,9 @@ public class FilterDialog extends javax.swing.JDialog {
                     .addComponent(lblStar5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblRating, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(btnApply)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnApply)
+                    .addComponent(btnClear))
                 .addGap(13, 13, 13))
         );
 
@@ -203,9 +222,12 @@ public class FilterDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnApplyActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        loadMunicipalyties();
-        loadTypes();
+        loadComboBoxes();
     }//GEN-LAST:event_formWindowOpened
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        clearFilter();
+    }//GEN-LAST:event_btnClearActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -248,8 +270,9 @@ public class FilterDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnApply;
-    private javax.swing.JComboBox<String> cmbMunicipalities;
-    private javax.swing.JComboBox<String> cmbTypes;
+    private javax.swing.JButton btnClear;
+    private javax.swing.JComboBox<String> cmbMunicipality;
+    private javax.swing.JComboBox<String> cmbType;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblMunicipalityIcon;
     private javax.swing.JLabel lblRating;
@@ -268,14 +291,32 @@ public class FilterDialog extends javax.swing.JDialog {
     }
 
     private void applyFilter() {
-        
+        main.setTypeFilter(cmbType.getSelectedItem().toString());
+        main.setMunicipalityFilter(cmbMunicipality.getSelectedItem().toString());
+        main.setRatingFilter(rating);
+        this.dispose();
     }
 
-    private void loadMunicipalyties() {
-        
+    private void loadComboBoxes() {
+        DefaultComboBoxModel municipalities = new DefaultComboBoxModel<>();
+        municipalities.addElement("Any");
+        for (String distinctMunicipalyty : dataAccess.getDistinctMunicipalyties()) {
+            municipalities.addElement(distinctMunicipalyty);
+        }
+        cmbMunicipality.setModel(municipalities);
+
+        DefaultComboBoxModel types = new DefaultComboBoxModel<>();
+        types.addElement("Any");
+        for (String type : dataAccess.getDistinctTypes()) {
+            types.addElement(type);
+        }
+        cmbType.setModel(types);
     }
 
-    private void loadTypes() {
-        
+    private void clearFilter() {
+        main.setTypeFilter("Any");
+        main.setMunicipalityFilter("Any");
+        main.setRatingFilter(0);
+        this.dispose();
     }
 }

@@ -1,6 +1,5 @@
 package spdvi.dialogs;
 
-import java.awt.Color;
 import java.sql.Date;
 import java.time.LocalDate;
 import spdvi.Main;
@@ -233,7 +232,7 @@ public class NewCommentDialog extends javax.swing.JDialog {
         if (txaComment.getText().isBlank() || txaComment.getText().isEmpty()) {
             helpers.showInfoMessage("Write some text to the comment", this);
         } else {
-            Place place = (Place) main.getLstPlaces().getSelectedValue();
+            Place place = (Place) main.getSelectedPlace();
             dataAccess.newComment(new Comment(1, txaComment.getText(), Date.valueOf(LocalDate.now()), rating, main.getLoggedInUser().getId(), place.getRegistre()));
             helpers.showInfoMessage("Comment posted", this);
             this.dispose();
