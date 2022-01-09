@@ -124,7 +124,8 @@ public class AdminDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnDisablePlacedActionPerformed
 
     private void btnEditPlaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditPlaceActionPerformed
-        // TODO add your handling code here:
+        SelectEditPlaceDialog sepd = new SelectEditPlaceDialog((Frame) this.getParent(), true);
+        sepd.setVisible(true);
     }//GEN-LAST:event_btnEditPlaceActionPerformed
 
     private void btnGrantAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGrantAdminActionPerformed

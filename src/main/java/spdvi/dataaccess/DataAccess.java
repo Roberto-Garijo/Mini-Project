@@ -303,6 +303,20 @@ public class DataAccess {
         }
     }
     
+    public void deleteComment(int id) {
+        try(Connection con = getConnection();) {
+            PreparedStatement updateStatement = con.prepareStatement(
+                    "DELETE [dbo].[COMMENT] WHERE ID_User = ?"
+            );
+            updateStatement.setInt(1, id);
+            
+            int result = updateStatement.executeUpdate();
+            System.out.println(result + " rows affected");
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        }
+    }
+    
     public void deleteUser(String email) {
         try(Connection con = getConnection();) {
             PreparedStatement updateStatement = con.prepareStatement(
