@@ -1,17 +1,7 @@
 package spdvi.dialogs;
 
-import java.awt.Frame;
 import java.awt.event.KeyEvent;
-import java.util.Properties;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import spdvi.POJOs.User;
 import spdvi.dataaccess.DataAccess;
-import spdvi.dialogs.SignUpDialog;
 import spdvi.util.Helpers;
 
 public class ConfirmEmailDialog extends javax.swing.JDialog {
@@ -50,10 +40,12 @@ public class ConfirmEmailDialog extends javax.swing.JDialog {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         lblText1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblText1.setForeground(new java.awt.Color(0, 0, 0));
         lblText1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblText1.setText("We have sent a verification code to your E-mail.");
 
         lblText2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblText2.setForeground(new java.awt.Color(0, 0, 0));
         lblText2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblText2.setText("Enter the code below to create your account");
 
@@ -73,6 +65,7 @@ public class ConfirmEmailDialog extends javax.swing.JDialog {
         });
 
         btnResend.setText("Resend code");
+        btnResend.setFocusable(false);
         btnResend.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnResendActionPerformed(evt);

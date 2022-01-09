@@ -1,6 +1,10 @@
 package spdvi.dialogs;
 
+import java.awt.Frame;
+import spdvi.util.Helpers;
+
 public class ForgotPasswordDialog extends javax.swing.JDialog {
+    private Helpers helper = new Helpers();
 
     public ForgotPasswordDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -13,18 +17,56 @@ public class ForgotPasswordDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        lblEmail1 = new javax.swing.JLabel();
+        lblEmail2 = new javax.swing.JLabel();
+        txtEmail = new javax.swing.JTextField();
+        btnSendCode = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        lblEmail1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblEmail1.setForeground(new java.awt.Color(0, 0, 0));
+        lblEmail1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblEmail1.setText("Please enter your email address to restore your password");
+
+        lblEmail2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblEmail2.setForeground(new java.awt.Color(0, 0, 0));
+        lblEmail2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblEmail2.setText("We will send you a verification code to your email address:");
+
+        txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        btnSendCode.setText("Send Code");
+        btnSendCode.setFocusable(false);
+        btnSendCode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSendCodeActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 358, Short.MAX_VALUE)
+            .addComponent(lblEmail1, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblEmail2, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
+            .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(btnSendCode, javax.swing.GroupLayout.Alignment.CENTER)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 323, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(lblEmail1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblEmail2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(btnSendCode)
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -41,6 +83,32 @@ public class ForgotPasswordDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnSendCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendCodeActionPerformed
+        if(checkEmail()) {
+            ConfirmEmailDialog ced = new ConfirmEmailDialog((Frame) this.getParent(), true);
+            ced.setEmail(txtEmail.getText());
+            ced.setVisible(true);
+            if (ced.isVerefiedCode()) {
+                SetNewPasswordDialog snpd = new SetNewPasswordDialog((Frame) this.getParent(), true);
+                snpd.setEmail(txtEmail.getText());
+                snpd.setVisible(true);
+                //this.dispose();
+            }
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnSendCodeActionPerformed
+
+    public boolean checkEmail() {
+        if (txtEmail.getText().isBlank() || txtEmail.getText().isEmpty()) {
+            helper.showErrorMessage("Invalid E-mail", this);
+            return false;
+        }
+        if (!txtEmail.getText().matches("[^@]+@[^@]+\\.[a-zA-Z]{2,}")) {
+            helper.showErrorMessage("Invalid E-mail", this);
+            return false;
+        }
+        return true;
+    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -81,6 +149,10 @@ public class ForgotPasswordDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSendCode;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblEmail1;
+    private javax.swing.JLabel lblEmail2;
+    private javax.swing.JTextField txtEmail;
     // End of variables declaration//GEN-END:variables
 }

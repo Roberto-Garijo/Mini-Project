@@ -21,6 +21,7 @@ import spdvi.util.ImageUtils;
 public class Main extends javax.swing.JFrame implements Runnable {
 
     private ArrayList<Place> places;
+    private Place selectedPlace;
 
     private Color defaultColor = new Color(0, 204, 255);
     private Color hoverColor = new Color(0, 128, 160);
@@ -33,6 +34,9 @@ public class Main extends javax.swing.JFrame implements Runnable {
     private boolean loggedIn = false;
     private User loggedInUser;
     private boolean admin = false;
+    private String typeFilter = "Any";
+    private String municipalityFilter = "Any";
+    private int ratingFilter = 0;
 
     public Main() {
         initComponents();
@@ -73,7 +77,7 @@ public class Main extends javax.swing.JFrame implements Runnable {
         lblType = new javax.swing.JLabel();
         lblCommentsIcon = new javax.swing.JLabel();
         lblComments = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnCheckPlace = new javax.swing.JButton();
         lblFilter = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -89,6 +93,7 @@ public class Main extends javax.swing.JFrame implements Runnable {
         pnlMenu.setBackground(new java.awt.Color(0, 204, 255));
 
         pnlUser.setBackground(new java.awt.Color(0, 204, 255));
+        pnlUser.setToolTipText("");
         pnlUser.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 pnlUserMouseClicked(evt);
@@ -261,7 +266,7 @@ public class Main extends javax.swing.JFrame implements Runnable {
         });
 
         lblPlaceImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblPlaceImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/330x210.png"))); // NOI18N
+        lblPlaceImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/64px/014-image.png"))); // NOI18N
 
         lblPlaceName.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         lblPlaceName.setForeground(new java.awt.Color(51, 51, 51));
@@ -307,12 +312,12 @@ public class Main extends javax.swing.JFrame implements Runnable {
         lblComments.setForeground(new java.awt.Color(51, 51, 51));
         lblComments.setText("0 comments");
 
-        jButton1.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton1.setText("Check it out!");
-        jButton1.setFocusable(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnCheckPlace.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        btnCheckPlace.setText("Check it out!");
+        btnCheckPlace.setFocusable(false);
+        btnCheckPlace.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnCheckPlaceActionPerformed(evt);
             }
         });
 
@@ -360,7 +365,7 @@ public class Main extends javax.swing.JFrame implements Runnable {
                                 .addComponent(lblPlaceImage, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(pnlMainLayout.createSequentialGroup()
                                 .addGap(103, 103, 103)
-                                .addComponent(jButton1)))
+                                .addComponent(btnCheckPlace)))
                         .addGap(0, 13, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -397,7 +402,7 @@ public class Main extends javax.swing.JFrame implements Runnable {
                             .addComponent(lblCommentsIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lblComments, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)))
+                        .addComponent(btnCheckPlace)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(pnlMainLayout.createSequentialGroup()
                 .addComponent(pnlMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -474,9 +479,9 @@ public class Main extends javax.swing.JFrame implements Runnable {
         searchPlace();
     }//GEN-LAST:event_lblSearchMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnCheckPlaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckPlaceActionPerformed
         openPlace();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnCheckPlaceActionPerformed
 
     private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -518,7 +523,7 @@ public class Main extends javax.swing.JFrame implements Runnable {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnCheckPlace;
     private javax.swing.JLabel lblAdmin;
     private javax.swing.JLabel lblComments;
     private javax.swing.JLabel lblCommentsIcon;
@@ -575,6 +580,7 @@ public class Main extends javax.swing.JFrame implements Runnable {
     private void openFilterDialog() {
         FilterDialog fd = new FilterDialog(this, true);
         fd.setVisible(true);
+        applyFilter();
     }
 
     private void openInfoDialog() {
@@ -619,21 +625,20 @@ public class Main extends javax.swing.JFrame implements Runnable {
     }
 
     private void lstPlacesValueChanged(javax.swing.event.ListSelectionEvent evt) {
+        selectedPlace = (Place) lstPlaces.getSelectedValue();
         if (!evt.getValueIsAdjusting()) {
-            System.out.println(lstPlaces.getSelectedValue());
+            System.out.println(selectedPlace);
             updatePlacePreview();
         }
     }
 
     private void updatePlacePreview() {
-        Place p = (Place) lstPlaces.getSelectedValue();
-        if (p != null) {
-            lblPlaceName.setText(p.getName());
-            lblType.setText(p.getType());
-            lblLocation.setText(p.getMunicipality());
+        if (selectedPlace != null) {
+            lblPlaceName.setText(selectedPlace.getName());
+            lblType.setText(selectedPlace.getType());
+            lblLocation.setText(selectedPlace.getMunicipality());
             updateRating();
             updateComments();
-            //updateImage();
             Thread imageUpdate = new Thread(this);
             imageUpdate.start();
         }
@@ -655,6 +660,7 @@ public class Main extends javax.swing.JFrame implements Runnable {
             ld.setVisible(true);
         }
         admin = loggedInUser.isIsAdmin();
+        pnlUser.setToolTipText(loggedInUser.getUsername());
     }
 
     //getters and setters
@@ -666,12 +672,16 @@ public class Main extends javax.swing.JFrame implements Runnable {
         this.loggedIn = loggedIn;
     }
 
-    public JList getLstPlaces() {
-        return lstPlaces;
+    public Place getSelectedPlace() {
+        return selectedPlace;
     }
 
     public ArrayList<Place> getPlaces() {
         return places;
+    }
+
+    public JList getLstPlaces() {
+        return lstPlaces;
     }
 
     public User getLoggedInUser() {
@@ -682,27 +692,61 @@ public class Main extends javax.swing.JFrame implements Runnable {
         this.loggedInUser = loggedInUser;
     }
 
+    public String getTypeFilter() {
+        return typeFilter;
+    }
+
+    public void setTypeFilter(String typeFilter) {
+        this.typeFilter = typeFilter;
+    }
+
+    public String getMunicipalityFilter() {
+        return municipalityFilter;
+    }
+
+    public void setMunicipalityFilter(String municipalityFilter) {
+        this.municipalityFilter = municipalityFilter;
+    }
+
+    public int getRatingFilter() {
+        return ratingFilter;
+    }
+
+    public void setRatingFilter(int ratingFilter) {
+        this.ratingFilter = ratingFilter;
+    }
+
     private void openPlace() {
-        if (lstPlaces.getSelectedValue() != null) {
+        selectedPlace = (Place) lstPlaces.getSelectedValue();
+        if (selectedPlace != null) {
             PlaceDetailsDialog pdd = new PlaceDetailsDialog(this, true);
             pdd.setVisible(true);
             loadPlaces();
+        } else {
+            helpers.showInfoMessage("Please select a place from the list.", this);
         }
     }
 
+    private void applyFilter() {
+        DefaultListModel dlm = new DefaultListModel();
+        for (Place place : places) {
+            if ((typeFilter.equals("Any") || place.getType().equals(typeFilter)) && (municipalityFilter.equals("Any") || place.getMunicipality().equals(municipalityFilter)) && place.getAvgRating() >= ratingFilter) {
+                dlm.addElement(place);
+            }
+        }
+        lstPlaces.setModel(dlm);
+    }
+
     private void updateRating() {
-        Place p = (Place) lstPlaces.getSelectedValue();
-        helpers.setRatingSmall(lblStar1, lblStar2, lblStar3, lblStar4, lblStar5, p.getAvgRating());
+        helpers.setRatingSmall(lblStar1, lblStar2, lblStar3, lblStar4, lblStar5, selectedPlace.getAvgRating());
     }
 
     private void updateComments() {
-        //lblComments.setText(String.format("%d comments", dataAccess.getCommentCount((Place) lstPlaces.getSelectedValue())));
-        Place p = (Place) lstPlaces.getSelectedValue();
-        lblComments.setText(String.format("%d comments", p.getComments()));
+        lblComments.setText(String.format("%d comments", selectedPlace.getComments()));
     }
 
     private void updateImage() {
-        azureBlobs.setFirstImage(lblPlaceImage, (Place) lstPlaces.getSelectedValue());
+        azureBlobs.setFirstImage(lblPlaceImage, selectedPlace);
     }
 
     @Override

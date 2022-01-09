@@ -3,6 +3,7 @@ package spdvi.dialogs;
 import java.io.File;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
+import spdvi.POJOs.Place;
 import spdvi.dataaccess.AzureBlobs;
 import spdvi.dataaccess.DataAccess;
 import spdvi.util.Helpers;
@@ -17,8 +18,8 @@ public class NewPlaceDialog extends javax.swing.JDialog {
     ImageUtils imageUtils = new ImageUtils();
     javax.swing.JLabel[] imageLabels = new javax.swing.JLabel[5];
     DataAccess dataAccess = new DataAccess();
-    AzureBlobs azure = new AzureBlobs();
-    private Helpers helper = new Helpers();
+    AzureBlobs azureBlobs = new AzureBlobs();
+    Helpers helpers = new Helpers();
 
     public NewPlaceDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -438,7 +439,26 @@ public class NewPlaceDialog extends javax.swing.JDialog {
     }
 
     private void uploadPlace() {
-
+        if (checkCorrectPlace()) {
+            Place place = new Place();
+            place.setRegistre(dataAccess.getPlaceRegistre());
+            place.setName(txtName.getText());
+            place.setAddress(txtAddress.getText());
+            place.setDescription(txaDescription.getText());
+            place.setEmail(txtEmail.getText());
+            place.setIsVisible(true);
+            place.setMunicipality(cmbMunicipality.getSelectedItem().toString());
+            place.setType(cmbType.getSelectedItem().toString());
+            place.setWeb(txtWeb.getText());
+            dataAccess.newPlace(place);
+            for (String image : images) {
+                if (!image.isBlank() || !image.isEmpty()) {
+                    File imageFile = new File(image);
+                    azureBlobs.uploadImage(imageFile);
+                    dataAccess.insertImage(imageFile.getName(), place.getRegistre());
+                }
+            }
+        }
     }
 
     private void addImage() {
@@ -447,7 +467,7 @@ public class NewPlaceDialog extends javax.swing.JDialog {
             int returnOption = fileChooser.showOpenDialog(this);
             if (returnOption == JFileChooser.APPROVE_OPTION) {
                 if (checkImageName()) {
-                    helper.showErrorMessage("This image name already exists", this);
+                    helpers.showErrorMessage("This image name already exists", this);
                 } else {
                     images[imageIndex] = fileChooser.getSelectedFile().getAbsolutePath();
                     imageUtils.setLabelIconImage(imageLabels[imageIndex], images[imageIndex]);
@@ -471,10 +491,38 @@ public class NewPlaceDialog extends javax.swing.JDialog {
     }
 
     private boolean checkImageName() {
-        if (azure.checkImages(fileChooser.getSelectedFile().getName())) {
+        if (azureBlobs.checkImages(fileChooser.getSelectedFile().getName())) {
             return true;
         } else {
             return false;
         }
+    }
+
+    private boolean checkCorrectPlace() {
+        String name = txtName.getText();
+        String description = txaDescription.getText();
+        String municipality = cmbMunicipality.getSelectedItem().toString();
+        String type = cmbType.getSelectedItem().toString();
+        if (name.isBlank() || name.isEmpty()) {
+            helpers.showErrorMessage("Must have a name", this);
+            return false;
+        }
+        if (description.isBlank() || description.isEmpty()) {
+            helpers.showErrorMessage("Must have a description", this);
+            return false;
+        }
+        if (municipality.isBlank() || municipality.isEmpty()) {
+            helpers.showErrorMessage("Introduce municipality", this);
+            return false;
+        }
+        if (type.isBlank() || type.isEmpty()) {
+            helpers.showErrorMessage("Introduce a place type", this);
+            return false;
+        }
+        if (images[0] == null || images[0].isBlank() || images[0].isEmpty()) {
+            helpers.showErrorMessage("Must have at least one picture", this);
+            return false;
+        }
+        return true;
     }
 }

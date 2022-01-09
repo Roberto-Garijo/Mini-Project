@@ -1,7 +1,6 @@
 package spdvi.dialogs;
 
 import java.awt.Frame;
-import java.util.ArrayList;
 import spdvi.POJOs.User;
 import spdvi.dataaccess.DataAccess;
 import spdvi.util.Helpers;
@@ -321,7 +320,7 @@ public class SignUpDialog extends javax.swing.JDialog {
             return false;
         }
         if (!email.matches("[^@]+@[^@]+\\.[a-zA-Z]{2,}")) {
-            helper.showErrorMessage("El email no es valido", this);
+            helper.showErrorMessage("Invalid E-mail", this);
             return false;
         }
         return true;

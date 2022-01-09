@@ -1,13 +1,11 @@
 package spdvi.dataaccess;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -79,20 +77,18 @@ public class DataAccess {
         return user;
     }
 
-    public boolean isAdmin(String username) {
-        try ( Connection connection = getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT isAdmin FROM [USER] WHERE Username like ?"
+    public void grantAdmin(String username) {
+        try ( Connection con = getConnection();) {
+            PreparedStatement updateStatement = con.prepareStatement(
+                    "UPDATE dbo.[User] SET isAdmin = 1 WHERE Username = ?"
             );
-            preparedStatement.setString(1, username);
-            ResultSet rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                return rs.getBoolean("isAdmin");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            updateStatement.setString(1, username);
+
+            int result = updateStatement.executeUpdate();
+            System.out.println(result + " rows affected");
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
         }
-        return true;
     }
 
     public boolean userExists(String username, String email) {
@@ -277,16 +273,50 @@ public class DataAccess {
         }
     }
 
-    
-    public void createPlace(Place place) {
+    public void updatePassword(String password, String email) {
         try ( Connection con = getConnection();) {
-            PreparedStatement insertStatement = con.prepareStatement(
-                    "INSERT INTO dbo.[Place] ()"
+            PreparedStatement updateStatement = con.prepareStatement(
+                    "UPDATE dbo.[User] SET Password = ? WHERE UserEmail = ?"
             );
-        }catch (SQLException ex) {
-            Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
+            updateStatement.setString(1, password);
+            updateStatement.setString(2, email);
+
+            int result = updateStatement.executeUpdate();
+            System.out.println(result + " rows affected");
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
         }
     }
+
+    public void updateUsername(String username, String email) {
+        try ( Connection con = getConnection();) {
+            PreparedStatement updateStatement = con.prepareStatement(
+                    "UPDATE dbo.[User] SET Username = ? WHERE UserEmail = ?"
+            );
+            updateStatement.setString(1, username);
+            updateStatement.setString(2, email);
+
+            int result = updateStatement.executeUpdate();
+            System.out.println(result + " rows affected");
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        }
+    }
+
+    public void deleteUser(String email) {
+        try ( Connection con = getConnection();) {
+            PreparedStatement updateStatement = con.prepareStatement(
+                    "DELETE dbo.[User] WHERE UserEmail = ?"
+            );
+            updateStatement.setString(1, email);
+
+            int result = updateStatement.executeUpdate();
+            System.out.println(result + " rows affected");
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        }
+    }
+
     public ArrayList<String> getDistinctTypes() {
         ArrayList<String> types = new ArrayList<>();
         try ( Connection connection = getConnection()) {
@@ -322,7 +352,60 @@ public class DataAccess {
     }
 
     public void newPlace(Place place) {
+        try ( Connection connection = getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into PLACE (Name,Description,Municipality,Address,PlaceEmail,Web,PhoneNumber,isVisible,Type,Registre) values (?,?,?,?,?,?,?,?,?,?);");
+            preparedStatement.setString(1, place.getName());
+            preparedStatement.setString(2, place.getDescription());
+            preparedStatement.setString(3, place.getMunicipality());
+            preparedStatement.setString(4, place.getAddress());
+            preparedStatement.setString(5, place.getEmail());
+            preparedStatement.setString(6, place.getWeb());
+            preparedStatement.setString(7, place.getPhoneNumber());
+            preparedStatement.setBoolean(8, place.isIsVisible());
+            preparedStatement.setString(9, place.getType());
+            preparedStatement.setInt(10, place.getRegistre());
+            preparedStatement.executeQuery();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    public int getPlaceRegistre() {
+        int placeRegistre = 0;
+        try ( Connection connection = getConnection()) {
+            Statement registreStatement = connection.createStatement();
+            ResultSet registreResultSet = registreStatement.executeQuery("select max(registre) + 1 as registre from place");
+            if (registreResultSet.next()) {
+                placeRegistre = registreResultSet.getInt("registre");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return placeRegistre;
+    }
+
+    public void insertImage(String image, int registre) {
+        try ( Connection connection = getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into PICTURES (URL, PlaceRegistre) values (?,?);");
+            preparedStatement.setString(1, image);
+            preparedStatement.setInt(2, registre);
+            preparedStatement.executeQuery();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertImages(String[] images, int registre) {
+        try ( Connection connection = getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into PICTURES (URL, PlaceRegistre) values (?,?);");
+            for (String image : images) {
+                preparedStatement.setString(1, image);
+                preparedStatement.setInt(2, registre);
+                preparedStatement.executeQuery();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public int getCommentCount(Place place) {
@@ -379,9 +462,6 @@ public class DataAccess {
             pst.setInt(4, comment.getIdUser());
             pst.setInt(5, comment.getRegistre());
             pst.executeUpdate();
-//            if (rs.next()) {
-//                image = rs.getString("URL");
-//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -393,7 +473,7 @@ public class DataAccess {
             pst.setBoolean(1, visibility);
             pst.setInt(2, registre);
             int result = pst.executeUpdate();
-    }   catch (SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
