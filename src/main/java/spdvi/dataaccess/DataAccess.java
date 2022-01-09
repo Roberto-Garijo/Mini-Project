@@ -18,7 +18,7 @@ import spdvi.POJOs.Place;
 import spdvi.POJOs.User;
 
 public class DataAccess {
-    
+
     private Connection getConnection() {
         Connection connection = null;
         Properties properties = new Properties();
@@ -30,14 +30,14 @@ public class DataAccess {
         }
         return connection;
     }
-    
+
     public ArrayList<User> getUsers() {
         ArrayList<User> users = new ArrayList<>();
         try ( Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT * FROM [USER]"
             );
-            
+
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 User user = new User(
@@ -54,7 +54,7 @@ public class DataAccess {
         }
         return users;
     }
-    
+
     public User getUser(String username) {
         User user = null;
         try ( Connection connection = getConnection()) {
@@ -78,7 +78,7 @@ public class DataAccess {
         }
         return user;
     }
-    
+
     public boolean isAdmin(String username) {
         try ( Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
@@ -94,7 +94,7 @@ public class DataAccess {
         }
         return true;
     }
-    
+
     public boolean userExists(String username, String email) {
         try ( Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
@@ -113,7 +113,7 @@ public class DataAccess {
         }
         return true;
     }
-    
+
     public ArrayList<Place> getPlaces() {
         ArrayList<Place> places = new ArrayList<>();
         try ( Connection connection = getConnection()) {
@@ -141,7 +141,7 @@ public class DataAccess {
         }
         return places;
     }
-    
+
     public ArrayList<Place> getPreviewData() {
         ArrayList<Place> places = new ArrayList<>();
         try ( Connection connection = getConnection()) {
@@ -169,7 +169,7 @@ public class DataAccess {
         }
         return places;
     }
-    
+
     public ArrayList<Pictures> getPictures() {
         ArrayList<Pictures> pictures = new ArrayList<>();
         try ( Connection connection = getConnection()) {
@@ -190,7 +190,7 @@ public class DataAccess {
         }
         return pictures;
     }
-    
+
     public ArrayList<String> getPlacePictures(Place place) {
         ArrayList<String> pictures = new ArrayList<>();
         try ( Connection connection = getConnection()) {
@@ -207,7 +207,7 @@ public class DataAccess {
         }
         return pictures;
     }
-    
+
     public ArrayList<Comment> getComments() {
         ArrayList<Comment> comments = new ArrayList<>();
         try ( Connection connection = getConnection()) {
@@ -231,7 +231,7 @@ public class DataAccess {
         }
         return comments;
     }
-    
+
     public ArrayList<Comment> getComments(Place place) {
         ArrayList<Comment> comments = new ArrayList<>();
         try ( Connection connection = getConnection()) {
@@ -257,26 +257,26 @@ public class DataAccess {
         }
         return comments;
     }
-    
+
     public void createUser(User user) {
         try ( Connection con = getConnection();) {
             PreparedStatement insertStatement = con.prepareStatement(
                     "INSERT INTO dbo.[User] (Username, Password, ProfilePicture, UserEmail, isAdmin) "
                     + "VALUES (?,?,?,?, ?)");
-            
+
             insertStatement.setString(1, user.getUsername());
             insertStatement.setString(2, user.getPassword());
             insertStatement.setString(3, "Foto");
             insertStatement.setString(4, user.getEmail());
             insertStatement.setBoolean(5, user.isIsAdmin());
-            
+
             int result = insertStatement.executeUpdate();
             System.out.println(result + " rows affected");
         } catch (SQLException sqle) {
             sqle.printStackTrace();
         }
     }
-    
+
     
     public void createPlace(Place place) {
         try ( Connection con = getConnection();) {
@@ -285,7 +285,7 @@ public class DataAccess {
             );
         }catch (SQLException ex) {
             Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        }
     }
     public ArrayList<String> getDistinctTypes() {
         ArrayList<String> types = new ArrayList<>();
@@ -303,7 +303,7 @@ public class DataAccess {
         }
         return types;
     }
-    
+
     public ArrayList<String> getDistinctMunicipalyties() {
         ArrayList<String> municipalities = new ArrayList<>();
         try ( Connection connection = getConnection()) {
@@ -320,11 +320,11 @@ public class DataAccess {
         }
         return municipalities;
     }
-    
+
     public void newPlace(Place place) {
-        
+
     }
-    
+
     public int getCommentCount(Place place) {
         int commentCount = 0;
         try ( Connection connection = getConnection()) {
@@ -339,7 +339,7 @@ public class DataAccess {
         }
         return commentCount;
     }
-    
+
     public int getAverageRating(Place place) {
         int avg = 0;
         try ( Connection connection = getConnection()) {
@@ -354,7 +354,7 @@ public class DataAccess {
         }
         return avg;
     }
-    
+
     public String getFirstImage(Place place) {
         String image = "";
         try ( Connection connection = getConnection()) {
@@ -369,7 +369,7 @@ public class DataAccess {
         }
         return image;
     }
-    
+
     public void newComment(Comment comment) {
         try ( Connection connection = getConnection()) {
             PreparedStatement pst = connection.prepareStatement("Insert into COMMENT (Text, DateTime, Rating, ID_User, Registre) values (?,?,?,?,?);");
@@ -386,7 +386,7 @@ public class DataAccess {
             e.printStackTrace();
         }
     }
-    
+
     public void setVisible(int registre, boolean visibility) {
         try ( Connection connection = getConnection()) {
             PreparedStatement pst = connection.prepareStatement("UPDATE dbo.[Place] SET isVisible = ? WHERE Registre = ?");
