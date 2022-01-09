@@ -1,12 +1,18 @@
 package spdvi.dialogs;
 
 import java.awt.Frame;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.JFrame;
+import spdvi.Main;
 
 public class AdminDialog extends javax.swing.JDialog {
+    Main main;
 
     public AdminDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        main = (Main) this.getParent();
         setLocationRelativeTo(null);
     }
 
@@ -26,7 +32,6 @@ public class AdminDialog extends javax.swing.JDialog {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         lblAdminPanel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblAdminPanel.setForeground(new java.awt.Color(0, 0, 0));
         lblAdminPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/119-user-tie.png"))); // NOI18N
         lblAdminPanel.setText("Admin panel");
 
@@ -120,11 +125,12 @@ public class AdminDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnNewPlaceActionPerformed
 
     private void btnDisablePlacedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisablePlacedActionPerformed
-        // TODO add your handling code here:
+        ChangeVisibilityDialog cvd = new ChangeVisibilityDialog((Frame) this.getParent(), true);
+        cvd.setVisible(true);
     }//GEN-LAST:event_btnDisablePlacedActionPerformed
 
     private void btnEditPlaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditPlaceActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnEditPlaceActionPerformed
 
     private void btnGrantAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGrantAdminActionPerformed

@@ -76,14 +76,14 @@ public class DataAccess {
         }
         return user;
     }
-    
+
     public void grantAdmin(String username) {
-        try(Connection con = getConnection();) {
+        try ( Connection con = getConnection();) {
             PreparedStatement updateStatement = con.prepareStatement(
                     "UPDATE dbo.[User] SET isAdmin = 1 WHERE Username = ?"
             );
             updateStatement.setString(1, username);
-            
+
             int result = updateStatement.executeUpdate();
             System.out.println(result + " rows affected");
         } catch (SQLException sqle) {
@@ -142,7 +142,7 @@ public class DataAccess {
         ArrayList<Place> places = new ArrayList<>();
         try ( Connection connection = getConnection()) {
             Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT DISTINCT p.Registre, p.[Name], p.[Municipality], p.[Address], cast(p.[Description] as nvarchar(1000)) as 'Description', p.[PlaceEmail], p.[Web], p.[PhoneNumber], p.[isVisible], p.[Type],COUNT(ID_Comment) as 'placeComments', avg(rating) as 'avgRating' FROM dbo.PLACE p left join dbo.COMMENT c on c.Registre = p.Registre where p.[isVisible] = 1 group by p.Registre, p.[Name], p.[Municipality], cast(p.[Description] as nvarchar(1000)), p.[Address], p.[PlaceEmail], p.[Web], p.[PhoneNumber], p.[isVisible], p.[Type];");
+            ResultSet rs = st.executeQuery("SELECT DISTINCT p.Registre, p.[Name], p.[Municipality], p.[Address], cast(p.[Description] as nvarchar(1000)) as 'Description', p.[PlaceEmail], p.[Web], p.[PhoneNumber], p.[isVisible], p.[Type],COUNT(ID_Comment) as 'placeComments', avg(rating) as 'avgRating' FROM dbo.PLACE p left join dbo.COMMENT c on c.Registre = p.Registre group by p.Registre, p.[Name], p.[Municipality], cast(p.[Description] as nvarchar(1000)), p.[Address], p.[PlaceEmail], p.[Web], p.[PhoneNumber], p.[isVisible], p.[Type];");
             while (rs.next()) {
                 Place place = new Place(
                         rs.getInt("Registre"),
@@ -272,44 +272,44 @@ public class DataAccess {
             sqle.printStackTrace();
         }
     }
-    
+
     public void updatePassword(String password, String email) {
-        try(Connection con = getConnection();) {
+        try ( Connection con = getConnection();) {
             PreparedStatement updateStatement = con.prepareStatement(
                     "UPDATE dbo.[User] SET Password = ? WHERE UserEmail = ?"
             );
             updateStatement.setString(1, password);
             updateStatement.setString(2, email);
-            
+
             int result = updateStatement.executeUpdate();
             System.out.println(result + " rows affected");
         } catch (SQLException sqle) {
             sqle.printStackTrace();
         }
     }
-    
+
     public void updateUsername(String username, String email) {
-        try(Connection con = getConnection();) {
+        try ( Connection con = getConnection();) {
             PreparedStatement updateStatement = con.prepareStatement(
                     "UPDATE dbo.[User] SET Username = ? WHERE UserEmail = ?"
             );
             updateStatement.setString(1, username);
             updateStatement.setString(2, email);
-            
+
             int result = updateStatement.executeUpdate();
             System.out.println(result + " rows affected");
         } catch (SQLException sqle) {
             sqle.printStackTrace();
         }
     }
-    
+
     public void deleteUser(String email) {
-        try(Connection con = getConnection();) {
+        try ( Connection con = getConnection();) {
             PreparedStatement updateStatement = con.prepareStatement(
                     "DELETE dbo.[User] WHERE UserEmail = ?"
             );
             updateStatement.setString(1, email);
-            
+
             int result = updateStatement.executeUpdate();
             System.out.println(result + " rows affected");
         } catch (SQLException sqle) {
@@ -464,6 +464,17 @@ public class DataAccess {
             pst.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void setVisible(int registre, boolean visibility) {
+        try ( Connection connection = getConnection()) {
+            PreparedStatement pst = connection.prepareStatement("UPDATE dbo.[Place] SET isVisible = ? WHERE Registre = ?");
+            pst.setBoolean(1, visibility);
+            pst.setInt(2, registre);
+            int result = pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
