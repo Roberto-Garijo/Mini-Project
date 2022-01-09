@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import javax.swing.JList;
 import spdvi.POJOs.Place;
 import spdvi.POJOs.User;
@@ -94,6 +93,7 @@ public class Main extends javax.swing.JFrame implements Runnable {
         pnlMenu.setBackground(new java.awt.Color(0, 204, 255));
 
         pnlUser.setBackground(new java.awt.Color(0, 204, 255));
+        pnlUser.setToolTipText("");
         pnlUser.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 pnlUserMouseClicked(evt);
@@ -657,6 +657,7 @@ public class Main extends javax.swing.JFrame implements Runnable {
             ld.setVisible(true);
         }
         admin = loggedInUser.isIsAdmin();
+        pnlUser.setToolTipText(loggedInUser.getUsername());
     }
 
     //getters and setters

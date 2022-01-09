@@ -5,7 +5,6 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
-import spdvi.POJOs.Place;
 import spdvi.POJOs.User;
 import spdvi.dataaccess.DataAccess;
 import spdvi.util.Helpers;
@@ -49,6 +48,7 @@ public class GrantAdminDialog extends javax.swing.JDialog {
 
         btnAdmin.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAdmin.setText("Grant Admin");
+        btnAdmin.setFocusable(false);
         btnAdmin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAdminActionPerformed(evt);

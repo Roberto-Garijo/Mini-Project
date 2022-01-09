@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import spdvi.Main;
 import spdvi.POJOs.Comment;
-import spdvi.POJOs.Pictures;
 import spdvi.POJOs.Place;
 import spdvi.dataaccess.AzureBlobs;
 import spdvi.dataaccess.DataAccess;

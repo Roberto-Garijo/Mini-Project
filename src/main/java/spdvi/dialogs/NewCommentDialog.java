@@ -1,6 +1,5 @@
 package spdvi.dialogs;
 
-import java.awt.Color;
 import java.sql.Date;
 import java.time.LocalDate;
 import spdvi.Main;

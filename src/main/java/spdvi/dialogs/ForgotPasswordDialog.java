@@ -1,7 +1,6 @@
 package spdvi.dialogs;
 
 import java.awt.Frame;
-import spdvi.POJOs.User;
 import spdvi.util.Helpers;
 
 public class ForgotPasswordDialog extends javax.swing.JDialog {
@@ -28,16 +27,19 @@ public class ForgotPasswordDialog extends javax.swing.JDialog {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         lblEmail1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblEmail1.setForeground(new java.awt.Color(0, 0, 0));
         lblEmail1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblEmail1.setText("Please enter your email address to restore your password");
 
         lblEmail2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblEmail2.setForeground(new java.awt.Color(0, 0, 0));
         lblEmail2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblEmail2.setText("We will send you a verification code to your email address:");
 
         txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         btnSendCode.setText("Send Code");
+        btnSendCode.setFocusable(false);
         btnSendCode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSendCodeActionPerformed(evt);
@@ -49,10 +51,9 @@ public class ForgotPasswordDialog extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblEmail1, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.CENTER, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                .addComponent(lblEmail2, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
-                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(btnSendCode))
+            .addComponent(lblEmail2, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
+            .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(btnSendCode, javax.swing.GroupLayout.Alignment.CENTER)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

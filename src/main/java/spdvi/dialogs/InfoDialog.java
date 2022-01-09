@@ -31,7 +31,6 @@ public class InfoDialog extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         changePage();
-        imageUtils.setLabelIconImage(lblLogo, "/logo.png");
     }
 
     @SuppressWarnings("unchecked")
@@ -51,14 +50,23 @@ public class InfoDialog extends javax.swing.JDialog {
         lblPage = new javax.swing.JLabel();
         pnlGithub = new javax.swing.JPanel();
         btnGithub = new javax.swing.JButton();
+        lblPau = new javax.swing.JLabel();
+        lblAlejo = new javax.swing.JLabel();
+        lblRoberto = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        pnlMain.setBackground(new java.awt.Color(255, 255, 255));
+
         jTabbedPane1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
+        pnlAbout.setBackground(new java.awt.Color(255, 255, 255));
+
         lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logo.png"))); // NOI18N
 
         lblVersion.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblVersion.setForeground(new java.awt.Color(0, 0, 0));
         lblVersion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblVersion.setText("Version 1.0");
 
@@ -84,6 +92,8 @@ public class InfoDialog extends javax.swing.JDialog {
         );
 
         jTabbedPane1.addTab("About", pnlAbout);
+
+        pnlGuide.setBackground(new java.awt.Color(255, 255, 255));
 
         lblText.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblText.setText("<html><p style=\\\"width:180px\\\">text</p></html>");
@@ -135,7 +145,7 @@ public class InfoDialog extends javax.swing.JDialog {
             pnlGuideLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlGuideLayout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addGroup(pnlGuideLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlGuideLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblText, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -148,6 +158,8 @@ public class InfoDialog extends javax.swing.JDialog {
 
         jTabbedPane1.addTab("Guide", pnlGuide);
 
+        pnlGithub.setBackground(new java.awt.Color(255, 255, 255));
+
         btnGithub.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnGithub.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/32px/433-github.png"))); // NOI18N
         btnGithub.setText("Open Github page");
@@ -158,6 +170,21 @@ public class InfoDialog extends javax.swing.JDialog {
             }
         });
 
+        lblPau.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblPau.setForeground(new java.awt.Color(0, 0, 0));
+        lblPau.setIcon(new javax.swing.ImageIcon(getClass().getResource("/devs/pau.png"))); // NOI18N
+        lblPau.setText("Pau Prats - pauprats2002");
+
+        lblAlejo.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblAlejo.setForeground(new java.awt.Color(0, 0, 0));
+        lblAlejo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/devs/alejo.png"))); // NOI18N
+        lblAlejo.setText("Alejo Pinto - AlejoPinto01");
+
+        lblRoberto.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblRoberto.setForeground(new java.awt.Color(0, 0, 0));
+        lblRoberto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/devs/roberto.png"))); // NOI18N
+        lblRoberto.setText("Roberto Garijo - Roberto-Garijo");
+
         javax.swing.GroupLayout pnlGithubLayout = new javax.swing.GroupLayout(pnlGithub);
         pnlGithub.setLayout(pnlGithubLayout);
         pnlGithubLayout.setHorizontalGroup(
@@ -166,11 +193,24 @@ public class InfoDialog extends javax.swing.JDialog {
                 .addContainerGap(189, Short.MAX_VALUE)
                 .addComponent(btnGithub)
                 .addGap(186, 186, 186))
+            .addGroup(pnlGithubLayout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addGroup(pnlGithubLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblRoberto)
+                    .addComponent(lblAlejo)
+                    .addComponent(lblPau))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlGithubLayout.setVerticalGroup(
             pnlGithubLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlGithubLayout.createSequentialGroup()
-                .addContainerGap(289, Short.MAX_VALUE)
+                .addGap(24, 24, 24)
+                .addComponent(lblPau)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblAlejo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblRoberto)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addComponent(btnGithub)
                 .addGap(23, 23, 23))
         );
@@ -190,7 +230,7 @@ public class InfoDialog extends javax.swing.JDialog {
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMainLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -278,11 +318,14 @@ public class InfoDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGithub;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lblAlejo;
     private javax.swing.JLabel lblArrowLeft;
     private javax.swing.JLabel lblArrowRight;
     private javax.swing.JLabel lblImage;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblPage;
+    private javax.swing.JLabel lblPau;
+    private javax.swing.JLabel lblRoberto;
     private javax.swing.JLabel lblText;
     private javax.swing.JLabel lblVersion;
     private javax.swing.JPanel pnlAbout;

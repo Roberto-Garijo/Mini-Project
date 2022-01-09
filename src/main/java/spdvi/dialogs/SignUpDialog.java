@@ -1,7 +1,6 @@
 package spdvi.dialogs;
 
 import java.awt.Frame;
-import java.util.ArrayList;
 import spdvi.POJOs.User;
 import spdvi.dataaccess.DataAccess;
 import spdvi.util.Helpers;
