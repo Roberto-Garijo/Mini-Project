@@ -420,6 +420,36 @@ public class DataAccess {
             sqle.printStackTrace();
         }
     }
+    
+    public void  updatePlaceMunicipality(String value, int registre) {
+        try(Connection con = getConnection();) {
+            PreparedStatement updateStatement = con.prepareStatement(
+                        "UPDATE dbo.[PLACE] SET Municipality = ? WHERE Registre = ?"
+            );
+            updateStatement.setString(1, value);
+            updateStatement.setInt(2, registre);
+            
+            int result = updateStatement.executeUpdate();
+            System.out.println(result + " rows affected");
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        }
+    }
+    
+    public void  updatePlaceType(String value, int registre) {
+        try(Connection con = getConnection();) {
+            PreparedStatement updateStatement = con.prepareStatement(
+                        "UPDATE dbo.[PLACE] SET Type = ? WHERE Registre = ?"
+            );
+            updateStatement.setString(1, value);
+            updateStatement.setInt(2, registre);
+            
+            int result = updateStatement.executeUpdate();
+            System.out.println(result + " rows affected");
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        }
+    }
 
     public ArrayList<String> getDistinctTypes() {
         ArrayList<String> types = new ArrayList<>();

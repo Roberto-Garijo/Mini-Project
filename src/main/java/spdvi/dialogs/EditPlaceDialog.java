@@ -1,19 +1,20 @@
 package spdvi.dialogs;
 
+import javax.swing.DefaultComboBoxModel;
 import spdvi.POJOs.Place;
 import spdvi.dataaccess.DataAccess;
 
 public class EditPlaceDialog extends javax.swing.JDialog {
-    
+
     private Place place;
     private DataAccess dataAccess = new DataAccess();
-    
+
     public EditPlaceDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         setLocationRelativeTo(null);
         initComponents();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -179,6 +180,7 @@ public class EditPlaceDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        loadComboBoxes();
         loadPlace();
     }//GEN-LAST:event_formWindowOpened
 
@@ -224,15 +226,15 @@ public class EditPlaceDialog extends javax.swing.JDialog {
             }
         });
     }
-    
+
     public Place getPlace() {
         return place;
     }
-    
+
     public void setPlace(Place place) {
         this.place = place;
     }
-    
+
     private void loadPlace() {
         place = getPlace();
         txtName.setText(place.getName());
@@ -241,8 +243,36 @@ public class EditPlaceDialog extends javax.swing.JDialog {
         txtWeb.setText(place.getWeb());
         txtPhoneNumber.setText(place.getPhoneNumber());
         txaDescription.setText(place.getDescription());
+        setComboBoxes();
     }
-    
+
+    private void setComboBoxes() {
+        for (int i = 0; i < cmbMunicipality.getItemCount(); i++) {
+            if (place.getMunicipality().equals(cmbMunicipality.getItemAt(i))) {
+                cmbMunicipality.setSelectedIndex(WIDTH);
+            }
+        }
+
+        for (int i = 0; i < cmbType.getItemCount(); i++) {
+            if (place.getType().equals(cmbType.getItemAt(i))) {
+                cmbType.setSelectedIndex(WIDTH);
+            }
+        }
+    }
+
+    private void loadComboBoxes() {
+        DefaultComboBoxModel municipalities = new DefaultComboBoxModel<>();
+        for (String distinctMunicipalyty : dataAccess.getDistinctMunicipalyties()) {
+            municipalities.addElement(distinctMunicipalyty);
+        }
+        cmbMunicipality.setModel(municipalities);
+        DefaultComboBoxModel types = new DefaultComboBoxModel<>();
+        for (String type : dataAccess.getDistinctTypes()) {
+            types.addElement(type);
+        }
+        cmbType.setModel(types);
+    }
+
     private void editPlace() {
         dataAccess.updatePlaceName(txtName.getText(), place.getRegistre());
         dataAccess.updatePlaceDescription(txaDescription.getText(), place.getRegistre());
@@ -250,6 +280,8 @@ public class EditPlaceDialog extends javax.swing.JDialog {
         dataAccess.updatePlaceEmail(txtEmail.getText(), place.getRegistre());
         dataAccess.updatePlaceWeb(txtWeb.getText(), place.getRegistre());
         dataAccess.updatePlaceAddress(txtAddress.getText(), place.getRegistre());
+        dataAccess.updatePlaceMunicipality(cmbMunicipality.getSelectedItem().toString(), place.getRegistre());
+        dataAccess.updatePlaceType(cmbType.getSelectedItem().toString(), place.getRegistre());
         this.dispose();
     }
 
