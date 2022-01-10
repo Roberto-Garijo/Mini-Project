@@ -446,7 +446,7 @@ public class NewPlaceDialog extends javax.swing.JDialog {
             place.setAddress(txtAddress.getText());
             place.setDescription(txaDescription.getText());
             place.setEmail(txtEmail.getText());
-            place.setIsVisible(true);
+            place.setVisible(true);
             place.setMunicipality(cmbMunicipality.getSelectedItem().toString());
             place.setType(cmbType.getSelectedItem().toString());
             place.setWeb(txtWeb.getText());
