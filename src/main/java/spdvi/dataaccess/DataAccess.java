@@ -361,7 +361,7 @@ public class DataAccess {
             preparedStatement.setString(5, place.getEmail());
             preparedStatement.setString(6, place.getWeb());
             preparedStatement.setString(7, place.getPhoneNumber());
-            preparedStatement.setBoolean(8, place.isIsVisible());
+            preparedStatement.setBoolean(8, place.isVisible());
             preparedStatement.setString(9, place.getType());
             preparedStatement.setInt(10, place.getRegistre());
             preparedStatement.executeQuery();

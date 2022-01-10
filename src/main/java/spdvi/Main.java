@@ -647,7 +647,7 @@ public class Main extends javax.swing.JFrame implements Runnable {
     private void listAllPlaces() {
         DefaultListModel dlm = new DefaultListModel();
         for (Place place : places) {
-            if (place.isIsVisible()) {
+            if (place.isVisible()) {
                 dlm.addElement(place);
             }
         }
@@ -730,7 +730,7 @@ public class Main extends javax.swing.JFrame implements Runnable {
     private void applyFilter() {
         DefaultListModel dlm = new DefaultListModel();
         for (Place place : places) {
-            if ((typeFilter.equals("Any") || place.getType().equals(typeFilter)) && (municipalityFilter.equals("Any") || place.getMunicipality().equals(municipalityFilter)) && place.getAvgRating() >= ratingFilter) {
+            if ((typeFilter.equals("Any") || place.getType().equals(typeFilter)) && (municipalityFilter.equals("Any") || place.getMunicipality().equals(municipalityFilter)) && place.getAvgRating() >= ratingFilter && place.isVisible()) {
                 dlm.addElement(place);
             }
         }
