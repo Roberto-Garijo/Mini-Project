@@ -1,13 +1,16 @@
 package spdvi.dialogs;
 
 import spdvi.POJOs.Place;
+import spdvi.dataaccess.DataAccess;
 
 public class EditPlaceDialog extends javax.swing.JDialog {
     
     private Place place;
+    private DataAccess dataAccess = new DataAccess();
     
     public EditPlaceDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        setLocationRelativeTo(null);
         initComponents();
     }
     
@@ -78,6 +81,11 @@ public class EditPlaceDialog extends javax.swing.JDialog {
         lblPhoneNumber.setText("Phone number");
 
         jButton1.setText("Save changes");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -174,6 +182,10 @@ public class EditPlaceDialog extends javax.swing.JDialog {
         loadPlace();
     }//GEN-LAST:event_formWindowOpened
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        editPlace();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -222,12 +234,23 @@ public class EditPlaceDialog extends javax.swing.JDialog {
     }
     
     private void loadPlace() {
-        Place place = getPlace();
+        place = getPlace();
         txtName.setText(place.getName());
         txtAddress.setText(place.getAddress());
         txtEmail.setText(place.getEmail());
         txtWeb.setText(place.getWeb());
         txtPhoneNumber.setText(place.getPhoneNumber());
+        txaDescription.setText(place.getDescription());
+    }
+    
+    private void editPlace() {
+        dataAccess.updatePlaceName(txtName.getText(), place.getRegistre());
+        dataAccess.updatePlaceDescription(txaDescription.getText(), place.getRegistre());
+        dataAccess.updatePlacePhone(txtPhoneNumber.getText(), place.getRegistre());
+        dataAccess.updatePlaceEmail(txtEmail.getText(), place.getRegistre());
+        dataAccess.updatePlaceWeb(txtWeb.getText(), place.getRegistre());
+        dataAccess.updatePlaceAddress(txtAddress.getText(), place.getRegistre());
+        this.dispose();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

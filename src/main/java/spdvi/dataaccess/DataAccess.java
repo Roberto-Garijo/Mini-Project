@@ -330,6 +330,96 @@ public class DataAccess {
             sqle.printStackTrace();
         }
     }
+    
+    public void updatePlaceName(String value, int registre) {
+        try(Connection con = getConnection();) {
+            PreparedStatement updateStatement = con.prepareStatement(
+                        "UPDATE dbo.[PLACE] SET Name = ? WHERE Registre = ?"
+            );
+            updateStatement.setString(1, value);
+            updateStatement.setInt(2, registre);
+            
+            int result = updateStatement.executeUpdate();
+            System.out.println(result + " rows affected");
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        }
+    }
+    
+    public void updatePlaceDescription(String value, int registre) {
+        try(Connection con = getConnection();) {
+            PreparedStatement updateStatement = con.prepareStatement(
+                        "UPDATE dbo.[PLACE] SET Description = ? WHERE Registre = ?"
+            );
+            updateStatement.setString(1, value);
+            updateStatement.setInt(2, registre);
+            
+            int result = updateStatement.executeUpdate();
+            System.out.println(result + " rows affected");
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        }
+    }
+    
+    public void updatePlacePhone(String value, int registre) {
+        try(Connection con = getConnection();) {
+            PreparedStatement updateStatement = con.prepareStatement(
+                        "UPDATE dbo.[PLACE] SET PhoneNumber = ? WHERE Registre = ?"
+            );
+            updateStatement.setString(1, value);
+            updateStatement.setInt(2, registre);
+            
+            int result = updateStatement.executeUpdate();
+            System.out.println(result + " rows affected");
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        }
+    }
+    
+    public void updatePlaceWeb(String value, int registre) {
+        try(Connection con = getConnection();) {
+            PreparedStatement updateStatement = con.prepareStatement(
+                        "UPDATE dbo.[PLACE] SET Web = ? WHERE Registre = ?"
+            );
+            updateStatement.setString(1, value);
+            updateStatement.setInt(2, registre);
+            
+            int result = updateStatement.executeUpdate();
+            System.out.println(result + " rows affected");
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        }
+    }
+    
+    public void updatePlaceEmail(String value, int registre) {
+        try(Connection con = getConnection();) {
+            PreparedStatement updateStatement = con.prepareStatement(
+                        "UPDATE dbo.[PLACE] SET PlaceEmail = ? WHERE Registre = ?"
+            );
+            updateStatement.setString(1, value);
+            updateStatement.setInt(2, registre);
+            
+            int result = updateStatement.executeUpdate();
+            System.out.println(result + " rows affected");
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        }
+    }
+    
+    public void updatePlaceAddress(String value, int registre) {
+        try(Connection con = getConnection();) {
+            PreparedStatement updateStatement = con.prepareStatement(
+                        "UPDATE dbo.[PLACE] SET Address = ? WHERE Registre = ?"
+            );
+            updateStatement.setString(1, value);
+            updateStatement.setInt(2, registre);
+            
+            int result = updateStatement.executeUpdate();
+            System.out.println(result + " rows affected");
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        }
+    }
 
     public ArrayList<String> getDistinctTypes() {
         ArrayList<String> types = new ArrayList<>();
