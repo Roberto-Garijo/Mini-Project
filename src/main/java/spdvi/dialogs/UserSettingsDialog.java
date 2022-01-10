@@ -242,7 +242,8 @@ public class UserSettingsDialog extends javax.swing.JDialog {
 
     private void deleteAccount() {
        
-       if(helper.showConfirmationMessage("¿Desea eliminar toda información de este usuario?", main) == 1) {
+       if(helper.showConfirmationMessage("This action will delete your account permanently. Are you sure you want to proceed?", main) == 1) {
+           dataAccess.deleteComment(main.getLoggedInUser().getId());
            dataAccess.deleteUser(txtEmail.getText());
            LoginDialog loginDialog = new LoginDialog((Frame) this.getParent(), true);
            loginDialog.setVisible(true);
