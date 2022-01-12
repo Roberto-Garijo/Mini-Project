@@ -244,12 +244,7 @@ public class EditPlaceDialog extends javax.swing.JDialog {
     }
     
     private void editPlace() {
-        dataAccess.updatePlaceName(txtName.getText(), place.getRegistre());
-        dataAccess.updatePlaceDescription(txaDescription.getText(), place.getRegistre());
-        dataAccess.updatePlacePhone(txtPhoneNumber.getText(), place.getRegistre());
-        dataAccess.updatePlaceEmail(txtEmail.getText(), place.getRegistre());
-        dataAccess.updatePlaceWeb(txtWeb.getText(), place.getRegistre());
-        dataAccess.updatePlaceAddress(txtAddress.getText(), place.getRegistre());
+        dataAccess.updatePlace(txtName.getText(), txaDescription.getText(), cmbMunicipality.getSelectedItem().toString(), txtAddress.getText(), txtEmail.getText(), txtWeb.getText(), txtPhoneNumber.getText(), cmbType.getSelectedItem().toString(), place.getRegistre());
         this.dispose();
     }
 

@@ -331,88 +331,28 @@ public class DataAccess {
         }
     }
     
-    public void updatePlaceName(String value, int registre) {
+    public void updatePlace(String name, String description, String municipality, String address, String placeEmail, String web, String phoneNumber, String type, int registre) {
         try(Connection con = getConnection();) {
             PreparedStatement updateStatement = con.prepareStatement(
-                        "UPDATE dbo.[PLACE] SET Name = ? WHERE Registre = ?"
+                        "UPDATE [dbo].[PLACE] SET Name = ?, "
+                                + "Description = ?, "
+                                + "Municipality = ?, "
+                                + "Address = ?, "
+                                + "PlaceEmail = ?, "
+                                + "Web = ?, "
+                                + "PhoneNumber = ?, "
+                                + "Type = ? "
+                                + "WHERE REGISTRE = ?;"
             );
-            updateStatement.setString(1, value);
-            updateStatement.setInt(2, registre);
-            
-            int result = updateStatement.executeUpdate();
-            System.out.println(result + " rows affected");
-        } catch (SQLException sqle) {
-            sqle.printStackTrace();
-        }
-    }
-    
-    public void updatePlaceDescription(String value, int registre) {
-        try(Connection con = getConnection();) {
-            PreparedStatement updateStatement = con.prepareStatement(
-                        "UPDATE dbo.[PLACE] SET Description = ? WHERE Registre = ?"
-            );
-            updateStatement.setString(1, value);
-            updateStatement.setInt(2, registre);
-            
-            int result = updateStatement.executeUpdate();
-            System.out.println(result + " rows affected");
-        } catch (SQLException sqle) {
-            sqle.printStackTrace();
-        }
-    }
-    
-    public void updatePlacePhone(String value, int registre) {
-        try(Connection con = getConnection();) {
-            PreparedStatement updateStatement = con.prepareStatement(
-                        "UPDATE dbo.[PLACE] SET PhoneNumber = ? WHERE Registre = ?"
-            );
-            updateStatement.setString(1, value);
-            updateStatement.setInt(2, registre);
-            
-            int result = updateStatement.executeUpdate();
-            System.out.println(result + " rows affected");
-        } catch (SQLException sqle) {
-            sqle.printStackTrace();
-        }
-    }
-    
-    public void updatePlaceWeb(String value, int registre) {
-        try(Connection con = getConnection();) {
-            PreparedStatement updateStatement = con.prepareStatement(
-                        "UPDATE dbo.[PLACE] SET Web = ? WHERE Registre = ?"
-            );
-            updateStatement.setString(1, value);
-            updateStatement.setInt(2, registre);
-            
-            int result = updateStatement.executeUpdate();
-            System.out.println(result + " rows affected");
-        } catch (SQLException sqle) {
-            sqle.printStackTrace();
-        }
-    }
-    
-    public void updatePlaceEmail(String value, int registre) {
-        try(Connection con = getConnection();) {
-            PreparedStatement updateStatement = con.prepareStatement(
-                        "UPDATE dbo.[PLACE] SET PlaceEmail = ? WHERE Registre = ?"
-            );
-            updateStatement.setString(1, value);
-            updateStatement.setInt(2, registre);
-            
-            int result = updateStatement.executeUpdate();
-            System.out.println(result + " rows affected");
-        } catch (SQLException sqle) {
-            sqle.printStackTrace();
-        }
-    }
-    
-    public void updatePlaceAddress(String value, int registre) {
-        try(Connection con = getConnection();) {
-            PreparedStatement updateStatement = con.prepareStatement(
-                        "UPDATE dbo.[PLACE] SET Address = ? WHERE Registre = ?"
-            );
-            updateStatement.setString(1, value);
-            updateStatement.setInt(2, registre);
+            updateStatement.setString(1, name);
+            updateStatement.setString(2, description);
+            updateStatement.setString(3, municipality);
+            updateStatement.setString(4, address);
+            updateStatement.setString(5, placeEmail);
+            updateStatement.setString(6, web);
+            updateStatement.setString(7, phoneNumber);
+            updateStatement.setString(8, type);
+            updateStatement.setInt(9, registre);
             
             int result = updateStatement.executeUpdate();
             System.out.println(result + " rows affected");
