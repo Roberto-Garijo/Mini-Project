@@ -275,19 +275,6 @@ public class EditPlaceDialog extends javax.swing.JDialog {
         setComboBoxes();
     }
 
-    private void loadComboBoxes() {
-        DefaultComboBoxModel municipalities = new DefaultComboBoxModel<>();
-        for (String distinctMunicipalyty : dataAccess.getDistinctMunicipalyties()) {
-            municipalities.addElement(distinctMunicipalyty);
-        }
-        cmbMunicipality.setModel(municipalities);
-        DefaultComboBoxModel types = new DefaultComboBoxModel<>();
-        for (String type : dataAccess.getDistinctTypes()) {
-            types.addElement(type);
-        }
-        cmbType.setModel(types);
-    }
-
     private void editPlace() {
         dataAccess.updatePlace(txtName.getText(), txaDescription.getText(), cmbMunicipality.getSelectedItem().toString(), txtAddress.getText(), txtEmail.getText(), txtWeb.getText(), txtPhoneNumber.getText(), cmbType.getSelectedItem().toString(), place.getRegistre());
         helper.showInfoMessage("Place updated successfully", this);
