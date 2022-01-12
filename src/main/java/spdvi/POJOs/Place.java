@@ -9,7 +9,7 @@ public class Place {
     String email;
     String web;
     String phoneNumber;
-    boolean isVisible;
+    boolean visible;
     String type;
     int comments;
     int avgRating;
@@ -26,7 +26,7 @@ public class Place {
         this.email = email;
         this.web = web;
         this.phoneNumber = phoneNumber;
-        this.isVisible = isVisible;
+        this.visible = isVisible;
         this.type = type;
     }
 
@@ -51,7 +51,7 @@ public class Place {
         this.email = email;
         this.web = web;
         this.phoneNumber = phoneNumber;
-        this.isVisible = isVisible;
+        this.visible = isVisible;
         this.type = type;
         this.comments = comments;
         this.avgRating = avgRating;
@@ -126,12 +126,12 @@ public class Place {
         return type;
     }
 
-    public boolean isIsVisible() {
-        return isVisible;
+    public boolean isVisible() {
+        return visible;
     }
 
-    public void setIsVisible(boolean isVisible) {
-        this.isVisible = isVisible;
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     public void setType(String type) {
@@ -153,6 +153,7 @@ public class Place {
     public void setAvgRating(int avgRating) {
         this.avgRating = avgRating;
     }
+    
     
     @Override
     public String toString() {

@@ -592,6 +592,7 @@ public class Main extends javax.swing.JFrame implements Runnable {
         if (admin) {
             AdminDialog ad = new AdminDialog(this, true);
             ad.setVisible(true);
+            loadPlaces();
         } else {
             helpers.showInfoMessage("This is for admins only", this);
         }
@@ -646,7 +647,9 @@ public class Main extends javax.swing.JFrame implements Runnable {
     private void listAllPlaces() {
         DefaultListModel dlm = new DefaultListModel();
         for (Place place : places) {
-            dlm.addElement(place);
+            if (place.isVisible()) {
+                dlm.addElement(place);
+            }
         }
         lstPlaces.setModel(dlm);
     }
@@ -671,6 +674,10 @@ public class Main extends javax.swing.JFrame implements Runnable {
 
     public Place getSelectedPlace() {
         return selectedPlace;
+    }
+
+    public ArrayList<Place> getPlaces() {
+        return places;
     }
 
     public JList getLstPlaces() {
@@ -723,7 +730,7 @@ public class Main extends javax.swing.JFrame implements Runnable {
     private void applyFilter() {
         DefaultListModel dlm = new DefaultListModel();
         for (Place place : places) {
-            if ((typeFilter.equals("Any") || place.getType().equals(typeFilter)) && (municipalityFilter.equals("Any") || place.getMunicipality().equals(municipalityFilter)) && place.getAvgRating() >= ratingFilter) {
+            if ((typeFilter.equals("Any") || place.getType().equals(typeFilter)) && (municipalityFilter.equals("Any") || place.getMunicipality().equals(municipalityFilter)) && place.getAvgRating() >= ratingFilter && place.isVisible()) {
                 dlm.addElement(place);
             }
         }

@@ -8,7 +8,7 @@ import spdvi.util.Helpers;
 public class ResetPasswordDialog extends javax.swing.JDialog {
 
     Main main;
-    private Helpers helper = new Helpers();
+    private Helpers helpers = new Helpers();
     private DataAccess dataAccess = new DataAccess();
     private boolean showPassword1 = false;
     private boolean showPassword2 = false;
@@ -17,6 +17,7 @@ public class ResetPasswordDialog extends javax.swing.JDialog {
     public ResetPasswordDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
         main = (Main) this.getParent();
     }
     @SuppressWarnings("unchecked")
@@ -52,6 +53,7 @@ public class ResetPasswordDialog extends javax.swing.JDialog {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         lblPassword.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblPassword.setForeground(new java.awt.Color(0, 0, 0));
         lblPassword.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/142-key.png"))); // NOI18N
         lblPassword.setText("Actual password");
@@ -67,6 +69,7 @@ public class ResetPasswordDialog extends javax.swing.JDialog {
         });
 
         lblPassword1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblPassword1.setForeground(new java.awt.Color(0, 0, 0));
         lblPassword1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPassword1.setText("Repeat new password");
 
@@ -80,7 +83,9 @@ public class ResetPasswordDialog extends javax.swing.JDialog {
             }
         });
 
+        btnNewPass.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnNewPass.setText("Set new password");
+        btnNewPass.setFocusable(false);
         btnNewPass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNewPassActionPerformed(evt);
@@ -88,6 +93,7 @@ public class ResetPasswordDialog extends javax.swing.JDialog {
         });
 
         lblPassword2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblPassword2.setForeground(new java.awt.Color(0, 0, 0));
         lblPassword2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPassword2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/142-key.png"))); // NOI18N
         lblPassword2.setText("New password");
@@ -107,34 +113,33 @@ public class ResetPasswordDialog extends javax.swing.JDialog {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(131, 131, 131)
+                .addComponent(btnNewPass)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(64, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblPassword2)
+                    .addComponent(lblPassword)
+                    .addComponent(lblPassword1)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblPassword2)
-                            .addComponent(lblPassword)
-                            .addComponent(lblPassword1)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(pswPassword2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblHideShowPassword1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(pswPassword3, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblHideShowPassword2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(pswPassword1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblHideShowPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(pswPassword2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblHideShowPassword1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(120, 120, 120)
-                        .addComponent(btnNewPass)))
-                .addContainerGap(60, Short.MAX_VALUE))
+                        .addComponent(pswPassword3, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblHideShowPassword2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(pswPassword1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblHideShowPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(53, 53, 53))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(34, Short.MAX_VALUE)
                 .addComponent(lblPassword)
                 .addGap(11, 11, 11)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,9 +157,9 @@ public class ResetPasswordDialog extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pswPassword2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblHideShowPassword1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(27, 27, 27)
                 .addComponent(btnNewPass)
-                .addContainerGap(83, Short.MAX_VALUE))
+                .addGap(30, 30, 30))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -173,39 +178,34 @@ public class ResetPasswordDialog extends javax.swing.JDialog {
 
     private void lblHideShowPasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHideShowPasswordMouseClicked
         showPassword1 = !showPassword1;
-        helper.showHidePassword(pswPassword1, lblHideShowPassword, showPassword1);
+        helpers.showHidePassword(pswPassword1, lblHideShowPassword, showPassword1);
     }//GEN-LAST:event_lblHideShowPasswordMouseClicked
 
     private void lblHideShowPassword1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHideShowPassword1MouseClicked
         showPassword2 = !showPassword2;
-        helper.showHidePassword(pswPassword2, lblHideShowPassword1, showPassword2);
+        helpers.showHidePassword(pswPassword2, lblHideShowPassword1, showPassword2);
     }//GEN-LAST:event_lblHideShowPassword1MouseClicked
 
     private void btnNewPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewPassActionPerformed
-        if(checkPassword()) {
-            User u = new User(main.getLoggedInUser().getId(), main.getLoggedInUser().getUsername(), helper.encryptPassword(pswPassword3.getText()), main.getLoggedInUser().getEmail(), main.getLoggedInUser().isIsAdmin());
-            main.setLoggedInUser(u);
-            dataAccess.updatePassword(helper.encryptPassword(pswPassword3.getText()), main.getLoggedInUser().getEmail());
-            this.dispose();
-        }
+        changePassword();
     }//GEN-LAST:event_btnNewPassActionPerformed
 
     private void lblHideShowPassword2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHideShowPassword2MouseClicked
         showPassword3 = !showPassword3;
-        helper.showHidePassword(pswPassword3, lblHideShowPassword2, showPassword3);
+        helpers.showHidePassword(pswPassword3, lblHideShowPassword2, showPassword3);
     }//GEN-LAST:event_lblHideShowPassword2MouseClicked
 
     private boolean checkPassword() {
-        if(!main.getLoggedInUser().getPassword().equals(helper.encryptPassword(pswPassword1.getText()))) {
-            helper.showErrorMessage("Please enter your actual password", this);
+        if(!main.getLoggedInUser().getPassword().equals(helpers.encryptPassword(pswPassword1.getText()))) {
+            helpers.showErrorMessage("Please enter your actual password", this);
             return false;
         }
         if (pswPassword1.getText().isBlank() || pswPassword1.getText().isEmpty() || pswPassword2.getText().isBlank() || pswPassword2.getText().isEmpty() || pswPassword3.getText().isBlank() || pswPassword3.getText().isEmpty()) {
-            helper.showErrorMessage("Password fields can't be empty", this);
+            helpers.showErrorMessage("Password fields can't be empty", this);
             return false;
         }
         if (!pswPassword2.getText().equals(pswPassword3.getText())) {
-            helper.showErrorMessage("Passwords do not match", this);
+            helpers.showErrorMessage("Passwords do not match", this);
             return false;
         }
         return true;
@@ -266,4 +266,14 @@ public class ResetPasswordDialog extends javax.swing.JDialog {
     private javax.swing.JPasswordField pswPassword2;
     private javax.swing.JPasswordField pswPassword3;
     // End of variables declaration//GEN-END:variables
+
+    private void changePassword() {
+        if(checkPassword()) {
+            User u = new User(main.getLoggedInUser().getId(), main.getLoggedInUser().getUsername(), helpers.encryptPassword(pswPassword3.getText()), main.getLoggedInUser().getEmail(), main.getLoggedInUser().isIsAdmin());
+            main.setLoggedInUser(u);
+            dataAccess.updatePassword(helpers.encryptPassword(pswPassword3.getText()), main.getLoggedInUser().getEmail());
+            helpers.showInfoMessage("Password updated successfully!", this);
+            this.dispose();
+        }
+    }
 }
