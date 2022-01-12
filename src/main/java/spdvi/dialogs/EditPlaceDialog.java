@@ -2,11 +2,13 @@ package spdvi.dialogs;
 
 import spdvi.POJOs.Place;
 import spdvi.dataaccess.DataAccess;
+import spdvi.util.Helpers;
 
 public class EditPlaceDialog extends javax.swing.JDialog {
     
     private Place place;
     private DataAccess dataAccess = new DataAccess();
+    private Helpers helper = new Helpers();
     
     public EditPlaceDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -245,6 +247,7 @@ public class EditPlaceDialog extends javax.swing.JDialog {
     
     private void editPlace() {
         dataAccess.updatePlace(txtName.getText(), txaDescription.getText(), cmbMunicipality.getSelectedItem().toString(), txtAddress.getText(), txtEmail.getText(), txtWeb.getText(), txtPhoneNumber.getText(), cmbType.getSelectedItem().toString(), place.getRegistre());
+        helper.showInfoMessage("Place updated successfully", this);
         this.dispose();
     }
 
