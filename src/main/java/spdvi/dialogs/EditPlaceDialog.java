@@ -3,11 +3,13 @@ package spdvi.dialogs;
 import javax.swing.DefaultComboBoxModel;
 import spdvi.POJOs.Place;
 import spdvi.dataaccess.DataAccess;
+import spdvi.util.Helpers;
 
 public class EditPlaceDialog extends javax.swing.JDialog {
 
     private Place place;
     private DataAccess dataAccess = new DataAccess();
+    private Helpers helper = new Helpers();
 
     public EditPlaceDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -235,17 +237,6 @@ public class EditPlaceDialog extends javax.swing.JDialog {
         this.place = place;
     }
 
-    private void loadPlace() {
-        place = getPlace();
-        txtName.setText(place.getName());
-        txtAddress.setText(place.getAddress());
-        txtEmail.setText(place.getEmail());
-        txtWeb.setText(place.getWeb());
-        txtPhoneNumber.setText(place.getPhoneNumber());
-        txaDescription.setText(place.getDescription());
-        setComboBoxes();
-    }
-
     private void setComboBoxes() {
         for (int i = 0; i < cmbMunicipality.getItemCount(); i++) {
             if (place.getMunicipality().equals(cmbMunicipality.getItemAt(i))) {
@@ -273,15 +264,33 @@ public class EditPlaceDialog extends javax.swing.JDialog {
         cmbType.setModel(types);
     }
 
+    private void loadPlace() {
+        place = getPlace();
+        txtName.setText(place.getName());
+        txtAddress.setText(place.getAddress());
+        txtEmail.setText(place.getEmail());
+        txtWeb.setText(place.getWeb());
+        txtPhoneNumber.setText(place.getPhoneNumber());
+        txaDescription.setText(place.getDescription());
+        setComboBoxes();
+    }
+
+    private void loadComboBoxes() {
+        DefaultComboBoxModel municipalities = new DefaultComboBoxModel<>();
+        for (String distinctMunicipalyty : dataAccess.getDistinctMunicipalyties()) {
+            municipalities.addElement(distinctMunicipalyty);
+        }
+        cmbMunicipality.setModel(municipalities);
+        DefaultComboBoxModel types = new DefaultComboBoxModel<>();
+        for (String type : dataAccess.getDistinctTypes()) {
+            types.addElement(type);
+        }
+        cmbType.setModel(types);
+    }
+
     private void editPlace() {
-        dataAccess.updatePlaceName(txtName.getText(), place.getRegistre());
-        dataAccess.updatePlaceDescription(txaDescription.getText(), place.getRegistre());
-        dataAccess.updatePlacePhone(txtPhoneNumber.getText(), place.getRegistre());
-        dataAccess.updatePlaceEmail(txtEmail.getText(), place.getRegistre());
-        dataAccess.updatePlaceWeb(txtWeb.getText(), place.getRegistre());
-        dataAccess.updatePlaceAddress(txtAddress.getText(), place.getRegistre());
-        dataAccess.updatePlaceMunicipality(cmbMunicipality.getSelectedItem().toString(), place.getRegistre());
-        dataAccess.updatePlaceType(cmbType.getSelectedItem().toString(), place.getRegistre());
+        dataAccess.updatePlace(txtName.getText(), txaDescription.getText(), cmbMunicipality.getSelectedItem().toString(), txtAddress.getText(), txtEmail.getText(), txtWeb.getText(), txtPhoneNumber.getText(), cmbType.getSelectedItem().toString(), place.getRegistre());
+        helper.showInfoMessage("Place updated successfully", this);
         this.dispose();
     }
 
