@@ -1,5 +1,6 @@
 package spdvi.dialogs;
 
+import javax.swing.DefaultComboBoxModel;
 import spdvi.POJOs.Place;
 import spdvi.dataaccess.DataAccess;
 import spdvi.util.Helpers;
@@ -181,6 +182,7 @@ public class EditPlaceDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        loadComboBoxes();
         loadPlace();
     }//GEN-LAST:event_formWindowOpened
 
@@ -235,6 +237,33 @@ public class EditPlaceDialog extends javax.swing.JDialog {
         this.place = place;
     }
     
+    private void setComboBoxes() {
+        for (int i = 0; i < cmbMunicipality.getItemCount(); i++) {
+            if (place.getMunicipality().equals(cmbMunicipality.getItemAt(i))) {
+                cmbMunicipality.setSelectedIndex(WIDTH);
+            }
+        }
+
+        for (int i = 0; i < cmbType.getItemCount(); i++) {
+            if (place.getType().equals(cmbType.getItemAt(i))) {
+                cmbType.setSelectedIndex(WIDTH);
+            }
+        }
+    }
+
+    private void loadComboBoxes() {
+        DefaultComboBoxModel municipalities = new DefaultComboBoxModel<>();
+        for (String distinctMunicipalyty : dataAccess.getDistinctMunicipalyties()) {
+            municipalities.addElement(distinctMunicipalyty);
+        }
+        cmbMunicipality.setModel(municipalities);
+        DefaultComboBoxModel types = new DefaultComboBoxModel<>();
+        for (String type : dataAccess.getDistinctTypes()) {
+            types.addElement(type);
+        }
+        cmbType.setModel(types);
+    }
+    
     private void loadPlace() {
         place = getPlace();
         txtName.setText(place.getName());
@@ -243,6 +272,7 @@ public class EditPlaceDialog extends javax.swing.JDialog {
         txtWeb.setText(place.getWeb());
         txtPhoneNumber.setText(place.getPhoneNumber());
         txaDescription.setText(place.getDescription());
+        setComboBoxes();
     }
     
     private void editPlace() {
