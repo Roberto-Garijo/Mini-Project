@@ -6,24 +6,26 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import spdvi.util.ImageUtils;
 
 public class InfoDialog extends javax.swing.JDialog {
-
-    private ImageUtils imageUtils = new ImageUtils();
-
     private int index = 0;
 
     private String[] texts = {
-        "Pagina uno de la guia",
-        "Página dos de la guia",
-        "asdfasdfasdfassdfasdfasd asdf asdf asdfadsf asdfasdfasf",
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, "
+        "To use this application you must be logged in. If you don't have an account you can create one using a valid e-mail address and a unique username. If you forget your password you can reset it by introducing the e-mail address you created your account with.",
+        "In the main window you can search different places by name. Type in the search bar and click the search button or press the enter key. To reset the search just erase the text and search.",
+        "Once you open a place you can find: </br>contact information, some pictures, it's description and the ratings and comments submitted by the users.",
+        "You can add your own comment and rating to any place by opening it and clicking the \"Comment\" button. You have a maximum of 255 characters to write. To give a rating just click the star of the value.",
+        "To refine your search you can use the filter function by clicking the funnel icon next to the search button. From there you can filter by municipality, place type and minimum average rating.",
+        "To modify your user profile click the user icon. From there you can modify username, password or delete your account. To change the password you must know your actual password"
     };
 
     private String[] images = {
-        "ruta foto 1",
-        "ruta foto 2"
+        "/guide/01-login.gif",
+        "/guide/02-search.gif",
+        "/guide/03-place-details.gif",
+        "/guide/04-comment.gif",
+        "/guide/06-filter.gif",
+        "/guide/05-user-settings.gif"
     };
 
     public InfoDialog(java.awt.Frame parent, boolean modal) {
@@ -96,11 +98,12 @@ public class InfoDialog extends javax.swing.JDialog {
         pnlGuide.setBackground(new java.awt.Color(255, 255, 255));
 
         lblText.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblText.setForeground(new java.awt.Color(0, 0, 0));
         lblText.setText("<html><p style=\\\"width:180px\\\">text</p></html>");
-        lblText.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         lblImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/64px/014-image.png"))); // NOI18N
+        lblImage.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         lblArrowLeft.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblArrowLeft.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/32px/325-circle-left.png"))); // NOI18N
@@ -119,6 +122,7 @@ public class InfoDialog extends javax.swing.JDialog {
         });
 
         lblPage.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblPage.setForeground(new java.awt.Color(0, 0, 0));
         lblPage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPage.setText("1 / 2");
 
@@ -230,7 +234,7 @@ public class InfoDialog extends javax.swing.JDialog {
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMainLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1)
                 .addContainerGap())
         );
 
@@ -337,5 +341,6 @@ public class InfoDialog extends javax.swing.JDialog {
     private void changePage() {
         lblPage.setText(String.format("%d / %d", index + 1, texts.length));
         lblText.setText(String.format("<html><p style=\\\"width:180px\\\">%s</p></html>", texts[index]));
+        lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource(images[index])));
     }
 }

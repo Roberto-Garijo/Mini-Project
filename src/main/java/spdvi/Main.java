@@ -16,7 +16,6 @@ import spdvi.dialogs.LoginDialog;
 import spdvi.dialogs.PlaceDetailsDialog;
 import spdvi.dialogs.UserSettingsDialog;
 import spdvi.util.Helpers;
-import spdvi.util.ImageUtils;
 
 public class Main extends javax.swing.JFrame implements Runnable {
 
@@ -27,7 +26,6 @@ public class Main extends javax.swing.JFrame implements Runnable {
     private Color hoverColor = new Color(0, 128, 160);
     private JList lstPlaces;
     private DataAccess dataAccess = new DataAccess();
-    private ImageUtils imageUtils = new ImageUtils();
     private Helpers helpers = new Helpers();
     private AzureBlobs azureBlobs = new AzureBlobs();
 
@@ -121,6 +119,7 @@ public class Main extends javax.swing.JFrame implements Runnable {
         );
 
         pnlInfo.setBackground(new java.awt.Color(0, 204, 255));
+        pnlInfo.setToolTipText("Info");
         pnlInfo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 pnlInfoMouseClicked(evt);
@@ -148,7 +147,7 @@ public class Main extends javax.swing.JFrame implements Runnable {
         );
 
         pnlAdmin.setBackground(new java.awt.Color(0, 204, 255));
-        pnlAdmin.setToolTipText("");
+        pnlAdmin.setToolTipText("Admin tools");
         pnlAdmin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 pnlAdminMouseClicked(evt);
@@ -259,6 +258,7 @@ public class Main extends javax.swing.JFrame implements Runnable {
 
         lblSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/135-search.png"))); // NOI18N
+        lblSearch.setToolTipText("Search");
         lblSearch.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblSearchMouseClicked(evt);
@@ -323,6 +323,7 @@ public class Main extends javax.swing.JFrame implements Runnable {
 
         lblFilter.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblFilter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/348-filter.png"))); // NOI18N
+        lblFilter.setToolTipText("Filter");
         lblFilter.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblFilterMouseClicked(evt);
@@ -593,6 +594,7 @@ public class Main extends javax.swing.JFrame implements Runnable {
             AdminDialog ad = new AdminDialog(this, true);
             ad.setVisible(true);
             loadPlaces();
+            updatePlacePreview();
         } else {
             helpers.showInfoMessage("This is for admins only", this);
         }
@@ -641,6 +643,13 @@ public class Main extends javax.swing.JFrame implements Runnable {
             updateComments();
             Thread imageUpdate = new Thread(this);
             imageUpdate.start();
+        } else {
+            lblPlaceName.setText("-");
+            lblLocation.setText("-");
+            lblType.setText("-");
+            lblComments.setText("0 Comments");
+            lblPlaceImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/64px/014-image.png")));
+            helpers.setRatingSmall(lblStar1, lblStar2, lblStar3, lblStar4, lblStar5, 0);
         }
     }
 

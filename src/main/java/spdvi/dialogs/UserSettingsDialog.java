@@ -8,10 +8,10 @@ import spdvi.util.Helpers;
 
 public class UserSettingsDialog extends javax.swing.JDialog {
 
-    Main main;
-    boolean editing = false;
-    String username;
-    String password;
+    private Main main;
+    private boolean editing = false;
+    private String username;
+    private String password;
     private Helpers helper = new Helpers();
     private DataAccess dataAccess = new DataAccess();
 

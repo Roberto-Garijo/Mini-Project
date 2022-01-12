@@ -7,7 +7,7 @@ import spdvi.util.Helpers;
 
 public class ResetPasswordDialog extends javax.swing.JDialog {
 
-    Main main;
+    private Main main;
     private Helpers helpers = new Helpers();
     private DataAccess dataAccess = new DataAccess();
     private boolean showPassword1 = false;

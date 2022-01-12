@@ -14,16 +14,16 @@ import spdvi.util.ImageUtils;
 
 public class PlaceDetailsDialog extends javax.swing.JDialog implements Runnable {
     
-    Main main;
-    DataAccess dataAccess = new DataAccess();
-    Place place;
-    ArrayList<Comment> comments;
-    ArrayList<BufferedImage> pictures;
-    int commentIndex = 0;
-    int imageIndex = 0;
-    Helpers helpers = new Helpers();
-    AzureBlobs azureBlobs = new AzureBlobs();
-    ImageUtils imageUtils = new ImageUtils();
+    private Main main;
+    private DataAccess dataAccess = new DataAccess();
+    private Place place;
+    private ArrayList<Comment> comments;
+    private ArrayList<BufferedImage> pictures;
+    private int commentIndex = 0;
+    private int imageIndex = 0;
+    private Helpers helpers = new Helpers();
+    private AzureBlobs azureBlobs = new AzureBlobs();
+    private ImageUtils imageUtils = new ImageUtils();
     
     public PlaceDetailsDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);

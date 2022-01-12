@@ -1,13 +1,10 @@
 package spdvi.dialogs;
 
 import java.awt.Frame;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import javax.swing.JFrame;
 import spdvi.Main;
 
 public class AdminDialog extends javax.swing.JDialog {
-    Main main;
+    private Main main;
 
     public AdminDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
