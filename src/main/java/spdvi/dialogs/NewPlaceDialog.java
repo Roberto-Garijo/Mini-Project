@@ -9,7 +9,7 @@ import spdvi.dataaccess.DataAccess;
 import spdvi.util.Helpers;
 import spdvi.util.ImageUtils;
 
-public class NewPlaceDialog extends javax.swing.JDialog {
+public class NewPlaceDialog extends javax.swing.JDialog implements Runnable {
 
     private JFileChooser fileChooser;
     private String[] images = new String[5];
@@ -334,7 +334,9 @@ public class NewPlaceDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnClearAllActionPerformed
 
     private void btnUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadActionPerformed
-        uploadPlace();
+        //uploadPlace();
+        Thread uploadPlaceThread = new Thread(this);
+        uploadPlaceThread.start();
     }//GEN-LAST:event_btnUploadActionPerformed
 
     private void lblAddImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddImageMouseClicked
@@ -444,19 +446,21 @@ public class NewPlaceDialog extends javax.swing.JDialog {
             place.setAddress(txtAddress.getText());
             place.setDescription(txaDescription.getText());
             place.setEmail(txtEmail.getText());
+            place.setPhoneNumber(txtPhoneNumber.getText());
             place.setVisible(true);
             place.setMunicipality(cmbMunicipality.getSelectedItem().toString());
             place.setType(cmbType.getSelectedItem().toString());
             place.setWeb(txtWeb.getText());
             dataAccess.newPlace(place);
             for (String image : images) {
-                if (!image.isBlank() || !image.isEmpty()) {
-                    File imageFile = new File(image);
-                    azureBlobs.uploadImage(imageFile);
-                    dataAccess.insertImage(imageFile.getName(), place.getRegistre());
+                if (image != null) {
+                    if (!image.isBlank() || !image.isEmpty()) {
+                        File imageFile = new File(image);
+                        azureBlobs.uploadImage(imageFile);
+                        dataAccess.insertImage(imageFile.getName(), place.getRegistre());
+                    }
                 }
             }
-            helpers.showInfoMessage("Place uploaded successfully!", this);
         }
     }
 
@@ -470,8 +474,8 @@ public class NewPlaceDialog extends javax.swing.JDialog {
                 } else {
                     images[imageIndex] = fileChooser.getSelectedFile().getAbsolutePath();
                     imageUtils.setLabelIconImage(imageLabels[imageIndex], images[imageIndex]);
+                    imageIndex++;
                 }
-                imageIndex++;
             }
         }
     }
@@ -523,5 +527,16 @@ public class NewPlaceDialog extends javax.swing.JDialog {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void run() {
+        setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+        btnUpload.setEnabled(false);
+        uploadPlace();
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnUpload.setEnabled(true);
+        helpers.showInfoMessage("Place uploaded successfully!", this);
+        this.dispose();
     }
 }

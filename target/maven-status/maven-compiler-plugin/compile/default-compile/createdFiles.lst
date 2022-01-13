@@ -11,6 +11,7 @@ spdvi\dialogs\NewCommentDialog$4.class
 spdvi\dialogs\UserSettingsDialog$5.class
 spdvi\dialogs\NewCommentDialog$9.class
 spdvi\POJOs\Pictures.class
+spdvi\dialogs\NewPlaceDialog$7$1.class
 spdvi\dialogs\AdminDialog$1.class
 spdvi\Main$3.class
 spdvi\dialogs\LoginDialog.class
@@ -24,6 +25,7 @@ spdvi\dialogs\ChangeVisibilityDialog$3$1.class
 spdvi\Main$6.class
 spdvi\dialogs\LoginDialog$3.class
 spdvi\dialogs\UserSettingsDialog.class
+spdvi\dialogs\SelectEditPlaceDialog.class
 spdvi\Main$1.class
 spdvi\dialogs\AdminDialog$5$1.class
 spdvi\dialogs\SetNewPasswordDialog$3.class
@@ -39,6 +41,8 @@ spdvi\dialogs\FilterDialog.class
 spdvi\dialogs\NewCommentDialog.class
 spdvi\dialogs\ConfirmEmailDialog.class
 spdvi\dialogs\NewPlaceDialog$2.class
+spdvi\dialogs\SelectEditPlaceDialog$2.class
+spdvi\dialogs\SelectEditPlaceDialog$1.class
 spdvi\dialogs\UserSettingsDialog$2.class
 spdvi\dialogs\InfoDialog$3.class
 spdvi\POJOs\User.class
@@ -55,7 +59,6 @@ spdvi\dialogs\LoginDialog$5.class
 spdvi\dialogs\InfoDialog$4.class
 spdvi\dialogs\SignUpDialog$3.class
 spdvi\dialogs\ResetPasswordDialog$2.class
-spdvi\dialogs\NewPlaceDialog$8$1.class
 spdvi\dialogs\FilterDialog$8.class
 spdvi\dialogs\UserSettingsDialog$3.class
 spdvi\dialogs\FilterDialog$3.class
@@ -73,6 +76,7 @@ spdvi\POJOs\Comment.class
 spdvi\dialogs\FilterDialog$4.class
 spdvi\dialogs\FilterDialog$1.class
 spdvi\dialogs\SetNewPasswordDialog$2.class
+spdvi\dialogs\SelectEditPlaceDialog$3$1.class
 spdvi\dialogs\UserSettingsDialog$4.class
 spdvi\dialogs\ConfirmEmailDialog$5$1.class
 spdvi\Main$2.class
@@ -83,9 +87,11 @@ spdvi\dialogs\ChangeVisibilityDialog$2.class
 spdvi\dialogs\AdminDialog.class
 spdvi\dialogs\ForgotPasswordDialog$2$1.class
 spdvi\dialogs\LoginDialog$7.class
+spdvi\dialogs\EditPlaceDialog$3$1.class
 spdvi\dialogs\PlaceDetailsDialog$1.class
 spdvi\dialogs\GrantAdminDialog$1.class
 spdvi\dialogs\AdminDialog$2.class
+spdvi\dialogs\EditPlaceDialog$3.class
 spdvi\dialogs\NewCommentDialog$8.class
 spdvi\dialogs\GrantAdminDialog$5$1.class
 spdvi\dialogs\SignUpDialog$5.class
@@ -102,7 +108,9 @@ spdvi\dialogs\SignUpDialog$2.class
 spdvi\dialogs\NewCommentDialog$5.class
 spdvi\dataaccess\DataAccess.class
 spdvi\dialogs\NewPlaceDialog$6.class
+spdvi\dialogs\SelectEditPlaceDialog$3.class
 spdvi\dialogs\ResetPasswordDialog.class
+spdvi\dialogs\EditPlaceDialog.class
 spdvi\dialogs\ConfirmEmailDialog$1.class
 spdvi\dialogs\NewPlaceDialog$1.class
 spdvi\dialogs\SignUpDialog.class
@@ -111,8 +119,8 @@ spdvi\dataaccess\AzureBlobs.class
 spdvi\dialogs\AdminDialog$4.class
 spdvi\dialogs\NewCommentDialog$1.class
 spdvi\dialogs\GrantAdminDialog$3.class
+spdvi\dialogs\EditPlaceDialog$1.class
 spdvi\dialogs\PlaceDetailsDialog$4.class
-spdvi\dialogs\NewPlaceDialog$8.class
 spdvi\dialogs\NewCommentDialog$6.class
 spdvi\Main$10.class
 spdvi\dialogs\ConfirmEmailDialog$2.class
@@ -127,6 +135,7 @@ spdvi\dialogs\GrantAdminDialog$4.class
 spdvi\dialogs\LoginDialog$7$1.class
 spdvi\dialogs\NewCommentDialog$9$1.class
 spdvi\dialogs\PlaceDetailsDialog$3.class
+spdvi\dialogs\EditPlaceDialog$2.class
 spdvi\dialogs\GrantAdminDialog$2.class
 spdvi\Main$11.class
 spdvi\POJOs\Place.class

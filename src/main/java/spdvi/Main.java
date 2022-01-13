@@ -249,7 +249,7 @@ public class Main extends javax.swing.JFrame implements Runnable {
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitle.setText("BALEARIC ART PLACES");
 
-        txtSearch.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtSearchKeyPressed(evt);
@@ -350,9 +350,8 @@ public class Main extends javax.swing.JFrame implements Runnable {
                             .addComponent(scrPlaceList, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(pnlRating, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lblPlaceName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlMainLayout.createSequentialGroup()
                                     .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(lblLocationIcon)
@@ -363,7 +362,8 @@ public class Main extends javax.swing.JFrame implements Runnable {
                                         .addComponent(lblType, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(lblComments, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(lblLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addComponent(lblPlaceImage, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(lblPlaceImage, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblPlaceName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(pnlMainLayout.createSequentialGroup()
                                 .addGap(103, 103, 103)
                                 .addComponent(btnCheckPlace)))
@@ -610,7 +610,7 @@ public class Main extends javax.swing.JFrame implements Runnable {
         if (!search.isBlank() || !search.isEmpty()) {
             DefaultListModel dlm = new DefaultListModel();
             for (Place place : places) {
-                if (place.getName().toLowerCase().contains(search)) {
+                if (place.getName().toLowerCase().contains(search) && place.isVisible()) {
                     dlm.addElement(place);
                 }
             }

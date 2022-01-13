@@ -1,20 +1,20 @@
 package spdvi.dialogs;
 
+import java.awt.Color;
 import java.awt.Frame;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
-import spdvi.Main;
 import spdvi.POJOs.Place;
-import spdvi.POJOs.User;
 import spdvi.dataaccess.DataAccess;
 import spdvi.util.Helpers;
 
 public class SelectEditPlaceDialog extends javax.swing.JDialog {
 
     private DataAccess dataAccess = new DataAccess();
-    JList<Place> lstPlaces = new JList<>();
-    ArrayList<Place> places;
+    private JList<Place> lstPlaces = new JList<>();
+    private ArrayList<Place> places;
     private Helpers helpers = new Helpers();
 
     public SelectEditPlaceDialog(java.awt.Frame parent, boolean modal) {
@@ -22,7 +22,10 @@ public class SelectEditPlaceDialog extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         places = dataAccess.getPlaces();
-        jScrollPane1.setViewportView(lstPlaces);
+        scrPlaces.setViewportView(lstPlaces);
+        lstPlaces.setSelectionBackground(new java.awt.Color(0, 204, 255));
+        lstPlaces.setSelectionForeground(Color.BLACK);
+        lstPlaces.setFont(new java.awt.Font("Segoe UI", 0, 15));
     }
 
     @SuppressWarnings("unchecked")
@@ -30,9 +33,10 @@ public class SelectEditPlaceDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        scrPlaces = new javax.swing.JScrollPane();
         btnSelectPlace = new javax.swing.JButton();
-        lblSelectPlace = new javax.swing.JLabel();
+        txtSearch = new javax.swing.JTextField();
+        lblSearch = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -43,6 +47,7 @@ public class SelectEditPlaceDialog extends javax.swing.JDialog {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
+        btnSelectPlace.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSelectPlace.setText("Select place");
         btnSelectPlace.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -50,35 +55,51 @@ public class SelectEditPlaceDialog extends javax.swing.JDialog {
             }
         });
 
-        lblSelectPlace.setText("Select a place to be edited");
+        txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSearchKeyPressed(evt);
+            }
+        });
+
+        lblSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/16px/135-search.png"))); // NOI18N
+        lblSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblSearchMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(110, 110, 110)
                 .addComponent(btnSelectPlace)
-                .addGap(51, 51, 51))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(lblSelectPlace)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(26, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(scrPlaces, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(19, 19, 19))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblSelectPlace)
-                .addGap(11, 11, 11)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(22, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtSearch)
+                    .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrPlaces, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSelectPlace)
-                .addContainerGap())
+                .addGap(18, 18, 18))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -96,12 +117,22 @@ public class SelectEditPlaceDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        loadPlaces();
+        listPlaces();
     }//GEN-LAST:event_formWindowOpened
 
     private void btnSelectPlaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectPlaceActionPerformed
         editPlace();
     }//GEN-LAST:event_btnSelectPlaceActionPerformed
+
+    private void lblSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSearchMouseClicked
+        search();
+    }//GEN-LAST:event_lblSearchMouseClicked
+
+    private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            search();
+        }
+    }//GEN-LAST:event_txtSearchKeyPressed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -145,22 +176,23 @@ public class SelectEditPlaceDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSelectPlace;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblSelectPlace;
+    private javax.swing.JLabel lblSearch;
+    private javax.swing.JScrollPane scrPlaces;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 
     public void getPlaces() {
         places = dataAccess.getPlaces();
     }
-    
-    private void loadPlaces() {
+
+    private void listPlaces() {
         DefaultListModel<Place> userListModel = new DefaultListModel<>();
         for (Place place : places) {
-                userListModel.addElement(place);
+            userListModel.addElement(place);
         }
         lstPlaces.setModel(userListModel);
     }
-    
+
     private void editPlace() {
         Place place = lstPlaces.getSelectedValue();
         if (place == null) {
@@ -170,6 +202,21 @@ public class SelectEditPlaceDialog extends javax.swing.JDialog {
             epd.setPlace(place);
             epd.setVisible(true);
             this.dispose();
+        }
+    }
+
+    private void search() {
+        String search = txtSearch.getText().toLowerCase();
+        if (!search.isBlank() || !search.isEmpty()) {
+            DefaultListModel dlm = new DefaultListModel();
+            for (Place place : places) {
+                if (place.getName().toLowerCase().contains(search)) {
+                    dlm.addElement(place);
+                }
+            }
+            lstPlaces.setModel(dlm);
+        } else {
+            listPlaces();
         }
     }
 }

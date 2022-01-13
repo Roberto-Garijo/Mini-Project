@@ -209,12 +209,17 @@
                               <Component id="lblMunicipality" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                               <Component id="lblType" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="lblAddress" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                              <Component id="lblPhoneNumber" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                                  <Component id="lblPhoneNumber" min="-2" pref="32" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="lblAddress" min="-2" pref="88" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
-                          <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="lblEmail" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                               <Component id="lblWeb" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
