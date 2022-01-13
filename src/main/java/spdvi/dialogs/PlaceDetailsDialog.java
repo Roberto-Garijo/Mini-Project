@@ -13,18 +13,18 @@ import spdvi.util.Helpers;
 import spdvi.util.ImageUtils;
 
 public class PlaceDetailsDialog extends javax.swing.JDialog implements Runnable {
-    
-    Main main;
-    DataAccess dataAccess = new DataAccess();
-    Place place;
-    ArrayList<Comment> comments;
-    ArrayList<BufferedImage> pictures;
-    int commentIndex = 0;
-    int imageIndex = 0;
-    Helpers helpers = new Helpers();
-    AzureBlobs azureBlobs = new AzureBlobs();
-    ImageUtils imageUtils = new ImageUtils();
-    
+
+    private Main main;
+    private DataAccess dataAccess = new DataAccess();
+    private Place place;
+    private ArrayList<Comment> comments;
+    private ArrayList<BufferedImage> pictures;
+    private int commentIndex = 0;
+    private int imageIndex = 0;
+    private Helpers helpers = new Helpers();
+    private AzureBlobs azureBlobs = new AzureBlobs();
+    private ImageUtils imageUtils = new ImageUtils();
+
     public PlaceDetailsDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -33,7 +33,7 @@ public class PlaceDetailsDialog extends javax.swing.JDialog implements Runnable 
         place = (Place) main.getSelectedPlace();
         comments = dataAccess.getComments(place);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -190,11 +190,14 @@ public class PlaceDetailsDialog extends javax.swing.JDialog implements Runnable 
                 .addGroup(pnlDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblMunicipality, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblType, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33)
-                .addGroup(pnlDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35)
+                .addGroup(pnlDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlDetailsLayout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(lblPhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlDetailsLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblWeb, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -457,7 +460,7 @@ public class PlaceDetailsDialog extends javax.swing.JDialog implements Runnable 
         }
         changePicture();
     }//GEN-LAST:event_lblNextImageMouseClicked
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -539,7 +542,7 @@ public class PlaceDetailsDialog extends javax.swing.JDialog implements Runnable 
         lblType.setText(place.getType());
         lblMunicipality.setText(place.getMunicipality());
         txaDescription.setText(place.getDescription());
-        lblAddress.setText(place.getAddress());
+        lblAddress.setText(String.format("<html><p style=\\\"width:100px\\\">%s</p></html>", place.getAddress()));
         lblPhoneNumber.setText(place.getPhoneNumber());
         lblWeb.setText(place.getWeb());
         lblEmail.setText(place.getEmail());
@@ -547,7 +550,7 @@ public class PlaceDetailsDialog extends javax.swing.JDialog implements Runnable 
         Thread imagesThread = new Thread(this);
         imagesThread.start();
     }
-    
+
     private void loadComment() {
         if (comments.size() > 0) {
             lblTotalComments.setText(String.format("%d", comments.size()));
@@ -558,26 +561,26 @@ public class PlaceDetailsDialog extends javax.swing.JDialog implements Runnable 
             helpers.setRatingSmall(lblStar1, lblStar2, lblStar3, lblStar4, lblStar5, comments.get(commentIndex).getRating());
         }
     }
-    
+
     private void newComment() {
         NewCommentDialog ncd = new NewCommentDialog((Frame) this.getParent(), true);
         ncd.setVisible(true);
         comments = dataAccess.getComments(place);
         loadComment();
     }
-    
+
     private void loadImages() {
         lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/loading.gif")));
         pictures = azureBlobs.downloadPlaceImages(place);
         ImageIcon icon = imageUtils.resizeImageIcon(pictures.get(imageIndex), lblImage.getWidth(), lblImage.getHeight());
         lblImage.setIcon(icon);
     }
-    
+
     private void changePicture() {
         ImageIcon icon = imageUtils.resizeImageIcon(pictures.get(imageIndex), lblImage.getWidth(), lblImage.getHeight());
         lblImage.setIcon(icon);
     }
-    
+
     @Override
     public void run() {
         loadImages();

@@ -7,7 +7,7 @@ import spdvi.util.Helpers;
 
 public class FilterDialog extends javax.swing.JDialog {
 
-    Main main;
+    private Main main;
     private Helpers helpers = new Helpers();
     private DataAccess dataAccess = new DataAccess();
     private int rating;

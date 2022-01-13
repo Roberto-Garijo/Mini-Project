@@ -1,7 +1,6 @@
 package spdvi.dialogs;
 
 import java.awt.event.KeyEvent;
-import spdvi.dataaccess.DataAccess;
 import spdvi.util.Helpers;
 
 public class ConfirmEmailDialog extends javax.swing.JDialog {
@@ -11,7 +10,6 @@ public class ConfirmEmailDialog extends javax.swing.JDialog {
     private boolean verefiedCode = false;
 
     private Helpers helpers = new Helpers();
-    private DataAccess dataAccess = new DataAccess();
 
     public ConfirmEmailDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);

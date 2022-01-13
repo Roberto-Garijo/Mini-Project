@@ -12,8 +12,8 @@ import spdvi.util.Helpers;
 public class GrantAdminDialog extends javax.swing.JDialog {
 
     private DataAccess dataAccess = new DataAccess();
-    JList<User> lstUsers = new JList<>();
-    ArrayList<User> users;
+    private JList<User> lstUsers = new JList<>();
+    private ArrayList<User> users;
     private Helpers helpers = new Helpers();
 
     public GrantAdminDialog(java.awt.Frame parent, boolean modal) {

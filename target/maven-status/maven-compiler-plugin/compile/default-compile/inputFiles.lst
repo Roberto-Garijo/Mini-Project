@@ -7,6 +7,7 @@ C:\Users\Alejo\Documents\Coding\#MiniProject\src\main\java\spdvi\util\ImageUtils
 C:\Users\Alejo\Documents\Coding\#MiniProject\src\main\java\spdvi\dialogs\ResetPasswordDialog.java
 C:\Users\Alejo\Documents\Coding\#MiniProject\src\main\java\spdvi\POJOs\User.java
 C:\Users\Alejo\Documents\Coding\#MiniProject\src\main\java\spdvi\dialogs\SelectPlaceDialog.java
+C:\Users\Alejo\Documents\Coding\#MiniProject\src\main\java\spdvi\dialogs\SelectEditPlaceDialog.java
 C:\Users\Alejo\Documents\Coding\#MiniProject\src\main\java\spdvi\POJOs\Place.java
 C:\Users\Alejo\Documents\Coding\#MiniProject\src\main\java\spdvi\dialogs\PlaceDetailsDialog.java
 C:\Users\Alejo\Documents\Coding\#MiniProject\src\main\java\spdvi\dataaccess\DataAccess.java
@@ -17,6 +18,7 @@ C:\Users\Alejo\Documents\Coding\#MiniProject\src\main\java\spdvi\Main.java
 C:\Users\Alejo\Documents\Coding\#MiniProject\src\main\java\spdvi\dialogs\FilterDialog.java
 C:\Users\Alejo\Documents\Coding\#MiniProject\src\main\java\spdvi\POJOs\Pictures.java
 C:\Users\Alejo\Documents\Coding\#MiniProject\src\main\java\spdvi\POJOs\Comment.java
+C:\Users\Alejo\Documents\Coding\#MiniProject\src\main\java\spdvi\dialogs\EditPlaceDialog.java
 C:\Users\Alejo\Documents\Coding\#MiniProject\src\main\java\spdvi\dialogs\AdminDialog.java
 C:\Users\Alejo\Documents\Coding\#MiniProject\src\main\java\spdvi\dialogs\GrantAdminDialog.java
 C:\Users\Alejo\Documents\Coding\#MiniProject\src\main\java\spdvi\dialogs\InfoDialog.java

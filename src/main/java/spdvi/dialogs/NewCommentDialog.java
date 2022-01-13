@@ -10,10 +10,10 @@ import spdvi.util.Helpers;
 
 public class NewCommentDialog extends javax.swing.JDialog {
 
-    int rating = 1;
-    Helpers helpers = new Helpers();
-    Main main;
-    DataAccess dataAccess = new DataAccess();
+    private int rating = 1;
+    private Helpers helpers = new Helpers();
+    private Main main;
+    private DataAccess dataAccess = new DataAccess();
 
     public NewCommentDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
